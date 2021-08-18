@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementUI", "HausManagementUI\HausManagementUI.csproj", "{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementLibrary", "HausManagementLibrary\HausManagementLibrary.csproj", "{3BD20753-E09F-4AC4-8B9E-E347B29927E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6CAD089-76CC-4FC6-A872-CB18062C50A3}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,78 @@
+﻿<Window x:Class="HausManagementUI.ManagerManagementUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HausManagementUI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="ManagerManagementUI" 
+        d:DesignHeight="600" 
+        d:DesignWidth="1024" 
+        MinHeight="500" 
+        MinWidth="1024"
+        WindowState="Normal" 
+        WindowStyle="SingleBorderWindow"
+        Background="WhiteSmoke">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        
+        <!--Drawer Host-->
+        <materialDesign:DrawerHost
+            x:Name="DrawerHost"
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}"
+            Grid.RowSpan="2">
+            <materialDesign:DrawerHost.Style>
+                <Style TargetType="materialDesign:DrawerHost" BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}"/>
+            </materialDesign:DrawerHost.Style>
+            <!--Title-->
+            <materialDesign:TransitioningContent 
+                OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop, Duration=0:0:0.8}">
+                <materialDesign:ColorZone
+                    Mode="PrimaryMid"
+                    VerticalAlignment="Top">
+                    <Grid
+                        Margin="5">
+                        <ToggleButton
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="12 0 0 0"
+                            materialDesign:ToggleButtonAssist.OnContent="{Binding ElementName=DrawerHost}"/>
+                        <TextBlock
+                            Text="Manager" 
+                            Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    </Grid>
+                </materialDesign:ColorZone>
+            </materialDesign:TransitioningContent>
+            <!--Navigation Menu-->
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <StackPanel Margin="16">
+                    <TextBlock
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        Text="Menu"
+                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
+                    <Button
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Margin="4"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Content="CLOSE THIS"/>
+                </StackPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+        </materialDesign:DrawerHost>
+        <!--Title Section-->
+    </Grid>
+</Window>
