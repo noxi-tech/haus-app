@@ -22,7 +22,6 @@ namespace HausManagementUI
     /// </summary>
     public partial class EmployeeManagementUI : Window
     {
-
         DataAccessor data = new DataAccessor();
 
         public EmployeeManagementUI()

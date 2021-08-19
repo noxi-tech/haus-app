@@ -9,12 +9,11 @@ namespace HausManagementLibrary
 {
     public class Employee : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private long id;
-        private string name { get; set; }
-        private string job { get; set; }
-        private long? assignedItem { get; set; }
+        private string name;
+        private string job;
+        private long? assignedItem;
 
         public Employee(long id, string name, string job, long? assigned_item)
         {
@@ -23,7 +22,6 @@ namespace HausManagementLibrary
             Job = job;
             AssignedItem = assigned_item;
         }
-
 
         public long Id
         {
@@ -45,7 +43,9 @@ namespace HausManagementLibrary
             get { return assignedItem; }
             set { assignedItem = value; OnPropertyChanged("AssignedItem"); }
         }
- 
+
+        #region PropertyChange Region
+        public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -53,5 +53,6 @@ namespace HausManagementLibrary
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        #endregion
     }
 }

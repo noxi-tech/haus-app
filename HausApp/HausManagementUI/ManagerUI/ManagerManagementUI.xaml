@@ -14,12 +14,30 @@
         WindowState="Normal" 
         WindowStyle="SingleBorderWindow"
         Background="WhiteSmoke">
+    <!--Style-->
+    <Window.Resources>
+        <Style x:Key="NaviationMenuStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="IconMenuStyle" TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryHueDarkBrush}"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+        <Style x:Key="StackPanelMenuStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="6*"/>
-        </Grid.RowDefinitions>
-        
         <!--Drawer Host-->
         <materialDesign:DrawerHost
             x:Name="DrawerHost"
@@ -31,38 +49,86 @@
             <materialDesign:DrawerHost.Style>
                 <Style TargetType="materialDesign:DrawerHost" BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}"/>
             </materialDesign:DrawerHost.Style>
-            <!--Title-->
-            <materialDesign:TransitioningContent 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <!--Title-->
+                <materialDesign:TransitioningContent 
                 OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop, Duration=0:0:0.8}">
-                <materialDesign:ColorZone
-                    Mode="PrimaryMid"
-                    VerticalAlignment="Top">
-                    <Grid
+                    <materialDesign:ColorZone
+                        Mode="PrimaryMid"
+                        VerticalAlignment="Top"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                        Grid.Row="0">
+                        <Grid
                         Margin="5">
-                        <ToggleButton
+                            <ToggleButton
                             Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
                             Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
-                            Margin="12 0 0 0"
-                            materialDesign:ToggleButtonAssist.OnContent="{Binding ElementName=DrawerHost}"/>
-                        <TextBlock
+                            Margin="12 0 0 0"/>
+                            <TextBlock
                             Text="Manager" 
                             Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"/>
-                    </Grid>
-                </materialDesign:ColorZone>
-            </materialDesign:TransitioningContent>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </materialDesign:TransitioningContent>
+                <!--Content Area-->
+                <Grid x:Name="grdContentArea" 
+                      Grid.Row="1"/>
+            </Grid>
             <!--Navigation Menu-->
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <StackPanel Margin="16">
-                    <TextBlock
+                    <TextBlock 
                         Margin="4"
                         HorizontalAlignment="Center"
                         Text="Menu"
                         Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
+                    <ListView x:Name="lbNavigationMenu" SelectionChanged="lbNavigationMenu_SelectionChanged">
+                        <!--Home Page-->
+                        <ListViewItem>
+                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
+                                <materialDesign:PackIcon Kind="Home"
+                                                         Style="{StaticResource IconMenuStyle}"/>
+                                <TextBlock Text="Home" 
+                                           Style="{StaticResource NaviationMenuStyle}"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <!--Orders Page-->
+                        <ListViewItem>
+                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
+                                <materialDesign:PackIcon Kind="Archive"
+                                                     Style="{StaticResource IconMenuStyle}"/>
+                                <TextBlock Text="Items"
+                                       Style="{StaticResource NaviationMenuStyle}"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <!--Employees Page-->
+                        <ListViewItem>
+                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
+                                <materialDesign:PackIcon Kind="AccountGroup"
+                                                     Style="{StaticResource IconMenuStyle}"/>
+                                <TextBlock Text="Employees" 
+                                       Style="{StaticResource NaviationMenuStyle}"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <!--Settings Page-->
+                        <ListViewItem>
+                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
+                                <materialDesign:PackIcon Kind="Settings"
+                                                     Style="{StaticResource IconMenuStyle}"/>
+                                <TextBlock Text="Settings" 
+                                       Style="{StaticResource NaviationMenuStyle}"/>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
                     <Button
                         Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                         CommandParameter="{x:Static Dock.Left}"
@@ -73,6 +139,5 @@
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
         </materialDesign:DrawerHost>
-        <!--Title Section-->
     </Grid>
 </Window>

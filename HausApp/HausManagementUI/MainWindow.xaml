@@ -41,7 +41,8 @@
         <materialDesign:ColorZone
             Mode="PrimaryMid"
             Padding="20"
-            Grid.Row="0">
+            Grid.Row="0"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3">
             <TextBlock
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
@@ -63,7 +64,8 @@
                 Height="auto" 
                 Content="Manager" 
                 FontWeight="Bold"
-                Style="{StaticResource RaisedButtonStyle}"/>
+                Style="{StaticResource RaisedButtonStyle}"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"/>
             <Button 
                 x:Name="btnEmployee"
                 Click="btnEmployee_Click"
@@ -72,7 +74,8 @@
                 Height="auto" 
                 Content="Employee"
                 FontWeight="Bold"
-                Style="{StaticResource RaisedButtonStyle}"/>
+                Style="{StaticResource RaisedButtonStyle}"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"/>
 
         </Grid>
         <Expander

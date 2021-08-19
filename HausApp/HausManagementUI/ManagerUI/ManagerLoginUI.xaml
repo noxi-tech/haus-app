@@ -28,7 +28,8 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Orientation="Vertical">
-            <materialDesign:PackIcon Kind="Key" 
+            <materialDesign:PackIcon x:Name="iconKey"
+                                     Kind="Key" 
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center"
                                      Width="20"
@@ -37,7 +38,8 @@
                          Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
                          materialDesign:HintAssist.Hint="Code"
                          Margin="10"
-                         MinWidth="150"/>
+                         MinWidth="150"
+                         MaxWidth="150"/>
             <Button x:Name="btnCode"
                     Content="Process Code"
                     Margin="10"

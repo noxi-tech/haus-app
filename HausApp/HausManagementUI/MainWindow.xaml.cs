@@ -23,18 +23,23 @@ namespace HausManagementUI
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        #region Fields Region
         private bool isConnected;
+        private bool isPending;
+        #endregion
+
+        #region Properties Region
         public bool IsConnected
         {
             get { return isConnected; }
             set { isConnected = value; OnPropertyChanged("IsConnected"); }
         }        
-        private bool isPending;
         public bool IsPending
         {
             get { return isPending; }
             set { isPending = value; OnPropertyChanged("isPending"); }
         }
+        #endregion
 
         public MainWindow()
         {

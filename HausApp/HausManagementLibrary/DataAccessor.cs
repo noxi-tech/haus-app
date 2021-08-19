@@ -13,8 +13,7 @@ namespace HausManagementLibrary
 {
     public class DataAccessor
     {
-        public List<Employee> Employees { get; set; }
-
+        #region Employees Region
         //Get all the employees from the DB.
         public async Task<List<Employee>> GetEmployees()
         {
@@ -59,6 +58,28 @@ namespace HausManagementLibrary
                 }
             });
         }
+        #endregion
+
+        #region Items Region
+        public async Task<List<Item>> GetItems()
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.GetItemsURL());
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<List<Item>>();
+                    }
+                    return null;
+                }
+            });
+        }
+
+        #endregion
+
+        #region Connection Info Region
         public async Task<string> Ping(string url)
         {
             using (HttpClient client = new HttpClient())
@@ -72,5 +93,6 @@ namespace HausManagementLibrary
                 return null;
             }
         }
+        #endregion
     }
 }

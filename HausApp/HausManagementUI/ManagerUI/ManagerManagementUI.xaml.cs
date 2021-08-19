@@ -19,9 +19,34 @@ namespace HausManagementUI
     /// </summary>
     public partial class ManagerManagementUI : Window
     {
+        private HomeView homeView;
+        private ItemsView itemsView;
+        
         public ManagerManagementUI()
         {
             InitializeComponent();
+            homeView = new HomeView();
+            itemsView = new ItemsView();
         }
-    }
+        private void lbNavigationMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChooseTab(lbNavigationMenu.SelectedIndex);
+        }
+        private void ChooseTab(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    grdContentArea.Children.Clear();
+                    grdContentArea.Children.Add(homeView);
+                    MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null,null);
+                    break;
+                case 1:
+                    grdContentArea.Children.Clear();
+                    grdContentArea.Children.Add(itemsView);
+                    MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, null);
+                    break;
+            }
+        }
+        }
 }
