@@ -13,8 +13,6 @@ namespace HausManagementLibrary
         public int Id { get; set; }
         public string Stage { get; set; }
         public string CreatedAt { get; set; }
-        public string CompanyName { get; set; }
-        public string CustomerName { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public string Sw { get; set; }
@@ -30,14 +28,12 @@ namespace HausManagementLibrary
         public string Pieces { get; set; }
         #endregion
 
-        public Item(int id, string stage, string created_at,string companyName, string customerName,
-            int width, int height, string sw, string sk,string t, P p, int sH,string mT, SG sG, OutOf outOf, HT hT, string notes, string pieces)
+        public Item(int id, string stage, string created_at,int width, int height, string sw, 
+            string sk,string t, P p, int sH,string mT, SG sG, OutOf outOf, HT hT, string notes, string pieces)
         {
             Id = id;
             Stage = stage;
             CreatedAt = created_at;
-            CompanyName = companyName;
-            CustomerName = customerName;
             Width = width;
             Height = height;
             Sw = sw;

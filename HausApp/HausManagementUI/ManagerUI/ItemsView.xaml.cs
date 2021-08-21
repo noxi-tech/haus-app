@@ -28,9 +28,9 @@ namespace HausManagementUI
         public ItemsView()
         {
             InitializeComponent();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
-                items.Add(new Item(i, $"Test{i}", $"{DateTime.Now}", $"AssadTech{i}", $"Customer{i}", 10 * i, 10 * i, $"SW{i}", $"Sk{i}", $"T{i}", new P() { Value = 123.01f }, i, $"MT{i}", new SG() { Number = i, Direction = "R+L" }, new OutOf() { Index = 1, Total = 5 }, new HT() { H = i, T = i }, $"Notes {i}", $"Pieces {i}"));
+                items.Add(new Item(i, $"Test{i}", $"{DateTime.Now}", 10 * i, 10 * i, $"SW{i}", $"Sk{i}", $"T{i}", new P() { Value = 123.01f }, i, $"MT{i}", new SG() { Number = i, Direction = "R+L" }, new OutOf() { Index = 1, Total = 5 }, new HT() { H = i, T = i }, $"Notes {i}", $"Pieces {i}"));
             }
 
             InitializeItems();
@@ -41,12 +41,17 @@ namespace HausManagementUI
             try
             {
                 //grdItems.ItemsSource = await data.GetItems();
-                grdItems.ItemsSource = items;
+                grdInProgressItems.ItemsSource = items;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
+        }
+
+        private void grdInProgressItems_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            MessageBox.Show("Is Working? ");
         }
     }
 }

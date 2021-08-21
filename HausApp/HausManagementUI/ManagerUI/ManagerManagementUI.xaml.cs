@@ -21,12 +21,14 @@ namespace HausManagementUI
     {
         private HomeView homeView;
         private ItemsView itemsView;
-        
+        private EmployeesView employeesView;
+
         public ManagerManagementUI()
         {
             InitializeComponent();
             homeView = new HomeView();
             itemsView = new ItemsView();
+            employeesView = new EmployeesView();
         }
         private void lbNavigationMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -39,14 +41,19 @@ namespace HausManagementUI
                 case 0:
                     grdContentArea.Children.Clear();
                     grdContentArea.Children.Add(homeView);
-                    MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null,null);
+                    MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, null);
                     break;
                 case 1:
                     grdContentArea.Children.Clear();
                     grdContentArea.Children.Add(itemsView);
                     MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, null);
                     break;
+                case 2:
+                    grdContentArea.Children.Clear();
+                    grdContentArea.Children.Add(employeesView);
+                    MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, null);
+                    break;
             }
         }
-        }
+    }
 }

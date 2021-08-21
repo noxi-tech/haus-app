@@ -49,6 +49,7 @@ namespace HausManagementUI
             IsPending = false;
         }
 
+        #region Events Region
         private void btnManager_Click(object sender, RoutedEventArgs e)
         {
             var managerWindow = new ManagerLoginUI();
@@ -85,7 +86,8 @@ namespace HausManagementUI
                 IsPending = false;
             }
         }
-
+        #endregion
+        
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)

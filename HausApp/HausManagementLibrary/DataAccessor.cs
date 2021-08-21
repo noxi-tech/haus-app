@@ -58,6 +58,23 @@ namespace HausManagementLibrary
                 }
             });
         }
+
+        //Create a new employee.
+        public async Task<Employee> CreateEmployee(string name, string job)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync(UrlFunctions.CreateEmployeeURL(), new EmployeeCreate(name, job));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<Employee>();
+                    }
+                    return null;
+                }
+            });
+        }
         #endregion
 
         #region Items Region

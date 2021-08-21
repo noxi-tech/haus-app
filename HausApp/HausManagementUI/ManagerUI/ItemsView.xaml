@@ -4,14 +4,178 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HausManagementUI"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1024">
+             d:DesignHeight="500" d:DesignWidth="1024">
+    
     <Grid>
-        <DataGrid x:Name="grdItems"
-                  AutoGenerateColumns="True" 
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserResizeRows="False"
-                  IsEnabled="False"/>
+        <TabControl>
+            
+            <!--#region New Items Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=ArchiveAdd, Size=24}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ToolBarTray VerticalAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Grid.ColumnSpan="2">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                                 ClipToBounds="False">
+                            <TextBox MinWidth="140"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <Separator/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveEdit}"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+
+                    <!--New Items DataGrid-->
+                    <DataGrid x:Name="grdNewItems" 
+                              Grid.Row="1"
+                              AutoGenerateColumns="True"
+                              Grid.ColumnSpan="2"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              IsManipulationEnabled="False"/>
+                    
+                    <!--New Item Button-->
+                    <Button x:Name="btnNewItem"
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Style="{StaticResource MaterialDesignFloatingActionButton}">
+                    <materialDesign:PackIcon Kind="Plus"
+                                             Width="30"
+                                             Height="30"/>
+                    </Button>
+                    
+                    <!--Save And Export Button-->
+                    <Button x:Name="btnSaveAndExport"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Height="auto"
+                            Margin="40,10,40,10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ContentSave"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"/>
+                            <TextBlock Text="Save And Export"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
+            
+            <!--#region Items In Progress Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=ArchiveClock, Size=24}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBarTray VerticalAlignment="Center"
+                                 HorizontalAlignment="Left">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                                 ClipToBounds="False">
+                            <TextBox MinWidth="140"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <Separator/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+
+                    <DataGrid x:Name="grdInProgressItems"
+                              Grid.Row="1"
+                              AutoGenerateColumns="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              Sorting="grdInProgressItems_Sorting"
+                              IsManipulationEnabled="False"/>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Finished Items Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=ArchiveCheck, Size=24}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBarTray VerticalAlignment="Center"
+                                 HorizontalAlignment="Left">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                                 ClipToBounds="False">
+                            <TextBox MinWidth="140"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <Separator/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+                    
+                    <DataGrid x:Name="grdFinishedItems"
+                              Grid.Row="1"
+                              AutoGenerateColumns="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              IsManipulationEnabled="False"/>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Orders Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=Receipt, Size=24}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToolBarTray VerticalAlignment="Center"
+                                 HorizontalAlignment="Left">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                                 ClipToBounds="False">
+                            <TextBox MinWidth="140"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <Separator/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                        </ToolBar>
+                    </ToolBarTray>
+
+                    <DataGrid x:Name="grdOrders"
+                              Grid.Row="1"
+                              AutoGenerateColumns="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              IsManipulationEnabled="False"/>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
+
+        </TabControl>
     </Grid>
 </UserControl>

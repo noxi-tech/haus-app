@@ -9,7 +9,7 @@
         Title="ManagerManagementUI" 
         d:DesignHeight="600" 
         d:DesignWidth="1024" 
-        MinHeight="500" 
+        MinHeight="600" 
         MinWidth="1024"
         WindowState="Normal" 
         WindowStyle="SingleBorderWindow"
@@ -114,9 +114,9 @@
                         <ListViewItem>
                             <StackPanel Style="{StaticResource StackPanelMenuStyle}">
                                 <materialDesign:PackIcon Kind="AccountGroup"
-                                                     Style="{StaticResource IconMenuStyle}"/>
+                                                         Style="{StaticResource IconMenuStyle}"/>
                                 <TextBlock Text="Employees" 
-                                       Style="{StaticResource NaviationMenuStyle}"/>
+                                           Style="{StaticResource NaviationMenuStyle}"/>
                             </StackPanel>
                         </ListViewItem>
                         <!--Settings Page-->
