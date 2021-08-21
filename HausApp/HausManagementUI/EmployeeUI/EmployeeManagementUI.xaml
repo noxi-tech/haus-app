@@ -24,6 +24,25 @@
                 Property="FontWeight" 
                 Value="Bold"/>
         </Style>
+        <Style x:Key="NaviationMenuStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="IconMenuStyle" TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryHueDarkBrush}"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+        <Style x:Key="StackPanelMenuStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
     </Window.Resources>
 
 
@@ -86,7 +105,7 @@
                         HorizontalAlignment="Center"
                         Text="Menu"
                         Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
-                    <ListView x:Name="lbNavigationMenu" SelectionChanged="lbNavigationMenu_SelectionChanged">
+                    <ListView x:Name="lbNavigationMenu">
                         <!--Home Page-->
                         <ListViewItem>
                             <StackPanel Style="{StaticResource StackPanelMenuStyle}">
@@ -94,24 +113,6 @@
                                                          Style="{StaticResource IconMenuStyle}"/>
                                 <TextBlock Text="Home" 
                                            Style="{StaticResource NaviationMenuStyle}"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <!--Orders Page-->
-                        <ListViewItem>
-                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
-                                <materialDesign:PackIcon Kind="Archive"
-                                                     Style="{StaticResource IconMenuStyle}"/>
-                                <TextBlock Text="Items"
-                                       Style="{StaticResource NaviationMenuStyle}"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <!--Employees Page-->
-                        <ListViewItem>
-                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
-                                <materialDesign:PackIcon Kind="AccountGroup"
-                                                     Style="{StaticResource IconMenuStyle}"/>
-                                <TextBlock Text="Employees" 
-                                       Style="{StaticResource NaviationMenuStyle}"/>
                             </StackPanel>
                         </ListViewItem>
                         <!--Settings Page-->
@@ -273,6 +274,7 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                             <RowDefinition/>
+                                            <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <StackPanel 
                                             Orientation="Horizontal"
@@ -310,6 +312,19 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"/>
                                         </StackPanel>
+                                        <StackPanel 
+                                            Orientation="Horizontal"
+                                            Grid.Row="3">
+                                            <Label 
+                                                Content="Assigned Item:"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"/>
+                                            <TextBlock
+                                                Text="{Binding Path=AssignedItem}"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"/>
+                                        </StackPanel>
+
                                     </Grid>
                                 </Grid>
                             </materialDesign:Flipper.BackContent>

@@ -49,7 +49,7 @@ namespace HausManagementUI
 
             try
             {
-                employee = await data.AssignItem(itemId, employee);
+                employee.AssignedItem = (await data.AssignItem(itemId, employee)).AssignedItem;
                 CorrectInput();
             }
             catch (Exception e)
