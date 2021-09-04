@@ -7,9 +7,31 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1024">
+
+    <UserControl.Resources>
+        <Style x:Key="NewFieldsTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MaxWidth" Value="150"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="MaxLength" Value="50"/>
+            <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="2"/>
+        </Style>
+        <Style x:Key="NewFieldsComboBoxWithEdit" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MaxWidth" Value="150"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="IsEditable" Value="True"/>
+        </Style>
+        
+    </UserControl.Resources>
     
     <Grid>
-        <TabControl>
+        <TabControl x:Name="tbItems">
             
             <!--#region New Items Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=ArchiveAdd, Size=24}"
@@ -18,7 +40,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="5*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -33,7 +55,8 @@
                             <TextBox MinWidth="140"/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
                             <Separator/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button x:Name="btnRefreshNewOrders"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveEdit}"/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
                         </ToolBar>
@@ -53,7 +76,8 @@
                     <Button x:Name="btnNewItem"
                             Grid.Column="0"
                             Grid.Row="2"
-                            Style="{StaticResource MaterialDesignFloatingActionButton}">
+                            Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            Click="btnNewItem_Click">
                     <materialDesign:PackIcon Kind="Plus"
                                              Width="30"
                                              Height="30"/>
@@ -78,7 +102,137 @@
                 </Grid>
             </TabItem>
             <!--#endregion-->
-            
+
+            <!--#region New Order/Item Tab-->
+            <TabItem Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <ComboBox x:Name="cbCompanyName"
+                             Grid.Column="0"
+                             Grid.Row="0"
+                             materialDesign:HintAssist.Hint="Company Name"
+                             Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <TextBox x:Name="txtCustomerName"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             materialDesign:HintAssist.Hint="Customer Name"
+                             Style="{StaticResource NewFieldsTextBox}"/>
+
+                    <Separator Grid.ColumnSpan="5"
+                               Grid.RowSpan="2"
+                               Margin="10,0,10,0"/>
+                    
+                    <TextBox x:Name="txtWidth"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             materialDesign:HintAssist.Hint="Width"
+                             Style="{StaticResource NewFieldsTextBox}"
+                             materialDesign:TextFieldAssist.SuffixText="cm"/>
+                    <TextBox x:Name="txtHeight"
+                             Grid.Column="1"
+                             Grid.Row="1"
+                             materialDesign:HintAssist.Hint="Height"
+                             Style="{StaticResource NewFieldsTextBox}"
+                             materialDesign:TextFieldAssist.SuffixText="cm"/>
+                    
+                    <ComboBox x:Name="cbSw"
+                              Grid.Column="2"
+                              Grid.Row="1"
+                              materialDesign:HintAssist.Hint="SW"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbSk"
+                              Grid.Column="3"
+                              Grid.Row="1"
+                              materialDesign:HintAssist.Hint="Sk"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbT"
+                              Grid.Column="4"
+                              Grid.Row="1"
+                              materialDesign:HintAssist.Hint="T"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbP"
+                              Grid.Column="0"
+                              Grid.Row="2"
+                              materialDesign:HintAssist.Hint="P"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbSh"
+                              Grid.Column="1"
+                              Grid.Row="2"
+                              materialDesign:HintAssist.Hint="SH"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbMt"
+                              Grid.Column="2"
+                              Grid.Row="2"
+                              materialDesign:HintAssist.Hint="MT"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <ComboBox x:Name="cbSg"
+                              Grid.Column="3"
+                              Grid.Row="2"
+                              materialDesign:HintAssist.Hint="SG"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <StackPanel Grid.Column="4"
+                                Grid.Row="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left" 
+                                Orientation="Horizontal">
+                        <Label Content="HT:"
+                               FontSize="18"/>
+                        <TextBox x:Name="txtH"
+                                 FontSize="18"
+                                 MaxWidth="50"
+                                 MinWidth="50"
+                                 MaxLength="10"/>
+                        <Label Content=" cm* "
+                               FontSize="18"/>
+                        <TextBox x:Name="txtT"
+                                 FontSize="18"
+                                 MaxWidth="50"
+                                 MinWidth="50"
+                                 MaxLength="10"/>
+                    </StackPanel>
+                    <ComboBox x:Name="cbPieces"
+                              Grid.Column="0"
+                              Grid.Row="3"
+                              materialDesign:HintAssist.Hint="Pieces"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <TextBox x:Name="txtNotes"  
+                             TextWrapping="Wrap"
+                             VerticalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Grid.Column="1"
+                             Grid.Row="3"
+                             Grid.ColumnSpan="4"
+                             materialDesign:HintAssist.Hint="Notes"
+                             Margin="2"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <Button x:Name="btnSaveOrder"
+                            Content="Save Order"
+                            Grid.Row="5"
+                            Click="btnSaveOrder_Click"/>
+                    <Button x:Name="btnAddToOrder"
+                            Content="Add To The Same Order"
+                            Grid.Row="5"
+                            Grid.Column="4"
+                            Click="btnAddToOrder_Click"/>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
+
             <!--#region Items In Progress Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=ArchiveClock, Size=24}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}">
@@ -95,7 +249,9 @@
                             <TextBox MinWidth="140"/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
                             <Separator/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <Button x:Name="btnRefreshInProgressItems"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
+                                    Click="btnRefreshInProgressItems_Click"/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
                         </ToolBar>
                     </ToolBarTray>
@@ -175,7 +331,7 @@
                 </Grid>
             </TabItem>
             <!--#endregion-->
-
+            
         </TabControl>
     </Grid>
 </UserControl>

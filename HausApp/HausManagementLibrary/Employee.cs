@@ -7,20 +7,10 @@ using System.Threading.Tasks;
 
 namespace HausManagementLibrary
 {
-    [Serializable]
     public class Employee : EmployeeCreate
     {
-
         private long id;
         private long? assignedItem;
-
-        public Employee(long id, string name, string job, long? assigned_item)
-            :base(name,job)
-        {
-            Id = id;
-            AssignedItem = assigned_item;
-        }
-
         public long Id
         {
             get { return id; }
@@ -30,6 +20,13 @@ namespace HausManagementLibrary
         {
             get { return assignedItem; }
             set { assignedItem = value; OnPropertyChanged("AssignedItem"); }
+        }
+
+        public Employee(long id, string name, string job, long? assigned_item)
+            : base(name, job)
+        {
+            Id = id;
+            AssignedItem = assigned_item;
         }
     }
 }

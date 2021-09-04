@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using Newtonsoft.Json;
+using System;
+using System.Configuration;
 
 namespace HausManagementLibrary
 {
@@ -42,11 +44,27 @@ namespace HausManagementLibrary
         }
         #endregion
 
+        #region Order Region
+        static public string CreateOrderURL()
+        {
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
+        }
+
+        #endregion
+
+        #region Company Region
+        static public string GetCompaniesURL()
+        {
+            return ConfigurationManager.AppSettings["Root"] + "/haus/companies";
+        }
+        #endregion
+
         #region Connection Info
         static public string Ping(string url)
         {
             return url + "/ping";
         }
         #endregion
+
     }
 }

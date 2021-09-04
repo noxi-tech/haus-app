@@ -7,19 +7,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <!--<UserControl.Resources>
-        <Style x:Key="AddEmployeeStyle" TargetType="Button">
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Click">
-                    
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>-->
-    
-    
     <Grid>
         <TabControl x:Name="tbEmployees">
+            
             <!--#region Employees Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=Account, Size=24}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}">
@@ -36,7 +26,9 @@
                             <TextBox MinWidth="140"/>
                             <Button Content="{materialDesign:PackIcon Kind=AccountSearch}"/>
                             <Separator/>
-                            <Button Content="{materialDesign:PackIcon Kind=AccountReactivate}"/>
+                            <Button x:Name="btnRefreshView" 
+                                    Content="{materialDesign:PackIcon Kind=AccountReactivate}"
+                                    Click="btnRefreshView_Click"/>
                             <Button x:Name="btnSwitchToAddEmployee" 
                                     Content="{materialDesign:PackIcon Kind=AccountAdd}"
                                     Click="btnSwitchToAddEmployee_Click"/>
@@ -51,8 +43,7 @@
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserResizeRows="False"
-                              IsManipulationEnabled="False"
-                              ItemsSource="{Binding }"/>
+                              IsManipulationEnabled="False"/>
                 </Grid>
             </TabItem>
             <!--#endregion-->
@@ -88,14 +79,17 @@
                              materialDesign:HintAssist.Hint="Name"
                              Width="150"/>
 
-                    <TextBox x:Name="txtEmployeeJob"
-                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Grid.Row="1"
-                             Grid.Column="1"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Center"
-                             materialDesign:HintAssist.Hint="Job"
-                             Width="150"/>
+                    <ComboBox x:Name="cbJob"
+                              Style="{StaticResource MaterialDesignFilledComboBox}"
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              materialDesign:HintAssist.Hint="Job"
+                              Width="256"
+                              Height="50">
+                        <ComboBoxItem Content="sew"/>
+                        <ComboBoxItem Content="iron"/>
+                        <ComboBoxItem Content="qc"/>
+                    </ComboBox>
                     <Button x:Name="btnCreateEmployee"
                             Content="Add Employee"
                             Grid.ColumnSpan="2"
@@ -103,7 +97,6 @@
                             Grid.Row="2"
                             HorizontalAlignment="Center"
                             Click="btnCreateEmployee_Click"/>
-
                 </Grid>
             </TabItem>
             <!--#endregion-->

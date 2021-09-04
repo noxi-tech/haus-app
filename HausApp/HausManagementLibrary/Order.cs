@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace HausManagementLibrary
 {
-    public class Order
+    public class Order : OrderCreate
     {
         public int Id { get; set; }
-        public string CompanyName { get; set; }
-        public string CustomerName { get; set; }
-
-        public Order() { }
-        public Order(int id, string companyName, string customerName)
+        public string CreatedAt { get; set; }
+        public Order(int id, string company, string customer, string created_at)
+            :base(company,customer)
         {
             Id = id;
-            CompanyName = companyName;
-            CustomerName = customerName;
+            CreatedAt = created_at;
         }
     }
 }

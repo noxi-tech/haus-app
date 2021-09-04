@@ -3,50 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HausManagementLibrary.FieldsFormat;
 
 namespace HausManagementLibrary
 {
-    public class Item
+    public class Item : ItemCreate
     {
+        private int id;
+        private string stage;
         #region Fields
-        public int Id { get; set; }
-        public string Stage { get; set; }
-        public string CreatedAt { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public string Sw { get; set; }
-        public string Sk { get; set; }
-        public string T { get; set; }
-        public P P { get; set; }
-        public int Sh { get; set; }
-        public string Mt { get; set; }
-        public SG Sg { get; set; }
-        public OutOf OutOf { get; set; }
-        public HT Ht { get; set; }
-        public string Notes { get; set; }
-        public string Pieces { get; set; }
+        public int Id
+        { 
+            get { return id; }
+            set { id = value; }
+        }
+        public string Stage
+        {
+            get { return stage; }
+            set { stage = value; }
+        }
         #endregion
 
-        public Item(int id, string stage, string created_at,int width, int height, string sw, 
-            string sk,string t, P p, int sH,string mT, SG sG, OutOf outOf, HT hT, string notes, string pieces)
+        public Item(int id, string stage, int width, int height, string sw,
+            string sk, string t, string p, int sh, string mt, int sg_value, string sg_type, int ht_length, int ht_amount, string notes, string parts, int order_id)
+            : base(width, height, sw, sk, t, p, sh, mt, sg_value, sg_type, ht_length, ht_amount, parts, notes, order_id)
         {
             Id = id;
             Stage = stage;
-            CreatedAt = created_at;
-            Width = width;
-            Height = height;
-            Sw = sw;
-            Sk = sk;
-            T = t;
-            P = p;
-            Sh = sH;
-            Mt = mT;
-            Sg = sG;
-            OutOf = outOf;
-            Ht = hT;
-            Notes = notes;
-            Pieces = pieces;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace HausManagementLibrary
 {
@@ -15,7 +16,7 @@ namespace HausManagementLibrary
     {
         #region Employees Region
         //Get all the employees from the DB.
-        public async Task<List<Employee>> GetEmployees()
+        public async Task<ObservableCollection<Employee>> GetEmployees()
         {
             return await Task.Run( async () =>  {
                 using (HttpClient client = new HttpClient())
@@ -24,7 +25,7 @@ namespace HausManagementLibrary
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsAsync<List<Employee>>();
+                        return await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
                     }
                     return null;
                 }
@@ -94,6 +95,60 @@ namespace HausManagementLibrary
             });
         }
 
+        public async Task<Item> CreateItem(ItemCreate itemCreate)
+        {
+            return await Task.Run(async () =>
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync(UrlFunctions.CreateItemURL(), itemCreate);
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<Item>();
+                    }
+                    return null;
+                }
+            });
+        }
+
+        #endregion
+
+        #region Orders Region
+        public async Task<Order> CreateOrder(string companyName, string customerName)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync(UrlFunctions.CreateOrderURL(), new OrderCreate(companyName, customerName));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<Order>();
+                    }
+                    return null;
+                }
+            });
+        }
+
+        #endregion
+
+        #region Companies Region
+        public async Task<List<string>> GetCompanies()
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.GetCompaniesURL());
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<List<string>>();
+                    }
+                    return null;
+                }
+            });
+        }
         #endregion
 
         #region Connection Info Region

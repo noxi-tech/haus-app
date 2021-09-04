@@ -51,7 +51,7 @@
             </materialDesign:DrawerHost.Style>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="6*"/>
                 </Grid.RowDefinitions>
                 <!--Title-->

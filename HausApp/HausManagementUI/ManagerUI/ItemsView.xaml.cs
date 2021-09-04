@@ -1,7 +1,7 @@
 ﻿using HausManagementLibrary;
-using HausManagementLibrary.FieldsFormat;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,35 +23,125 @@ namespace HausManagementUI
     public partial class ItemsView : UserControl
     {
         DataAccessor data = new DataAccessor();
+
+        #region New Items Fields
+        List<ItemCreate> createItems = new List<ItemCreate>();
+        ObservableCollection<Order> newOrders = new ObservableCollection<Order>();
+        #endregion
+
         List<Item> items = new List<Item>();
 
         public ItemsView()
         {
             InitializeComponent();
-            for (int i = 0; i < 20; i++)
-            {
-                items.Add(new Item(i, $"Test{i}", $"{DateTime.Now}", 10 * i, 10 * i, $"SW{i}", $"Sk{i}", $"T{i}", new P() { Value = 123.01f }, i, $"MT{i}", new SG() { Number = i, Direction = "R+L" }, new OutOf() { Index = 1, Total = 5 }, new HT() { H = i, T = i }, $"Notes {i}", $"Pieces {i}"));
-            }
-
-            InitializeItems();
+            InitializeOptions();
+            RefreshData();
             this.DataContext = this;
         }
-        private async void InitializeItems()
+
+        #region Initializations region
+        private async void UpdateItems()
         {
             try
             {
-                //grdItems.ItemsSource = await data.GetItems();
-                grdInProgressItems.ItemsSource = items;
+                items = await data.GetItems();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
         }
+        private async void InitializeOptions()
+        {
+            cbSw.ItemsSource = AvailableOptions.SwOptions;
+            cbSk.ItemsSource = AvailableOptions.SkOptions;
+            cbT.ItemsSource = AvailableOptions.TOptions;
+            cbP.ItemsSource = AvailableOptions.POptions;
+            cbSh.ItemsSource = AvailableOptions.ShOptions;
+            cbMt.ItemsSource = AvailableOptions.MtOptions;
+            cbSg.ItemsSource = AvailableOptions.SgOptions;
+            cbPieces.ItemsSource = AvailableOptions.PiecesOptions;
+            cbCompanyName.ItemsSource = await data.GetCompanies();
+        }
+        #endregion
 
+        #region ItemsInProgress region
         private void grdInProgressItems_Sorting(object sender, DataGridSortingEventArgs e)
         {
             MessageBox.Show("Is Working? ");
         }
+        private void RefreshData()
+        {
+            UpdateItems();
+            grdInProgressItems.ItemsSource = items;
+        }
+        private void btnRefreshInProgressItems_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
+        #endregion
+
+        #region Navigation region
+        private void btnNewItem_Click(object sender, RoutedEventArgs e)
+        {
+            tbItems.SelectedIndex = 1;
+        }
+        #endregion
+
+        #region Create Order/Item region
+        private void btnAddToOrder_Click(object sender, RoutedEventArgs e)
+        {
+            cbCompanyName.IsEnabled = false;
+            txtCustomerName.IsEnabled = false;
+            ResetNewFields();
+        }
+        private async void btnSaveOrder_Click(object sender, RoutedEventArgs e)
+        {
+            var order = await data.CreateOrder(cbCompanyName.Text, txtCustomerName.Text);
+            createItems.Add(CreateItem(order.Id));
+
+            foreach (var item in createItems)
+            {
+                await data.CreateItem(item);
+            }
+            MessageBox.Show($"{order.Id}");
+            tbItems.SelectedIndex = 0;
+            cbCompanyName.IsEnabled = true;
+            txtCustomerName.IsEnabled = true;
+            cbCompanyName.Text = "";
+            cbCompanyName.SelectedItem = null;
+            txtCustomerName.Text = "";
+            ResetNewFields();
+        }
+        private void ResetNewFields()
+        {
+            txtH.Text = "";
+            txtHeight.Text = "";
+            txtWidth.Text = "";
+            txtNotes.Text = "";
+            txtT.Text = "";
+            cbMt.Text = "";
+            cbMt.SelectedItem = null;
+            cbP.SelectedItem = null;
+            cbPieces.Text = "";
+            cbPieces.SelectedItem = null;
+            cbSg.Text = "";
+            cbSg.SelectedItem = null;
+            cbSh.Text = "";
+            cbSh.SelectedItem = null;
+            cbSk.Text = "";
+            cbSk.SelectedItem = null;
+            cbSw.Text = "";
+            cbSw.SelectedItem = null;
+            cbT.Text = "";
+            cbT.SelectedItem = null;
+        }
+        private ItemCreate CreateItem(int orderId)
+        {
+            return new ItemCreate(int.Parse(txtWidth.Text), int.Parse(txtHeight.Text), cbSw.Text, cbSk.Text,
+                cbT.Text, cbP.Text, int.Parse(cbSh.Text), cbMt.Text, 0, cbSg.Text, int.Parse(txtT.Text), int.Parse(txtH.Text),
+                cbPieces.Text, txtNotes.Text, orderId);
+        }
+        #endregion
     }
 }
