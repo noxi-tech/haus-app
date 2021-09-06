@@ -72,9 +72,38 @@ namespace HausManagementUI
         {
             tbEmployees.SelectedIndex = 1;
         }
-        private void btnRefreshView_Click(object sender, RoutedEventArgs e)
+        private void btnRefreshEmployees_Click(object sender, RoutedEventArgs e)
         {
             RefreshData();
         }
+        //private void btnDeleteEmployees_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var selectedEmployees = grdEmployees.SelectedItems;
+        //    foreach (Employee employee in selectedEmployees)
+        //    {
+        //        employees.Remove(employee);
+        //        MessageBox.Show($"{employee.Id}");
+        //    }
+        //    grdEmployees.ItemsSource = employees;
+        //}
+        //private void cbEmployeeSelect_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    var chk = (CheckBox)sender;
+        //    var row = VisualTreeHelpers.FindAncestor<DataGridRow>(chk);
+        //    var newValue = !chk.IsChecked.GetValueOrDefault();
+
+        //    row.IsSelected = newValue;
+        //    //chk.IsChecked = newValue;
+
+        //    // Mark event as handled so that the default 
+        //    // DataGridPreviewMouseDown doesn't handle the event
+        //    e.Handled = true;
+        //}
+        //private void grdEmployees_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    var chk = VisualTreeHelpers.FindAncestor<CheckBox>((DependencyObject)e.OriginalSource, "cbEmployeeSelect");
+        //    if (chk == null)
+        //        e.Handled = true;
+        //}
     }
 }

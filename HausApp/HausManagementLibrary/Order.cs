@@ -10,11 +10,16 @@ namespace HausManagementLibrary
     {
         public int Id { get; set; }
         public string CreatedAt { get; set; }
-        public Order(int id, string company, string customer, string created_at)
+        public List<Item> Items { get; set; }
+        public bool isCompleted { get; set; }
+
+        public Order(int id, string company, string customer,List<Item> items, bool is_completed, string created_at)
             :base(company,customer)
         {
             Id = id;
             CreatedAt = created_at;
+            Items = items;
+            isCompleted = is_completed;
         }
     }
 }

@@ -115,6 +115,22 @@ namespace HausManagementLibrary
         #endregion
 
         #region Orders Region
+
+        //public async Task<Order> GetOrder(int orderId)
+        //{
+        //    return await Task.Run(async () => {
+        //        using (HttpClient client = new HttpClient())
+        //        {
+        //            var response = await client.GetAsync(UrlFunctions.GetOrderURL(), order);
+        //            response.EnsureSuccessStatusCode();
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                return await response.Content.ReadAsAsync<Order>();
+        //            }
+        //            return null;
+        //        }
+        //    });
+        //}
         public async Task<Order> CreateOrder(OrderCreate order)
         {
             return await Task.Run(async () => {

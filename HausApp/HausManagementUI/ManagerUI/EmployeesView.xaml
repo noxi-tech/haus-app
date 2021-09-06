@@ -28,22 +28,39 @@
                             <Separator/>
                             <Button x:Name="btnRefreshView" 
                                     Content="{materialDesign:PackIcon Kind=AccountReactivate}"
-                                    Click="btnRefreshView_Click"/>
+                                    Click="btnRefreshEmployees_Click"/>
                             <Button x:Name="btnSwitchToAddEmployee" 
                                     Content="{materialDesign:PackIcon Kind=AccountAdd}"
                                     Click="btnSwitchToAddEmployee_Click"/>
-                            <Button Content="{materialDesign:PackIcon Kind=AccountMinus}"/>
+                            <Button x:Name="btnDeleteEmployees"
+                                    Content="{materialDesign:PackIcon Kind=AccountMinus}"/>
                             <Button Content="{materialDesign:PackIcon Kind=AccountQuestion}"/>
                         </ToolBar>
                     </ToolBarTray>
 
                     <DataGrid x:Name="grdEmployees"
                               Grid.Row="1"
-                              AutoGenerateColumns="True"
+                              AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserResizeRows="False"
-                              IsManipulationEnabled="False"/>
+                              IsManipulationEnabled="False"
+                              SelectionMode="Extended">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Select">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox x:Name="cbEmployeeSelect"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Job" Binding="{Binding Path=Job, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Assigned Item" Binding="{Binding Path=AssignedItem, Mode=OneWay}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <!--#endregion-->

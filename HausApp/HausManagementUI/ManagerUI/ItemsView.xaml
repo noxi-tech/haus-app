@@ -171,7 +171,16 @@
                              Grid.Column="1"
                              Grid.Row="0"
                              materialDesign:HintAssist.Hint="Customer Name"
-                             Style="{StaticResource NewFieldsTextBox}"/>
+                             Style="{StaticResource NewFieldsTextBox}">
+                        <!--<TextBox.Text>
+                            <Binding Path="Name" 
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>-->
+                    </TextBox>
 
                     <Separator Grid.ColumnSpan="5"
                                Grid.RowSpan="2"
@@ -358,9 +367,15 @@
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
                             <Separator/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
-                            <ToggleButton Content="{materialDesign:PackIcon Kind=Dagger}" 
+                            <Separator/>
+                            <ToggleButton Content="{materialDesign:PackIcon Kind=Deal}" 
                                           Style="{StaticResource MaterialDesignActionLightToggleButton}" 
-                                          IsChecked="False"/>
+                                          IsChecked="False"
+                                          Margin="0,0,10,0"/>
+                            <ToggleButton Content="{materialDesign:PackIcon Kind=LorryDelivery}" 
+                                          Style="{StaticResource MaterialDesignActionLightToggleButton}" 
+                                          IsChecked="False"
+                                          Margin="0,0,10,0"/>
                         </ToolBar>
                     </ToolBarTray>
 

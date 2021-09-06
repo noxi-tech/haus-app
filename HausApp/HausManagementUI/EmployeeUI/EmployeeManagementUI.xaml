@@ -78,18 +78,19 @@
                         Grid.Row="0">
                         <Grid
                         Margin="5">
-                            <ToggleButton
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Left}"
-                            Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="12 0 0 0"/>
-                            <TextBlock
-                            Text="Employees" 
-                            Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"/>
+                            <Button Content="{materialDesign:PackIcon Kind=Menu}"
+                                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                    CommandParameter="{x:Static Dock.Left}"
+                                    Style="{StaticResource MaterialDesignIconButton}"
+                                    Foreground="{StaticResource PrimaryHueMidForegroundBrush}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Margin="12 0 0 0"/>
+                            
+                            <TextBlock Text="Employees" 
+                                       Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Center"/>
                         </Grid>
                     </materialDesign:ColorZone>
                 </materialDesign:TransitioningContent>

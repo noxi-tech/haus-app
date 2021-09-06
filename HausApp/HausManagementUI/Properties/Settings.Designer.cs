@@ -58,5 +58,17 @@ namespace HausManagementUI.Properties {
                 this["IsEmployee"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CsvPath {
+            get {
+                return ((string)(this["CsvPath"]));
+            }
+            set {
+                this["CsvPath"] = value;
+            }
+        }
     }
 }

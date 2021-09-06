@@ -55,6 +55,8 @@ namespace HausManagementUI
             if (!string.IsNullOrEmpty(Properties.Settings.Default.Uri))
             {
                 ConfigurationManager.AppSettings["Root"] = Properties.Settings.Default.Uri;
+                CurrentSettings.CsvPath = Properties.Settings.Default.CsvPath;
+                CurrentSettings.Root = Properties.Settings.Default.Uri;
                 IsConnected = true;
             }
             else
@@ -125,7 +127,6 @@ namespace HausManagementUI
             Properties.Settings.Default.Save();
             base.OnClosed(e);
         }
-
         #endregion
 
         #region INotifyPropertyChanged

@@ -140,15 +140,17 @@ namespace HausManagementUI
                 MessageBox.Show(ex.Message);
             }
         }
-        private void btnSaveAndExport_Click(object sender, RoutedEventArgs e)
+        private async void btnSaveAndExport_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                List<Order> commitedOrders = new List<Order>();
                 foreach (var pendingOrder in selectedPendingOrders)
                 {
-                    pendingOrder.Commit();
+                    commitedOrders.Add(await pendingOrder.Commit());
                     pendingOrders.Remove(pendingOrder);
                 }
+                CSVConvertor.SavePendingOrders(commitedOrders);
                 selectedPendingOrders.Clear();
             }
             catch (Exception ex)
@@ -172,11 +174,15 @@ namespace HausManagementUI
         }
         private void btnDeleteNewOrder_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var pendingOrder in selectedPendingOrders)
+            var result =  MessageBox.Show("Are you sure you want to delete the selected orders ?", "Delete Orders", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if(result == MessageBoxResult.Yes)
             {
-                pendingOrders.Remove(pendingOrder);
+                foreach (var pendingOrder in selectedPendingOrders)
+                {
+                    pendingOrders.Remove(pendingOrder);
+                }
+                selectedPendingOrders.Clear();
             }
-            selectedPendingOrders.Clear();
         }
 
         private void ResetOrder()

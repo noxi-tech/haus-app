@@ -18,14 +18,15 @@ namespace HausManagementLibrary
             Items.Add(item);
         }
         public PendingOrder() { }
-        public async void Commit()
+        public async Task<Order> Commit()
         {
             var newOrder = await data.CreateOrder(Order);
             foreach (var item in Items)
             {
                 item.OrderId = newOrder.Id;
-                await data.CreateItem(item);
+                newOrder.Items.Add(await data.CreateItem(item));
             }
+            return newOrder;
         }
     }
 }

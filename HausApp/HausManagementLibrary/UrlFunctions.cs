@@ -48,6 +48,10 @@ namespace HausManagementLibrary
         static public string CreateOrderURL()
         {
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
+        }   
+        static public string GetOrderURL()
+        {
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];//add extention
         }
 
         #endregion
