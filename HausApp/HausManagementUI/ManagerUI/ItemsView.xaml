@@ -52,43 +52,84 @@
                                  Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
-                            <TextBox MinWidth="140"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
-                            <Separator/>
                             <Button x:Name="btnRefreshNewOrders"
-                                    Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveEdit}"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                                    Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
+                                    Click="btnRefreshNewOrders_Click"/>
+                            <Button x:Name="btnEditNewOrder"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveEdit}"/>
+                            <Button x:Name="btnDeleteNewOrder"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveRemove}"
+                                    Click="btnDeleteNewOrder_Click"/>
                         </ToolBar>
                     </ToolBarTray>
 
                     <!--New Items DataGrid-->
-                    <DataGrid x:Name="grdNewItems" 
-                              Grid.Row="1"
-                              AutoGenerateColumns="True"
-                              Grid.ColumnSpan="2"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              CanUserResizeRows="False"
-                              IsManipulationEnabled="False"/>
-                    
+                    <materialDesign:Card Grid.Row="1"
+                                         Grid.ColumnSpan="2"
+                                         Margin="5">
+                        <ScrollViewer>
+                            <ItemsControl x:Name="icNewItems" 
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Expander>
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox x:Name="cbPendingOrders" 
+                                                              Margin="0,0,10,0"
+                                                              Checked="cbPendingOrders_Checked"
+                                                              Unchecked="cbPendingOrders_Unchecked"/>
+                                                    <TextBlock Text="{Binding Path=Order.Company,StringFormat={}{0}}"
+                                                       Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding Path=Order.Customer,StringFormat={}{0}}"
+                                                       Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                       Margin="0,0,10,0"/>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <DataGrid ItemsSource="{Binding Path=Items}"
+                                                      AutoGenerateColumns="False">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
+                                                    <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Expander>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </materialDesign:Card>
                     <!--New Item Button-->
                     <Button x:Name="btnNewItem"
                             Grid.Column="0"
                             Grid.Row="2"
                             Style="{StaticResource MaterialDesignFloatingActionButton}"
                             Click="btnNewItem_Click">
-                    <materialDesign:PackIcon Kind="Plus"
+                        <materialDesign:PackIcon Kind="Plus"
                                              Width="30"
                                              Height="30"/>
                     </Button>
-                    
                     <!--Save And Export Button-->
                     <Button x:Name="btnSaveAndExport"
                             Grid.Column="1"
                             Grid.Row="2"
                             Height="auto"
-                            Margin="40,10,40,10">
+                            Margin="40,10,40,10"
+                            Click="btnSaveAndExport_Click">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ContentSave"
                                                      VerticalAlignment="Center"
@@ -179,51 +220,65 @@
                               Grid.Row="2"
                               materialDesign:HintAssist.Hint="MT"
                               Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
-                    <ComboBox x:Name="cbSg"
+                    <ComboBox x:Name="cbParts"
                               Grid.Column="3"
                               Grid.Row="2"
-                              materialDesign:HintAssist.Hint="SG"
+                              materialDesign:HintAssist.Hint="Pieces"
                               Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
-                    <StackPanel Grid.Column="4"
-                                Grid.Row="2"
+                    <ComboBox x:Name="cbNotes"
+                              Grid.Column="4"
+                              Grid.Row="2"
+                              materialDesign:HintAssist.Hint="Notes"
+                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                    <StackPanel Grid.Column="0"
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
                                 VerticalAlignment="Center"
-                                HorizontalAlignment="Left" 
+                                HorizontalAlignment="Center" 
                                 Orientation="Horizontal">
                         <Label Content="HT:"
                                FontSize="18"/>
-                        <TextBox x:Name="txtH"
+                        <TextBox x:Name="txtHLength"
                                  FontSize="18"
                                  MaxWidth="50"
                                  MinWidth="50"
                                  MaxLength="10"/>
-                        <Label Content=" cm* "
+                        <Label Content=" cm * "
                                FontSize="18"/>
-                        <TextBox x:Name="txtT"
+                        <TextBox x:Name="txtHAmount"
                                  FontSize="18"
                                  MaxWidth="50"
                                  MinWidth="50"
                                  MaxLength="10"/>
                     </StackPanel>
-                    <ComboBox x:Name="cbPieces"
-                              Grid.Column="0"
-                              Grid.Row="3"
-                              materialDesign:HintAssist.Hint="Pieces"
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="2"
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBox x:Name="txtSgValue"
+                                 Margin="10,0,10,0"
+                                 materialDesign:HintAssist.Hint="SG Value"
+                                 Style="{StaticResource NewFieldsTextBox}"
+                                 MaxWidth="100"
+                                 MinWidth="100"
+                                 Padding="2"/>
+                        <ComboBox x:Name="cbSgType"
+                              materialDesign:HintAssist.Hint="SG Type"
                               Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
-                    <TextBox x:Name="txtNotes"  
-                             TextWrapping="Wrap"
-                             VerticalAlignment="Stretch"
-                             AcceptsReturn="True"
-                             VerticalScrollBarVisibility="Auto"
-                             Grid.Column="1"
-                             Grid.Row="3"
-                             Grid.ColumnSpan="4"
-                             materialDesign:HintAssist.Hint="Notes"
-                             Margin="2"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    </StackPanel>
                     <Button x:Name="btnSaveOrder"
                             Content="Save Order"
                             Grid.Row="5"
                             Click="btnSaveOrder_Click"/>
+                    <TextBlock x:Name="txtOutOf"
+                               Grid.Column="3"
+                               Grid.Row="5"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="18"
+                               Foreground="Gray"/>
                     <Button x:Name="btnAddToOrder"
                             Content="Add To The Same Order"
                             Grid.Row="5"
@@ -258,44 +313,30 @@
 
                     <DataGrid x:Name="grdInProgressItems"
                               Grid.Row="1"
-                              AutoGenerateColumns="True"
+                              AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserResizeRows="False"
-                              Sorting="grdInProgressItems_Sorting"
-                              IsManipulationEnabled="False"/>
-                </Grid>
-            </TabItem>
-            <!--#endregion-->
+                              Sorting="grdInProgressItems_Sorting">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Order Id" Binding="{Binding Path=OrderId, Mode=OneWay}"/>
+                        </DataGrid.Columns>
 
-            <!--#region Finished Items Tab-->
-            <TabItem Header="{materialDesign:PackIcon Kind=ArchiveCheck, Size=24}"
-                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="6*"/>
-                    </Grid.RowDefinitions>
-
-                    <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left">
-                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
-                                 ClipToBounds="False">
-                            <TextBox MinWidth="140"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
-                            <Separator/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
-                        </ToolBar>
-                    </ToolBarTray>
-                    
-                    <DataGrid x:Name="grdFinishedItems"
-                              Grid.Row="1"
-                              AutoGenerateColumns="True"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              CanUserResizeRows="False"
-                              IsManipulationEnabled="False"/>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <!--#endregion-->
@@ -317,7 +358,9 @@
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
                             <Separator/>
                             <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
+                            <ToggleButton Content="{materialDesign:PackIcon Kind=Dagger}" 
+                                          Style="{StaticResource MaterialDesignActionLightToggleButton}" 
+                                          IsChecked="False"/>
                         </ToolBar>
                     </ToolBarTray>
 

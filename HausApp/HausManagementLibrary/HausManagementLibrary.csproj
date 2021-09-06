@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvailableOptions.cs" />
+    <Compile Include="CSVConvertor.cs" />
     <Compile Include="DataAccessor.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeCreate.cs" />

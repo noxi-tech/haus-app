@@ -95,5 +95,13 @@ namespace HausManagementLibrary
             ">",
             "<>"
         };
+        public static List<string> NotesOptions = new List<string>()
+        {
+            "Rvrs",
+            "H1/2",
+            "M-9",
+            "W+10",
+            "N.T"
+        };
     }
 }

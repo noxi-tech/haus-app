@@ -25,26 +25,34 @@ namespace HausManagementUI
         DataAccessor data = new DataAccessor();
 
         #region New Items Fields
-        List<ItemCreate> createItems = new List<ItemCreate>();
-        ObservableCollection<Order> newOrders = new ObservableCollection<Order>();
+        ObservableCollection<PendingOrder> pendingOrders = new ObservableCollection<PendingOrder>();
+        List<PendingOrder> selectedPendingOrders = new List<PendingOrder>();
+        PendingOrder currentPendingOrder { get; set; }
         #endregion
 
-        List<Item> items = new List<Item>();
-
+        #region In Progress Items Fields
+        List<Item> itemsInProgress = new List<Item>();
+        #endregion
+        
         public ItemsView()
         {
             InitializeComponent();
             InitializeOptions();
+            InitializeSources();
             RefreshData();
             this.DataContext = this;
         }
 
         #region Initializations region
+        private void InitializeSources()
+        {
+            icNewItems.ItemsSource = pendingOrders;
+        }
         private async void UpdateItems()
         {
             try
             {
-                items = await data.GetItems();
+                itemsInProgress = await data.GetItems();
             }
             catch (Exception e)
             {
@@ -53,15 +61,23 @@ namespace HausManagementUI
         }
         private async void InitializeOptions()
         {
-            cbSw.ItemsSource = AvailableOptions.SwOptions;
-            cbSk.ItemsSource = AvailableOptions.SkOptions;
-            cbT.ItemsSource = AvailableOptions.TOptions;
-            cbP.ItemsSource = AvailableOptions.POptions;
-            cbSh.ItemsSource = AvailableOptions.ShOptions;
-            cbMt.ItemsSource = AvailableOptions.MtOptions;
-            cbSg.ItemsSource = AvailableOptions.SgOptions;
-            cbPieces.ItemsSource = AvailableOptions.PiecesOptions;
-            cbCompanyName.ItemsSource = await data.GetCompanies();
+            try
+            {
+                cbSw.ItemsSource = AvailableOptions.SwOptions;
+                cbSk.ItemsSource = AvailableOptions.SkOptions;
+                cbT.ItemsSource = AvailableOptions.TOptions;
+                cbP.ItemsSource = AvailableOptions.POptions;
+                cbSh.ItemsSource = AvailableOptions.ShOptions;
+                cbMt.ItemsSource = AvailableOptions.MtOptions;
+                cbSgType.ItemsSource = AvailableOptions.SgOptions;
+                cbParts.ItemsSource = AvailableOptions.PiecesOptions;
+                cbNotes.ItemsSource = AvailableOptions.NotesOptions;
+                cbCompanyName.ItemsSource = await data.GetCompanies();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
         #endregion
 
@@ -73,7 +89,7 @@ namespace HausManagementUI
         private void RefreshData()
         {
             UpdateItems();
-            grdInProgressItems.ItemsSource = items;
+            grdInProgressItems.ItemsSource = itemsInProgress;
         }
         private void btnRefreshInProgressItems_Click(object sender, RoutedEventArgs e)
         {
@@ -85,48 +101,109 @@ namespace HausManagementUI
         private void btnNewItem_Click(object sender, RoutedEventArgs e)
         {
             tbItems.SelectedIndex = 1;
+            ResetOrder();
         }
         #endregion
 
         #region Create Order/Item region
         private void btnAddToOrder_Click(object sender, RoutedEventArgs e)
         {
-            cbCompanyName.IsEnabled = false;
-            txtCustomerName.IsEnabled = false;
-            ResetNewFields();
-        }
-        private async void btnSaveOrder_Click(object sender, RoutedEventArgs e)
-        {
-            var order = await data.CreateOrder(cbCompanyName.Text, txtCustomerName.Text);
-            createItems.Add(CreateItem(order.Id));
-
-            foreach (var item in createItems)
+            try
             {
-                await data.CreateItem(item);
+                var newItem = CreateItem();
+
+                cbCompanyName.IsEnabled = false;
+                txtCustomerName.IsEnabled = false;
+                currentPendingOrder.Items.Add(newItem);
+                txtOutOf.Text = $"{currentPendingOrder.Items.Count}/{currentPendingOrder.Items.Count}";
+                ResetNewFields();
             }
-            MessageBox.Show($"{order.Id}");
-            tbItems.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnSaveOrder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var newOrder = CreateOrder();
+                var newItem = CreateItem();
+
+                currentPendingOrder.Order = newOrder;
+                currentPendingOrder.Items.Add(newItem);
+                pendingOrders.Add(currentPendingOrder);
+                tbItems.SelectedIndex = 0;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnSaveAndExport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                foreach (var pendingOrder in selectedPendingOrders)
+                {
+                    pendingOrder.Commit();
+                    pendingOrders.Remove(pendingOrder);
+                }
+                selectedPendingOrders.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnRefreshNewOrders_Click(object sender, RoutedEventArgs e)
+        {
+            icNewItems.ItemsSource = null;
+            icNewItems.ItemsSource = pendingOrders;
+            selectedPendingOrders.Clear();
+        }
+        private void cbPendingOrders_Checked(object sender, RoutedEventArgs e)
+        {
+            selectedPendingOrders.Add((PendingOrder)((CheckBox)sender).DataContext);
+        }
+        private void cbPendingOrders_Unchecked(object sender, RoutedEventArgs e)
+        {
+            selectedPendingOrders.Remove((PendingOrder)((CheckBox)sender).DataContext);
+        }
+        private void btnDeleteNewOrder_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var pendingOrder in selectedPendingOrders)
+            {
+                pendingOrders.Remove(pendingOrder);
+            }
+            selectedPendingOrders.Clear();
+        }
+
+        private void ResetOrder()
+        {
             cbCompanyName.IsEnabled = true;
             txtCustomerName.IsEnabled = true;
             cbCompanyName.Text = "";
             cbCompanyName.SelectedItem = null;
             txtCustomerName.Text = "";
+            txtOutOf.Text = "";
             ResetNewFields();
+            currentPendingOrder = new PendingOrder();
         }
         private void ResetNewFields()
         {
-            txtH.Text = "";
+            txtHLength.Text = "";
             txtHeight.Text = "";
             txtWidth.Text = "";
-            txtNotes.Text = "";
-            txtT.Text = "";
+            txtHAmount.Text = "";
+            txtSgValue.Text = "";
             cbMt.Text = "";
             cbMt.SelectedItem = null;
             cbP.SelectedItem = null;
-            cbPieces.Text = "";
-            cbPieces.SelectedItem = null;
-            cbSg.Text = "";
-            cbSg.SelectedItem = null;
+            cbParts.Text = "";
+            cbParts.SelectedItem = null;
+            cbSgType.Text = "";
+            cbSgType.SelectedItem = null;
             cbSh.Text = "";
             cbSh.SelectedItem = null;
             cbSk.Text = "";
@@ -135,12 +212,18 @@ namespace HausManagementUI
             cbSw.SelectedItem = null;
             cbT.Text = "";
             cbT.SelectedItem = null;
+            cbNotes.Text = "";
+            cbNotes.SelectedItem = null;
         }
-        private ItemCreate CreateItem(int orderId)
+        private OrderCreate CreateOrder()
         {
-            return new ItemCreate(int.Parse(txtWidth.Text), int.Parse(txtHeight.Text), cbSw.Text, cbSk.Text,
-                cbT.Text, cbP.Text, int.Parse(cbSh.Text), cbMt.Text, 0, cbSg.Text, int.Parse(txtT.Text), int.Parse(txtH.Text),
-                cbPieces.Text, txtNotes.Text, orderId);
+            return new OrderCreate(cbCompanyName.Text, txtCustomerName.Text);
+        }
+        private ItemCreate CreateItem()
+        {
+                return new ItemCreate(txtWidth.Text, txtHeight.Text, cbSw.Text, cbSk.Text,
+                cbT.Text, cbP.Text, cbSh.Text, cbMt.Text, txtSgValue.Text, cbSgType.Text, txtHLength.Text, int.Parse(txtHAmount.Text),
+                cbParts.Text, cbNotes.Text);
         }
         #endregion
     }

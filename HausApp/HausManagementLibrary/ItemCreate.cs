@@ -10,17 +10,17 @@ namespace HausManagementLibrary
     public class ItemCreate
     {
         #region Private Fields
-        private int width;
-        private int height;
+        private string width;
+        private string height;
         private string sw;
         private string sk;
         private string t;
         private string p;
-        private int sh;
+        private string sh;
         private string mt;
-        private int sg_value;
+        private string sg_value;
         private string sg_type;
-        private int ht_length;
+        private string ht_length;
         private int ht_amount;
         private string notes;
         private string parts;
@@ -28,12 +28,12 @@ namespace HausManagementLibrary
         #endregion
 
         #region Properties
-        public int Width
+        public string Width
         {
             get { return width; }
             set { width = value; }
         }
-        public int Height
+        public string Height
         {
             get { return height; }
             set { height = value; }
@@ -57,7 +57,7 @@ namespace HausManagementLibrary
         {
             get { return $"P* {p}"; }
         }
-        public int Sh
+        public string Sh
         {
             get { return sh; }
             set { sh = value; }
@@ -92,7 +92,7 @@ namespace HausManagementLibrary
         }
         #endregion
 
-        public ItemCreate(int width, int height, string sw, string sk, string t, string p, int sh, string mt, int sg_value, string sg_type, int ht_length, int ht_amount, string parts, string notes, int? order_id = null)
+        public ItemCreate(string width, string height, string sw, string sk, string t, string p, string sh, string mt, string sg_value, string sg_type, string ht_length, int ht_amount, string parts, string notes, int? order_id = null)
         {
             Width = width;
             Height = height;

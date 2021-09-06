@@ -23,8 +23,8 @@ namespace HausManagementLibrary
         }
         #endregion
 
-        public Item(int id, string stage, int width, int height, string sw,
-            string sk, string t, string p, int sh, string mt, int sg_value, string sg_type, int ht_length, int ht_amount, string notes, string parts, int order_id)
+        public Item(int id, string stage, string width, string height, string sw,
+            string sk, string t, string p, string sh, string mt, string sg_value, string sg_type, string ht_length, int ht_amount, string notes, string parts, int order_id)
             : base(width, height, sw, sk, t, p, sh, mt, sg_value, sg_type, ht_length, ht_amount, parts, notes, order_id)
         {
             Id = id;

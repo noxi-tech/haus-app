@@ -115,12 +115,12 @@ namespace HausManagementLibrary
         #endregion
 
         #region Orders Region
-        public async Task<Order> CreateOrder(string companyName, string customerName)
+        public async Task<Order> CreateOrder(OrderCreate order)
         {
             return await Task.Run(async () => {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.PostAsJsonAsync(UrlFunctions.CreateOrderURL(), new OrderCreate(companyName, customerName));
+                    var response = await client.PostAsJsonAsync(UrlFunctions.CreateOrderURL(), order);
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
