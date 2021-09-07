@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 
 namespace HausManagementLibrary
@@ -30,9 +31,15 @@ namespace HausManagementLibrary
         #endregion
 
         #region Item Region
-        static public string GetItemsURL()
+        static public string GetItemsURL(List<string> stages, int skip, int limit)
         {
-            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"];
+            string extention = "?";
+            for (int i = 0; i < stages.Count; i++)
+            {
+                extention += $"stages={stages[i]}&";
+            }
+            extention += $"skip={skip}&limit={limit}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"] + extention;
         }
         static public string CreateItemURL()
         {
@@ -45,6 +52,11 @@ namespace HausManagementLibrary
         #endregion
 
         #region Order Region
+        static public string GetOrdersURL(string customer, int skip, int limit)
+        {
+            string extention = $"?customer={customer}&skip={skip}&limit={limit}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
+        }
         static public string CreateOrderURL()
         {
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
@@ -69,6 +81,5 @@ namespace HausManagementLibrary
             return url + "/ping";
         }
         #endregion
-
     }
 }

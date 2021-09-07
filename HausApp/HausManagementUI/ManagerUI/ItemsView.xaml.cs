@@ -32,14 +32,18 @@ namespace HausManagementUI
 
         #region In Progress Items Fields
         List<Item> itemsInProgress = new List<Item>();
+        List<string> filteredStages = new List<string>();
         #endregion
-        
+
+        #region Orders Fields
+        List<Order> orders = new List<Order>();
+        #endregion
+
         public ItemsView()
         {
             InitializeComponent();
             InitializeOptions();
             InitializeSources();
-            RefreshData();
             this.DataContext = this;
         }
 
@@ -47,17 +51,8 @@ namespace HausManagementUI
         private void InitializeSources()
         {
             icNewItems.ItemsSource = pendingOrders;
-        }
-        private async void UpdateItems()
-        {
-            try
-            {
-                itemsInProgress = await data.GetItems();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            icOrders.ItemsSource = orders;
+            grdInProgressItems.ItemsSource = itemsInProgress;
         }
         private async void InitializeOptions()
         {
@@ -81,31 +76,12 @@ namespace HausManagementUI
         }
         #endregion
 
-        #region ItemsInProgress region
-        private void grdInProgressItems_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            MessageBox.Show("Is Working? ");
-        }
-        private void RefreshData()
-        {
-            UpdateItems();
-            grdInProgressItems.ItemsSource = itemsInProgress;
-        }
-        private void btnRefreshInProgressItems_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshData();
-        }
-        #endregion
-
-        #region Navigation region
+        #region Create Order/Item region
         private void btnNewItem_Click(object sender, RoutedEventArgs e)
         {
             tbItems.SelectedIndex = 1;
             ResetOrder();
         }
-        #endregion
-
-        #region Create Order/Item region
         private void btnAddToOrder_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -184,7 +160,6 @@ namespace HausManagementUI
                 selectedPendingOrders.Clear();
             }
         }
-
         private void ResetOrder()
         {
             cbCompanyName.IsEnabled = true;
@@ -196,7 +171,7 @@ namespace HausManagementUI
             ResetNewFields();
             currentPendingOrder = new PendingOrder();
         }
-        private void ResetNewFields()
+        private async void ResetNewFields()
         {
             txtHLength.Text = "";
             txtHeight.Text = "";
@@ -220,6 +195,7 @@ namespace HausManagementUI
             cbT.SelectedItem = null;
             cbNotes.Text = "";
             cbNotes.SelectedItem = null;
+            cbCompanyName.ItemsSource = await data.GetCompanies();
         }
         private OrderCreate CreateOrder()
         {
@@ -230,6 +206,60 @@ namespace HausManagementUI
                 return new ItemCreate(txtWidth.Text, txtHeight.Text, cbSw.Text, cbSk.Text,
                 cbT.Text, cbP.Text, cbSh.Text, cbMt.Text, txtSgValue.Text, cbSgType.Text, txtHLength.Text, int.Parse(txtHAmount.Text),
                 cbParts.Text, cbNotes.Text);
+        }
+        #endregion
+
+        #region ItemsInProgress region
+        private void grdInProgressItems_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            MessageBox.Show("Is Working? ");
+        }
+        private async void RefreshItemsInProgress()
+        {
+            try
+            {
+                itemsInProgress = await data.GetItems(filteredStages);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            grdInProgressItems.ItemsSource = itemsInProgress;
+        }
+        private void btnRefreshInProgressItems_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshItemsInProgress();
+        }
+        private void Filter_Checked(object sender, RoutedEventArgs e)
+        {
+            filteredStages.Add((string)((CheckBox)sender).Tag);
+        }
+        private void Filter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            filteredStages.Remove((string)((CheckBox)sender).Tag);
+        }
+        #endregion
+
+        #region Orders region
+        private async void RefreshOrders(string customerName)
+        {
+            try
+            {
+                orders = await data.GetOrders(customerName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            icOrders.ItemsSource = orders;
+        }
+        private void btnRefreshOrders_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshOrders("");
+        }
+        private void btnSearchOrders_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshOrders(txtOrderSearch.Text);
         }
         #endregion
     }

@@ -79,12 +79,12 @@ namespace HausManagementLibrary
         #endregion
 
         #region Items Region
-        public async Task<List<Item>> GetItems()
+        public async Task<List<Item>> GetItems(List<string> stages)
         {
             return await Task.Run(async () => {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.GetAsync(UrlFunctions.GetItemsURL());
+                    var response = await client.GetAsync(UrlFunctions.GetItemsURL(stages, 0, 100));
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
@@ -94,7 +94,6 @@ namespace HausManagementLibrary
                 }
             });
         }
-
         public async Task<Item> CreateItem(ItemCreate itemCreate)
         {
             return await Task.Run(async () =>
@@ -111,10 +110,24 @@ namespace HausManagementLibrary
                 }
             });
         }
-
         #endregion
 
         #region Orders Region
+        public async Task<List<Order>> GetOrders(string customer)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.GetOrdersURL(customer, 0, 100));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<List<Order>>();
+                    }
+                    return null;
+                }
+            });
+        }
 
         //public async Task<Order> GetOrder(int orderId)
         //{

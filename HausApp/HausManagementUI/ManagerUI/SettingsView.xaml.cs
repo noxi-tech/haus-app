@@ -35,9 +35,12 @@ namespace HausManagementUI
             saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
             saveFileDialog.DefaultExt = "*.CSV";
             saveFileDialog.ShowDialog();
-            Properties.Settings.Default.CsvPath = saveFileDialog.FileName;
-            CurrentSettings.CsvPath = saveFileDialog.FileName;
-            Properties.Settings.Default.Save();
+            if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                Properties.Settings.Default.CsvPath = saveFileDialog.FileName;
+                CurrentSettings.CsvPath = saveFileDialog.FileName;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

@@ -49,6 +49,7 @@
                     
                     <ToolBarTray VerticalAlignment="Center"
                                  HorizontalAlignment="Left"
+                                 Grid.Column="0"
                                  Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
@@ -69,10 +70,10 @@
                                          Margin="5">
                         <ScrollViewer>
                             <ItemsControl x:Name="icNewItems" 
-                                      Grid.Row="1"
-                                      Grid.ColumnSpan="2"
-                                      VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch">
+                                          Grid.Row="1"
+                                          Grid.ColumnSpan="2"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Expander>
@@ -307,11 +308,37 @@
                     </Grid.RowDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left">
+                                 HorizontalAlignment="Left"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
-                            <TextBox MinWidth="140"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FilterOutline"
+                                                         Width="25"
+                                                         Height="25"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Margin="10"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Tag="sew"
+                                          Content="Sew"
+                                          IsChecked="True"
+                                          Checked="Filter_Checked"
+                                          Unchecked="Filter_Unchecked"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Tag="iron"
+                                          Content="Iron"
+                                          IsChecked="True"
+                                          Checked="Filter_Checked"
+                                          Unchecked="Filter_Unchecked"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Tag="qc"
+                                          Content="Qc"
+                                          IsChecked="True"
+                                          Checked="Filter_Checked"
+                                          Unchecked="Filter_Unchecked"/>
+                            </StackPanel>
                             <Separator/>
                             <Button x:Name="btnRefreshInProgressItems"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
@@ -356,36 +383,106 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left">
+                                 HorizontalAlignment="Left"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
-                            <TextBox MinWidth="140"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveSearch}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FilterOutline"
+                                                         Width="25"
+                                                         Height="25"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Margin="10"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Content="Completed"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Content="Delivered"/>
+                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+                                          Content="With Bill"/>
+                            </StackPanel>
                             <Separator/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"/>
+                            <TextBox x:Name="txtOrderSearch"
+                                     Width="140"/>
+                            <Button x:Name="btnSearchOrders" Content="{materialDesign:PackIcon Kind=ArchiveSearch}"
+                                    Click="btnSearchOrders_Click"/>
                             <Separator/>
-                            <ToggleButton Content="{materialDesign:PackIcon Kind=Deal}" 
-                                          Style="{StaticResource MaterialDesignActionLightToggleButton}" 
-                                          IsChecked="False"
-                                          Margin="0,0,10,0"/>
-                            <ToggleButton Content="{materialDesign:PackIcon Kind=LorryDelivery}" 
-                                          Style="{StaticResource MaterialDesignActionLightToggleButton}" 
-                                          IsChecked="False"
-                                          Margin="0,0,10,0"/>
+                            <Button x:Name="btnRefreshOrders"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
+                                    Click="btnRefreshOrders_Click"/>
                         </ToolBar>
                     </ToolBarTray>
 
-                    <DataGrid x:Name="grdOrders"
-                              Grid.Row="1"
-                              AutoGenerateColumns="True"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              CanUserResizeRows="False"
-                              IsManipulationEnabled="False"/>
+                    <ScrollViewer Grid.Row="1"
+                                  Grid.ColumnSpan="2"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                        <ItemsControl x:Name="icOrders" 
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Background="{Binding Path=StatusBrush}">
+                                        <Expander.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                <materialDesign:PackIcon Kind="ClockOutline"
+                                                                         Margin="0,0,10,0"/>
+                                                <TextBlock Text="{Binding Path=DaysToDueDate,StringFormat={}{0} Days}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Expander.Header>
+                                        <DataGrid ItemsSource="{Binding Path=Items}"
+                                                  AutoGenerateColumns="False">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
+                                                <!--<DataGridTextColumn.CellStyle>
+                                                        <Style TargetType="DataGridCell">
+                                                            <Setter Property="Background" Value="{Binding Path=StageBrush}" />
+                                                        </Style>
+                                                    </DataGridTextColumn.CellStyle>
+                                                </DataGridTextColumn>-->
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <!--#endregion-->
