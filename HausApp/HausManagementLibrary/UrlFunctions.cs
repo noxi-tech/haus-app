@@ -8,13 +8,14 @@ namespace HausManagementLibrary
     public static class UrlFunctions
     {
         #region Employee Region
-        static public string GetEmployeesURL()
-        {
-            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["EmployeesApi"];
-        }
         static public string CreateEmployeeURL()
         {
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["EmployeesApi"];
+        }
+        static public string GetEmployeesURL(int skip, int limit)
+        {
+            string extention = $"?skip={skip}&limit={limit}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["EmployeesApi"] + extention;
         }
         static public string GetEmployeeURL(long employeeId)
         {
@@ -31,6 +32,10 @@ namespace HausManagementLibrary
         #endregion
 
         #region Item Region
+        static public string CreateItemURL()
+        {
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"];
+        }
         static public string GetItemsURL(List<string> stages, int skip, int limit)
         {
             string extention = "?";
@@ -41,10 +46,6 @@ namespace HausManagementLibrary
             extention += $"skip={skip}&limit={limit}";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"] + extention;
         }
-        static public string CreateItemURL()
-        {
-            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"];
-        }
         static public string GetItemURL(long itemId)
         {
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["ItemsApi"]+ $"/{itemId}";
@@ -52,18 +53,29 @@ namespace HausManagementLibrary
         #endregion
 
         #region Order Region
+        static public string CreateOrderURL()
+        {
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
+        }
         static public string GetOrdersURL(string customer, int skip, int limit)
         {
             string extention = $"?customer={customer}&skip={skip}&limit={limit}";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
-        static public string CreateOrderURL()
+        static public string GetOrderURL(int orderId)
         {
-            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
-        }   
-        static public string GetOrderURL()
+            string extention = $"/{orderId}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
+        }        
+        static public string SetOrderDeliveryURL(int orderId, string deliveredBy)
         {
-            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];//add extention
+            string extention = $"/{orderId}/deliver?delivered_to={deliveredBy}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
+        }
+        static public string SetOrderBillURL(int orderId, string billId)
+        {
+            string extention = $"/{orderId}/bill?bill_id={billId}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
 
         #endregion

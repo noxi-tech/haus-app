@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementUI", "HausMan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementLibrary", "HausManagementLibrary\HausManagementLibrary.csproj", "{3BD20753-E09F-4AC4-8B9E-E347B29927E8}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HausSetup", "HausSetup\HausSetup.vdproj", "{71505759-4937-4A9A-9EBE-C79BC711E612}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71505759-4937-4A9A-9EBE-C79BC711E612}.Debug|Any CPU.ActiveCfg = Debug
+		{71505759-4937-4A9A-9EBE-C79BC711E612}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

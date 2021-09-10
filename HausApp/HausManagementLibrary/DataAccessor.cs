@@ -21,7 +21,7 @@ namespace HausManagementLibrary
             return await Task.Run( async () =>  {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.GetAsync(UrlFunctions.GetEmployeesURL());
+                    var response = await client.GetAsync(UrlFunctions.GetEmployeesURL(0,100));
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
@@ -113,37 +113,6 @@ namespace HausManagementLibrary
         #endregion
 
         #region Orders Region
-        public async Task<List<Order>> GetOrders(string customer)
-        {
-            return await Task.Run(async () => {
-                using (HttpClient client = new HttpClient())
-                {
-                    var response = await client.GetAsync(UrlFunctions.GetOrdersURL(customer, 0, 100));
-                    response.EnsureSuccessStatusCode();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<List<Order>>();
-                    }
-                    return null;
-                }
-            });
-        }
-
-        //public async Task<Order> GetOrder(int orderId)
-        //{
-        //    return await Task.Run(async () => {
-        //        using (HttpClient client = new HttpClient())
-        //        {
-        //            var response = await client.GetAsync(UrlFunctions.GetOrderURL(), order);
-        //            response.EnsureSuccessStatusCode();
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                return await response.Content.ReadAsAsync<Order>();
-        //            }
-        //            return null;
-        //        }
-        //    });
-        //}
         public async Task<Order> CreateOrder(OrderCreate order)
         {
             return await Task.Run(async () => {
@@ -159,6 +128,48 @@ namespace HausManagementLibrary
                 }
             });
         }
+        public async Task<List<Order>> GetOrders(string customer)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.GetOrdersURL(customer, 0, 100));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<List<Order>>();
+                    }
+                    return null;
+                }
+            });
+        }
+        public async Task<Order> GetOrder(int orderId)
+        {
+            return await Task.Run(async () =>
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.GetOrderURL(orderId));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<Order>();
+                    }
+                    return null;
+                }
+            });
+        }
+        public async void SetOrderDelivery(int orderId, string deliveredBy)
+        {
+            await Task.Run(async () =>
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync<long?>(UrlFunctions.SetOrderDeliveryURL(orderId, deliveredBy), null);
+                }
+            });
+        }
+
 
         #endregion
 

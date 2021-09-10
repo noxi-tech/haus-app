@@ -13,6 +13,8 @@ namespace HausManagementLibrary
         public string CreatedAt { get; set; }
         public List<Item> Items { get; set; }
         public bool IsCompleted { get; set; }
+        public string DeliveredBy { get; set; }
+        public string BillId { get; set; }
         public bool IsGettingLate
         {
             get
@@ -54,7 +56,7 @@ namespace HausManagementLibrary
             }
         }
 
-        public Order(int id, string company, string customer,List<Item> items, bool is_completed, string created_at)
+        public Order(int id, string company, string customer,List<Item> items, bool is_completed, string delivered_to, string bill_id, string created_at)
             :base(company,customer)
         {
             Id = id;

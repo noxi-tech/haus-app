@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +22,7 @@ namespace HausManagementUI
     /// <summary>
     /// Interaction logic for ItemsView.xaml
     /// </summary>
-    public partial class ItemsView : UserControl
+    public partial class ItemsView : UserControl , INotifyPropertyChanged
     {
         DataAccessor data = new DataAccessor();
 
@@ -36,7 +38,33 @@ namespace HausManagementUI
         #endregion
 
         #region Orders Fields
-        List<Order> orders = new List<Order>();
+        ObservableCollection<Order> orders = new ObservableCollection<Order>();
+        ObservableCollection<Order> deliveredOrders = new ObservableCollection<Order>();
+        ObservableCollection<Order> billedOrders = new ObservableCollection<Order>();
+        #endregion
+
+        #region Loading Data Fields
+        bool isLoading = false;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { isLoading = value; OnPropertyChanged("IsLoading"); OnPropertyChanged("IsNotLoading"); }
+        }
+        public bool IsNotLoading
+        {
+            get { return !isLoading; }
+        }
+        #endregion
+
+        #region PropertyChange Region
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         #endregion
 
         public ItemsView()
@@ -53,6 +81,8 @@ namespace HausManagementUI
             icNewItems.ItemsSource = pendingOrders;
             icOrders.ItemsSource = orders;
             grdInProgressItems.ItemsSource = itemsInProgress;
+            icOrdersInBilling.ItemsSource = billedOrders;
+            icOrdersInDelivery.ItemsSource = deliveredOrders;
         }
         private async void InitializeOptions()
         {
@@ -91,7 +121,7 @@ namespace HausManagementUI
                 cbCompanyName.IsEnabled = false;
                 txtCustomerName.IsEnabled = false;
                 currentPendingOrder.Items.Add(newItem);
-                txtOutOf.Text = $"{currentPendingOrder.Items.Count}/{currentPendingOrder.Items.Count}";
+                txtOutOf.Text = $"Total: {currentPendingOrder.Items.Count}";
                 ResetNewFields();
             }
             catch (Exception ex)
@@ -243,15 +273,29 @@ namespace HausManagementUI
         #region Orders region
         private async void RefreshOrders(string customerName)
         {
-            try
+            if (!isLoading)
             {
-                orders = await data.GetOrders(customerName);
+                List<Order> fetchedOrders = new List<Order>();
+                orders.Clear();
+                IsLoading = true;
+                try
+                {
+                    fetchedOrders = await data.GetOrders(customerName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                foreach (var order in fetchedOrders)
+                {
+                    orders.Add(order);
+                    await Task.Run(() =>
+                    {
+                        Thread.Sleep(300);
+                    });
+                }
+                IsLoading = false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            icOrders.ItemsSource = orders;
         }
         private void btnRefreshOrders_Click(object sender, RoutedEventArgs e)
         {
@@ -260,6 +304,38 @@ namespace HausManagementUI
         private void btnSearchOrders_Click(object sender, RoutedEventArgs e)
         {
             RefreshOrders(txtOrderSearch.Text);
+        }
+        private void btnOpenListsTab_Click(object sender, RoutedEventArgs e)
+        {
+            tbItems.SelectedIndex = 4;
+        }
+        private void btnAddOrderToDelivered_Click(object sender, RoutedEventArgs e)
+        {
+            var order = (Order)((Button)sender).DataContext;
+            if (!deliveredOrders.Contains(order))
+            {
+                deliveredOrders.Add(order);
+            }
+            else
+            {
+                MessageBox.Show("This order is already in the list.");
+            }
+        }
+        private void btnAddOrderToBilled_Click(object sender, RoutedEventArgs e)
+        {
+            var order = (Order)((Button)sender).DataContext;
+            if (!billedOrders.Contains(order)) 
+            {
+                billedOrders.Add(order);
+            }
+            else
+            {
+                MessageBox.Show("This order is already in the list.");
+            }
+        }
+        private void btnRefreshDeliveryList_Click(object sender, RoutedEventArgs e)
+        {
+            icOrdersInDelivery.ItemsSource = deliveredOrders;
         }
         #endregion
     }

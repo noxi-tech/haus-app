@@ -27,7 +27,7 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="IsEditable" Value="True"/>
         </Style>
-        
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </UserControl.Resources>
     
     <Grid>
@@ -412,21 +412,44 @@
                                           Content="With Bill"/>
                             </StackPanel>
                             <Separator/>
+                            <TextBox x:Name="txtCompanyOrderSearch"
+                                     Width="140"
+                                     materialDesign:HintAssist.Hint="Company Search"/>
                             <TextBox x:Name="txtOrderSearch"
-                                     Width="140"/>
+                                     Width="140"
+                                     materialDesign:HintAssist.Hint="Customer Search"/>
                             <Button x:Name="btnSearchOrders" Content="{materialDesign:PackIcon Kind=ArchiveSearch}"
                                     Click="btnSearchOrders_Click"/>
                             <Separator/>
                             <Button x:Name="btnRefreshOrders"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
                                     Click="btnRefreshOrders_Click"/>
+                            <Separator/>
+                            <Button x:Name="btnOpenListsTab"
+                                    Content="{materialDesign:PackIcon Kind=FormatListText}"
+                                    Click="btnOpenListsTab_Click"/>
                         </ToolBar>
                     </ToolBarTray>
-
+                    <!--Loading Bar-->
+                    <StackPanel x:Name="spLoading"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Visibility="{Binding Path=IsLoading,Converter={StaticResource BoolToVis}}"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2">
+                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                     Value="0"
+                                     IsIndeterminate="True"/>
+                        <TextBlock Text="Fetching Data ..."
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <!--Items Control for orders-->
                     <ScrollViewer Grid.Row="1"
                                   Grid.ColumnSpan="2"
                                   VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch">
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{Binding Path=IsNotLoading, Converter={StaticResource BoolToVis}}">
                         <ItemsControl x:Name="icOrders" 
                                       Grid.Row="1"
                                       Grid.ColumnSpan="2"
@@ -436,21 +459,52 @@
                                 <DataTemplate>
                                     <Expander Background="{Binding Path=StatusBrush}">
                                         <Expander.Header>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal"
+                                                            Grid.Column="1">
+                                                <Button x:Name="btnAddOrderToDelivered"
+                                                        Content="{materialDesign:PackIcon Kind=TruckDelivery}"
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        Background="White"
+                                                        Margin="0,0,10,0"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        Click="btnAddOrderToDelivered_Click"
+                                                        IsEnabled="{Binding Path=IsCompleted}"/>
+                                                <Button x:Name="btnAddOrderToBilled"
+                                                        Content="{materialDesign:PackIcon Kind=Handshake}"
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        Background="White"
+                                                        Margin="0,0,10,0"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        Click="btnAddOrderToBilled_Click"/>
                                                 <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
                                                            Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
                                                 <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
                                                            Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
                                                 <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
                                                            Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
                                                 <materialDesign:PackIcon Kind="ClockOutline"
-                                                                         Margin="0,0,10,0"/>
+                                                                         Margin="0,0,10,0"
+                                                                         VerticalAlignment="Center"/>
                                                 <TextBlock Text="{Binding Path=DaysToDueDate,StringFormat={}{0} Days}"
                                                            Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Path=DeliveredBy,StringFormat={}Delivered By: {0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Path=BillId,StringFormat={}Bill Id: {0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Expander.Header>
                                         <DataGrid ItemsSource="{Binding Path=Items}"
@@ -470,12 +524,6 @@
                                                 <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
                                                 <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
                                                 <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
-                                                <!--<DataGridTextColumn.CellStyle>
-                                                        <Style TargetType="DataGridCell">
-                                                            <Setter Property="Background" Value="{Binding Path=StageBrush}" />
-                                                        </Style>
-                                                    </DataGridTextColumn.CellStyle>
-                                                </DataGridTextColumn>-->
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Expander>
@@ -487,6 +535,171 @@
             </TabItem>
             <!--#endregion-->
             
+            <!--#region Delivered/Billed Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=Receipt, Size=24}"
+                     Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!--Delivery List-->
+                    <GroupBox Margin="5" 
+                              Grid.Column="0">
+                        <GroupBox.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Delivery List" 
+                                           Foreground="White"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                                <Button x:Name="btnRefreshDeliveryList"
+                                        Content="{materialDesign:PackIcon Kind=Refresh}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Grid.Column="1"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                        Click="btnRefreshDeliveryList_Click"/>
+                            </Grid>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="7*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Column="0"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch">
+                                <ItemsControl x:Name="icOrdersInDelivery">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Expander>
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <!--<DataGrid ItemsSource="{Binding Path=Items}"
+                                                  AutoGenerateColumns="False">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>-->
+                                            </Expander>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <Button Content="Send" Grid.Row="1"/>
+                        </Grid>
+                    </GroupBox>
+                    <!--Bill List-->
+                    <GroupBox Margin="5"
+                              Grid.Column="1">
+                        <GroupBox.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="Bill List" 
+                                           Foreground="White"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                                <Button Content="{materialDesign:PackIcon Kind=Refresh}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        Grid.Column="1"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignIconForegroundButton}"/>
+                            </Grid>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="7*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Column="0"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch">
+                                <ItemsControl x:Name="icOrdersInBilling">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Expander>
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"/>
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <!--<DataGrid ItemsSource="{Binding Path=Items}"
+                                                  AutoGenerateColumns="False">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
+                                                        <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>-->
+                                            </Expander>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <Button Content="Send" Grid.Row="1"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
         </TabControl>
     </Grid>
 </UserControl>
