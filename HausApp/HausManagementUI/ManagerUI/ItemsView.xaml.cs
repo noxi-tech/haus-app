@@ -25,6 +25,7 @@ namespace HausManagementUI
     public partial class ItemsView : UserControl , INotifyPropertyChanged
     {
         DataAccessor data = new DataAccessor();
+        ObservableCollection<string> companies = new ObservableCollection<string>();
 
         #region New Items Fields
         ObservableCollection<PendingOrder> pendingOrders = new ObservableCollection<PendingOrder>();
@@ -70,8 +71,8 @@ namespace HausManagementUI
         public ItemsView()
         {
             InitializeComponent();
-            InitializeOptions();
             InitializeSources();
+            InitializeOptions();
             this.DataContext = this;
         }
 
@@ -83,8 +84,10 @@ namespace HausManagementUI
             grdInProgressItems.ItemsSource = itemsInProgress;
             icOrdersInBilling.ItemsSource = billedOrders;
             icOrdersInDelivery.ItemsSource = deliveredOrders;
+            cbCompanyName.ItemsSource = companies;
+            cbCompanyOrderSearch.ItemsSource = companies;
         }
-        private async void InitializeOptions()
+        private void InitializeOptions()
         {
             try
             {
@@ -97,7 +100,7 @@ namespace HausManagementUI
                 cbSgType.ItemsSource = AvailableOptions.SgOptions;
                 cbParts.ItemsSource = AvailableOptions.PiecesOptions;
                 cbNotes.ItemsSource = AvailableOptions.NotesOptions;
-                cbCompanyName.ItemsSource = await data.GetCompanies();
+                GetCompanies();
             }
             catch(Exception e)
             {
@@ -156,6 +159,7 @@ namespace HausManagementUI
                     commitedOrders.Add(await pendingOrder.Commit());
                     pendingOrders.Remove(pendingOrder);
                 }
+                GetCompanies();
                 CSVConvertor.SavePendingOrders(commitedOrders);
                 selectedPendingOrders.Clear();
             }
@@ -180,14 +184,26 @@ namespace HausManagementUI
         }
         private void btnDeleteNewOrder_Click(object sender, RoutedEventArgs e)
         {
-            var result =  MessageBox.Show("Are you sure you want to delete the selected orders ?", "Delete Orders", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if(result == MessageBoxResult.Yes)
+            if (!(selectedPendingOrders == null))
             {
-                foreach (var pendingOrder in selectedPendingOrders)
+                var result = MessageBox.Show("Are you sure you want to delete the selected orders ?", "Delete Orders", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
-                    pendingOrders.Remove(pendingOrder);
+                    foreach (var pendingOrder in selectedPendingOrders)
+                    {
+                        pendingOrders.Remove(pendingOrder);
+                    }
+                    selectedPendingOrders.Clear();
                 }
-                selectedPendingOrders.Clear();
+            }
+        }
+        private async void GetCompanies()
+        {
+            List<string> fetchedCompanies = await data.GetCompanies();
+            companies.Clear();
+            foreach (var company in fetchedCompanies)
+            {
+                companies.Add(company);
             }
         }
         private void ResetOrder()
@@ -201,7 +217,7 @@ namespace HausManagementUI
             ResetNewFields();
             currentPendingOrder = new PendingOrder();
         }
-        private async void ResetNewFields()
+        private void ResetNewFields()
         {
             txtHLength.Text = "";
             txtHeight.Text = "";
@@ -225,7 +241,6 @@ namespace HausManagementUI
             cbT.SelectedItem = null;
             cbNotes.Text = "";
             cbNotes.SelectedItem = null;
-            cbCompanyName.ItemsSource = await data.GetCompanies();
         }
         private OrderCreate CreateOrder()
         {
@@ -242,7 +257,7 @@ namespace HausManagementUI
         #region ItemsInProgress region
         private void grdInProgressItems_Sorting(object sender, DataGridSortingEventArgs e)
         {
-            MessageBox.Show("Is Working? ");
+            //MessageBox.Show("Is Working? ");
         }
         private async void RefreshItemsInProgress()
         {
@@ -271,7 +286,7 @@ namespace HausManagementUI
         #endregion
 
         #region Orders region
-        private async void RefreshOrders(string customerName)
+        private async void RefreshOrders(string companyName,string customerName,string status)
         {
             if (!isLoading)
             {
@@ -280,7 +295,7 @@ namespace HausManagementUI
                 IsLoading = true;
                 try
                 {
-                    fetchedOrders = await data.GetOrders(customerName);
+                    fetchedOrders = await data.GetOrders(companyName, customerName, status);
                 }
                 catch (Exception ex)
                 {
@@ -291,7 +306,7 @@ namespace HausManagementUI
                     orders.Add(order);
                     await Task.Run(() =>
                     {
-                        Thread.Sleep(300);
+                        Thread.Sleep(200);
                     });
                 }
                 IsLoading = false;
@@ -299,11 +314,7 @@ namespace HausManagementUI
         }
         private void btnRefreshOrders_Click(object sender, RoutedEventArgs e)
         {
-            RefreshOrders("");
-        }
-        private void btnSearchOrders_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshOrders(txtOrderSearch.Text);
+            RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
         }
         private void btnOpenListsTab_Click(object sender, RoutedEventArgs e)
         {
@@ -333,9 +344,80 @@ namespace HausManagementUI
                 MessageBox.Show("This order is already in the list.");
             }
         }
-        private void btnRefreshDeliveryList_Click(object sender, RoutedEventArgs e)
+        private void btnClearDeliveryList_Click(object sender, RoutedEventArgs e)
         {
-            icOrdersInDelivery.ItemsSource = deliveredOrders;
+            deliveredOrders.Clear();
+        }
+        private void btnClearBillList_Click(object sender, RoutedEventArgs e)
+        {
+            billedOrders.Clear();
+        }
+        private void btnAcceptDelivery_Click(object sender, RoutedEventArgs e)
+        {
+            if (deliveredOrders.Count != 0)
+            {
+                foreach (var deliveredOrder in deliveredOrders)
+                {
+                    data.SetOrderDelivery(deliveredOrder.Id, txtDeliveryPerson.Text);
+                }
+                deliveredOrders.Clear();
+            }
+            else
+            {
+                MessageBox.Show("List must have orders.");
+            }
+
+            txtDeliveryPerson.Text = "";
+            dhDelivery.IsOpen = false;
+        }
+        private void btnCloseDelivery_Click(object sender, RoutedEventArgs e)
+        {
+            dhDelivery.IsOpen = false;
+        }
+        private void btnAcceptBill_Click(object sender, RoutedEventArgs e)
+        {
+            if (billedOrders.Count != 0)
+            {
+                foreach (var billedOrder in billedOrders)
+                {
+                    data.SetOrderBill(billedOrder.Id, txtBillId.Text);
+                }
+                billedOrders.Clear();
+            }
+            else
+            {
+                MessageBox.Show("List must have orders.");
+            }
+            txtBillId.Text = "";
+            dhBill.IsOpen = false;
+        }
+        private void btnCloseBill_Click(object sender, RoutedEventArgs e)
+        {
+            dhBill.IsOpen = false;
+        }
+        #endregion
+
+        #region RefreshAll
+        private void tbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (((TabControl)sender).SelectedIndex)
+            {
+                case 2:
+                    RefreshItemsInProgress();
+                    break;
+                case 3:
+                    if (cbCompanyOrderSearch.SelectedItem is null)
+                    {
+                        RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
+                    }
+                    else
+                    {
+                        RefreshOrders(cbCompanyOrderSearch.SelectedItem.ToString(), txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
     }

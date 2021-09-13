@@ -16,7 +16,7 @@ namespace HausManagementLibrary
     {
         #region Employees Region
         //Get all the employees from the DB.
-        public async Task<ObservableCollection<Employee>> GetEmployees()
+        public async Task<List<Employee>> GetEmployees()
         {
             return await Task.Run( async () =>  {
                 using (HttpClient client = new HttpClient())
@@ -25,7 +25,7 @@ namespace HausManagementLibrary
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
+                        return await response.Content.ReadAsAsync<List<Employee>>();
                     }
                     return null;
                 }
@@ -128,12 +128,13 @@ namespace HausManagementLibrary
                 }
             });
         }
-        public async Task<List<Order>> GetOrders(string customer)
+        public async Task<List<Order>> GetOrders(string company, string customer, string status)
         {
-            return await Task.Run(async () => {
+            return await Task.Run(async () =>
+            {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.GetAsync(UrlFunctions.GetOrdersURL(customer, 0, 100));
+                    var response = await client.GetAsync(UrlFunctions.GetOrdersURL(company, customer, status, 0, 100));
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
@@ -161,16 +162,23 @@ namespace HausManagementLibrary
         }
         public async void SetOrderDelivery(int orderId, string deliveredBy)
         {
-            await Task.Run(async () =>
-            {
+            await Task.Run(async () => {
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = await client.PostAsJsonAsync<long?>(UrlFunctions.SetOrderDeliveryURL(orderId, deliveredBy), null);
+                    var response = await client.PostAsJsonAsync<DeliveryReport>(UrlFunctions.SetOrderDeliveryURL(orderId), new DeliveryReport(deliveredBy));
                 }
             });
         }
-
-
+        public async void SetOrderBill(int orderId, string billId)
+        {
+            await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync<BillReport>(UrlFunctions.SetOrderBillURL(orderId), new BillReport(billId));
+                    response.EnsureSuccessStatusCode();
+                }
+            });
+        }
         #endregion
 
         #region Companies Region

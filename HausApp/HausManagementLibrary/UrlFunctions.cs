@@ -57,9 +57,9 @@ namespace HausManagementLibrary
         {
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"];
         }
-        static public string GetOrdersURL(string customer, int skip, int limit)
+        static public string GetOrdersURL(string company,string customer, string status, int skip, int limit)
         {
-            string extention = $"?customer={customer}&skip={skip}&limit={limit}";
+            string extention = $"?company={company}&customer={customer}&state={status}&skip={skip}&limit={limit}";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
         static public string GetOrderURL(int orderId)
@@ -67,14 +67,14 @@ namespace HausManagementLibrary
             string extention = $"/{orderId}";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }        
-        static public string SetOrderDeliveryURL(int orderId, string deliveredBy)
+        static public string SetOrderDeliveryURL(int orderId)
         {
-            string extention = $"/{orderId}/deliver?delivered_to={deliveredBy}";
+            string extention = $"/{orderId}/deliver";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
-        static public string SetOrderBillURL(int orderId, string billId)
+        static public string SetOrderBillURL(int orderId)
         {
-            string extention = $"/{orderId}/bill?bill_id={billId}";
+            string extention = $"/{orderId}/bill";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
 

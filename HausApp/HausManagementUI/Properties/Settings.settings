@@ -14,5 +14,14 @@
     <Setting Name="CsvPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="OrderWarrning" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="LastOrderWarrning" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="PinCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

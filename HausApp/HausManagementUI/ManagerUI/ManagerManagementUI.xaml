@@ -93,7 +93,7 @@
                         Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
                     <ListView x:Name="lbNavigationMenu" SelectionChanged="lbNavigationMenu_SelectionChanged">
                         <!--Home Page-->
-                        <ListViewItem>
+                        <ListViewItem IsSelected="True">
                             <StackPanel Style="{StaticResource StackPanelMenuStyle}">
                                 <materialDesign:PackIcon Kind="Home"
                                                          Style="{StaticResource IconMenuStyle}"/>
@@ -105,9 +105,9 @@
                         <ListViewItem>
                             <StackPanel Style="{StaticResource StackPanelMenuStyle}">
                                 <materialDesign:PackIcon Kind="Archive"
-                                                     Style="{StaticResource IconMenuStyle}"/>
+                                                         Style="{StaticResource IconMenuStyle}"/>
                                 <TextBlock Text="Items"
-                                       Style="{StaticResource NaviationMenuStyle}"/>
+                                           Style="{StaticResource NaviationMenuStyle}"/>
                             </StackPanel>
                         </ListViewItem>
                         <!--Employees Page-->
@@ -123,19 +123,12 @@
                         <ListViewItem>
                             <StackPanel Style="{StaticResource StackPanelMenuStyle}">
                                 <materialDesign:PackIcon Kind="Settings"
-                                                     Style="{StaticResource IconMenuStyle}"/>
+                                                         Style="{StaticResource IconMenuStyle}"/>
                                 <TextBlock Text="Settings" 
-                                       Style="{StaticResource NaviationMenuStyle}"/>
+                                           Style="{StaticResource NaviationMenuStyle}"/>
                             </StackPanel>
                         </ListViewItem>
                     </ListView>
-                    <Button
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Style="{DynamicResource MaterialDesignFlatButton}"
-                        Content="CLOSE THIS"/>
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
         </materialDesign:DrawerHost>

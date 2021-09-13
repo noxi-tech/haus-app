@@ -45,137 +45,44 @@
         </Style>
     </Window.Resources>
 
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <!--Drawer Host-->
         
-        <materialDesign:DrawerHost
-            x:Name="DrawerHost"
-            HorizontalAlignment="Stretch" 
-            VerticalAlignment="Stretch"
-            BorderBrush="{DynamicResource MaterialDesignDivider}"
-            BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}"
-            Grid.RowSpan="2">
-            <materialDesign:DrawerHost.Style>
-                <Style TargetType="materialDesign:DrawerHost" BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}"/>
-            </materialDesign:DrawerHost.Style>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="6*"/>
-                </Grid.RowDefinitions>
-                <!--Title-->
-                <materialDesign:TransitioningContent 
+        <!--Title-->
+        <materialDesign:TransitioningContent 
                 OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop, Duration=0:0:0.8}">
-                    <materialDesign:ColorZone
+            <materialDesign:ColorZone
                         Mode="PrimaryMid"
                         VerticalAlignment="Top"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                         Grid.Row="0">
-                        <Grid
-                        Margin="5">
-                            <Button Content="{materialDesign:PackIcon Kind=Menu}"
-                                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                                    CommandParameter="{x:Static Dock.Left}"
-                                    Style="{StaticResource MaterialDesignIconButton}"
-                                    Foreground="{StaticResource PrimaryHueMidForegroundBrush}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Margin="12 0 0 0"/>
-                            
-                            <TextBlock Text="Employees" 
-                                       Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                                       VerticalAlignment="Center" 
-                                       HorizontalAlignment="Center"/>
-                        </Grid>
-                    </materialDesign:ColorZone>
-                </materialDesign:TransitioningContent>
-                <!--Content Area-->
-                <Grid x:Name="grdContentArea" 
-                      Grid.Row="1"/>
-            </Grid>
-            <!--Navigation Menu-->
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel Margin="16">
-                    <TextBlock 
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Text="Menu"
-                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
-                    <ListView x:Name="lbNavigationMenu">
-                        <!--Home Page-->
-                        <ListViewItem>
-                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
-                                <materialDesign:PackIcon Kind="Home"
-                                                         Style="{StaticResource IconMenuStyle}"/>
-                                <TextBlock Text="Home" 
-                                           Style="{StaticResource NaviationMenuStyle}"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <!--Settings Page-->
-                        <ListViewItem>
-                            <StackPanel Style="{StaticResource StackPanelMenuStyle}">
-                                <materialDesign:PackIcon Kind="Settings"
-                                                     Style="{StaticResource IconMenuStyle}"/>
-                                <TextBlock Text="Settings" 
-                                       Style="{StaticResource NaviationMenuStyle}"/>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
-                    <Button
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Style="{DynamicResource MaterialDesignFlatButton}"
-                        Content="CLOSE THIS"/>
-                </StackPanel>
-            </materialDesign:DrawerHost.LeftDrawerContent>
-        </materialDesign:DrawerHost>
-        
-        <!--Title Section-->
-        
-        <!--<materialDesign:TransitioningContent 
-            OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop, Duration=0:0:0.8}">
-            <materialDesign:ColorZone
-                Mode="PrimaryMid"
-                VerticalAlignment="Stretch"
-                Grid.Row="0"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3">
-                <Grid>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <ToggleButton
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                <Grid Margin="5">
+                    <TextBlock Text="Employees" 
+                               Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center"/>
+                    <Button x:Name="btnRefreshEmployees"
+                            Content="{materialDesign:PackIcon Kind=Refresh}"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="12 0 0 0"/>
-                    </StackPanel>
-                    <TextBlock
-                        Text="Employees" 
-                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Grid.ColumnSpan="2"/>
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            Foreground="{StaticResource PrimaryHueMidForegroundBrush}"
+                            Click="btnRefreshEmployees_Click"/>
                 </Grid>
             </materialDesign:ColorZone>
-        </materialDesign:TransitioningContent>-->
-        
+        </materialDesign:TransitioningContent>
         <!--Employees List Section-->
         <ScrollViewer 
                 VerticalScrollBarVisibility="Auto"
                 Grid.Row="1">
             <ItemsControl 
-                    x:Name="lbEmployeeChoose">
+                    x:Name="icEmployeeChoose">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel
-                                Margin="5"/>
+                        <WrapPanel Margin="5"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -334,9 +241,9 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        
+
         <!--Fetching Data Section-->
-        <StackPanel 
+        <!--<StackPanel 
                 x:Name="spLoading"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
@@ -350,6 +257,6 @@
                     Text="Fetching Data ..."
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>

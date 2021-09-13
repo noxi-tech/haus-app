@@ -31,7 +31,8 @@
     </UserControl.Resources>
     
     <Grid>
-        <TabControl x:Name="tbItems">
+        <TabControl x:Name="tbItems"
+                    SelectionChanged="tbItems_SelectionChanged">
             
             <!--#region New Items Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=ArchiveAdd, Size=24}"
@@ -56,8 +57,6 @@
                             <Button x:Name="btnRefreshNewOrders"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
                                     Click="btnRefreshNewOrders_Click"/>
-                            <Button x:Name="btnEditNewOrder"
-                                    Content="{materialDesign:PackIcon Kind=ArchiveEdit}"/>
                             <Button x:Name="btnDeleteNewOrder"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRemove}"
                                     Click="btnDeleteNewOrder_Click"/>
@@ -173,14 +172,6 @@
                              Grid.Row="0"
                              materialDesign:HintAssist.Hint="Customer Name"
                              Style="{StaticResource NewFieldsTextBox}">
-                        <!--<TextBox.Text>
-                            <Binding Path="Name" 
-                                     UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>-->
                     </TextBox>
 
                     <Separator Grid.ColumnSpan="5"
@@ -343,7 +334,6 @@
                             <Button x:Name="btnRefreshInProgressItems"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
                                     Click="btnRefreshInProgressItems_Click"/>
-                            <Button Content="{materialDesign:PackIcon Kind=ArchiveRemove}"/>
                         </ToolBar>
                     </ToolBarTray>
 
@@ -404,22 +394,32 @@
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"
                                                          Margin="10"/>
-                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
-                                          Content="Completed"/>
-                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
-                                          Content="Delivered"/>
-                                <CheckBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
-                                          Content="With Bill"/>
+
+                                <ComboBox x:Name="cbOrdersStatusFilter"
+                                          materialDesign:HintAssist.Hint="Filter By"
+                                          Margin="10">
+                                    <ComboBoxItem Content="All" Tag="all" IsSelected="True" ToolTip="Shows all the orders"/>
+                                    <ComboBoxItem Content="Incomplete" Tag="incomplete" ToolTip="Shows all the unfinished orders"/>
+                                    <ComboBoxItem Content="Completed" Tag="complete" ToolTip="Shows all the finished orders"/>
+                                    <ComboBoxItem Content="Pending" Tag="pending" ToolTip="Shows all the orders that hasn't been delivered or billed"/>
+                                    <ComboBoxItem Content="Delivered" Tag="delivered" ToolTip="Shows all the delivered orders"/>
+                                    <ComboBoxItem Content="Billed" Tag="billed" ToolTip="Shows all the billed with"/>
+                                </ComboBox>
                             </StackPanel>
                             <Separator/>
-                            <TextBox x:Name="txtCompanyOrderSearch"
+                            <materialDesign:PackIcon Kind="Search" 
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="10"/>
+                            <ComboBox x:Name="cbCompanyOrderSearch"
+                                      materialDesign:HintAssist.Hint="Company Search"
+                                      materialDesign:TextFieldAssist.HasClearButton="True"
+                                      Margin="10"/>
+                            <TextBox x:Name="txtOrderCustomerSearch"
                                      Width="140"
-                                     materialDesign:HintAssist.Hint="Company Search"/>
-                            <TextBox x:Name="txtOrderSearch"
-                                     Width="140"
-                                     materialDesign:HintAssist.Hint="Customer Search"/>
-                            <Button x:Name="btnSearchOrders" Content="{materialDesign:PackIcon Kind=ArchiveSearch}"
-                                    Click="btnSearchOrders_Click"/>
+                                     materialDesign:HintAssist.Hint="Customer Search"
+                                     materialDesign:TextFieldAssist.HasClearButton="True"
+                                     Margin="10"/>
                             <Separator/>
                             <Button x:Name="btnRefreshOrders"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRefresh}"
@@ -469,7 +469,7 @@
                                                         VerticalAlignment="Center"
                                                         HorizontalAlignment="Center"
                                                         Click="btnAddOrderToDelivered_Click"
-                                                        IsEnabled="{Binding Path=IsCompleted}"/>
+                                                        IsEnabled="{Binding Path=CanDeliver}"/>
                                                 <Button x:Name="btnAddOrderToBilled"
                                                         Content="{materialDesign:PackIcon Kind=Handshake}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
@@ -477,7 +477,8 @@
                                                         Margin="0,0,10,0"
                                                         VerticalAlignment="Center"
                                                         HorizontalAlignment="Center"
-                                                        Click="btnAddOrderToBilled_Click"/>
+                                                        Click="btnAddOrderToBilled_Click"
+                                                        IsEnabled="{Binding Path=CanBill}"/>
                                                 <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
                                                            Margin="0,0,10,0"
                                                            FontWeight="Bold"
@@ -545,158 +546,170 @@
                     </Grid.ColumnDefinitions>
                     
                     <!--Delivery List-->
-                    <GroupBox Margin="5" 
-                              Grid.Column="0">
-                        <GroupBox.Header>
+                    <materialDesign:DialogHost x:Name="dhDelivery"
+                                               DialogTheme="Inherit"
+                                               Grid.Column="0">
+
+                        <GroupBox Margin="5">
+                            <GroupBox.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Delivery List" 
+                                               Foreground="White"
+                                               Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                                    <Button x:Name="btnClearDeliveryList"
+                                            Content="{materialDesign:PackIcon Kind=Delete}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            Grid.Column="1"
+                                            Foreground="White"
+                                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                                            Click="btnClearDeliveryList_Click"/>
+                                </Grid>
+                            </GroupBox.Header>
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Delivery List" 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <ScrollViewer Grid.Column="0"
+                                              VerticalAlignment="Stretch"
+                                              HorizontalAlignment="Stretch">
+                                    <ItemsControl x:Name="icOrdersInDelivery">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
+                                                           Margin="10"
+                                                           FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
+                                                           Margin="10"
+                                                           FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                           Margin="10"
+                                                           FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <Button x:Name="btnDeliver"
+                                        Content="Deliver" 
+                                        Grid.Row="1"
+                                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                            </Grid>
+                        </GroupBox>
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel Margin="16">
+                                <TextBox x:Name="txtDeliveryPerson"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Messenger Name"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="btnAcceptDelivery" 
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0 8 8 0"
+                                            IsDefault="True"
+                                            Content="ACCEPT"
+                                            Click="btnAcceptDelivery_Click"/>
+                                    <Button x:Name="btnCloseDelivery"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0 8 8 0"
+                                            IsDefault="True"
+                                            Content="CLOSE"
+                                            Click="btnCloseDelivery_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
+                    <!--Bill List-->
+                    <materialDesign:DialogHost x:Name="dhBill"
+                                               DialogTheme="Inherit"
+                                               Grid.Column="1">
+                        <GroupBox Margin="5"
+                              Grid.Column="1">
+                            <GroupBox.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="Bill List" 
                                            Foreground="White"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Left"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
-                                <Button x:Name="btnRefreshDeliveryList"
-                                        Content="{materialDesign:PackIcon Kind=Refresh}"
+                                    <Button x:Name="btnClearBillList"
+                                        Content="{materialDesign:PackIcon Kind=Delete}"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Right"
                                         Grid.Column="1"
                                         Foreground="White"
                                         Style="{StaticResource MaterialDesignIconForegroundButton}"
-                                        Click="btnRefreshDeliveryList_Click"/>
-                            </Grid>
-                        </GroupBox.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="7*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <ScrollViewer Grid.Column="0"
-                                          VerticalAlignment="Stretch"
-                                          HorizontalAlignment="Stretch">
-                                <ItemsControl x:Name="icOrdersInDelivery">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Expander>
-                                                <Expander.Header>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
-                                                           Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
-                                                        <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
-                                                           Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
-                                                        <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
-                                                           Margin="0,0,10,0"
-                                                           FontWeight="Bold"/>
-                                                    </StackPanel>
-                                                </Expander.Header>
-                                                <!--<DataGrid ItemsSource="{Binding Path=Items}"
-                                                  AutoGenerateColumns="False">
-                                                    <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>-->
-                                            </Expander>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-                            <Button Content="Send" Grid.Row="1"/>
-                        </Grid>
-                    </GroupBox>
-                    <!--Bill List-->
-                    <GroupBox Margin="5"
-                              Grid.Column="1">
-                        <GroupBox.Header>
+                                        Click="btnClearBillList_Click"/>
+                                </Grid>
+                            </GroupBox.Header>
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <TextBlock Text="Bill List" 
-                                           Foreground="White"
-                                           Grid.Column="0"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Left"
-                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
-                                <Button Content="{materialDesign:PackIcon Kind=Refresh}"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Right"
-                                        Grid.Column="1"
-                                        Foreground="White"
-                                        Style="{StaticResource MaterialDesignIconForegroundButton}"/>
-                            </Grid>
-                        </GroupBox.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="7*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <ScrollViewer Grid.Column="0"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <ScrollViewer Grid.Column="0"
                                           VerticalAlignment="Stretch"
                                           HorizontalAlignment="Stretch">
-                                <ItemsControl x:Name="icOrdersInBilling">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Expander>
-                                                <Expander.Header>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
-                                                           Margin="0,0,10,0"
+                                    <ItemsControl x:Name="icOrdersInBilling">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Path=Company,StringFormat={}{0}}"
+                                                           Margin="10"
                                                            FontWeight="Bold"/>
-                                                        <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
-                                                           Margin="0,0,10,0"
+                                                    <TextBlock Text="{Binding Path=Customer,StringFormat={}{0}}"
+                                                           Margin="10"
                                                            FontWeight="Bold"/>
-                                                        <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
-                                                           Margin="0,0,10,0"
+                                                    <TextBlock Text="{Binding Path=Items.Count,StringFormat={}{0} Items}"
+                                                           Margin="10"
                                                            FontWeight="Bold"/>
-                                                    </StackPanel>
-                                                </Expander.Header>
-                                                <!--<DataGrid ItemsSource="{Binding Path=Items}"
-                                                  AutoGenerateColumns="False">
-                                                    <DataGrid.Columns>
-                                                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Width" Binding="{Binding Path=Width, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Height" Binding="{Binding Path=Height, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sw" Binding="{Binding Path=Sw, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sk" Binding="{Binding Path=Sk, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="T" Binding="{Binding Path=T, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="P" Binding="{Binding Path=P, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sh" Binding="{Binding Path=Sh, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Mt" Binding="{Binding Path=Mt, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Sg" Binding="{Binding Path=Sg, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Ht" Binding="{Binding Path=Ht, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Notes" Binding="{Binding Path=Notes, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Parts" Binding="{Binding Path=Parts, Mode=OneWay}"/>
-                                                        <DataGridTextColumn Header="Stage" Binding="{Binding Path=Stage, Mode=OneWay}"/>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>-->
-                                            </Expander>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-                            <Button Content="Send" Grid.Row="1"/>
-                        </Grid>
-                    </GroupBox>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <Button x:Name="btnBill" 
+                                    Content="Bill"
+                                    Grid.Row="1"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                            </Grid>
+                        </GroupBox>
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel Margin="16">
+                                <TextBox x:Name="txtBillId"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Bill Id"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="btnAcceptBill" 
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0 8 8 0"
+                                            IsDefault="True"
+                                            Content="ACCEPT"
+                                            Click="btnAcceptBill_Click"/>
+                                    <Button x:Name="btnCloseBill"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0 8 8 0"
+                                            IsDefault="True"
+                                            Content="CLOSE"
+                                            Click="btnCloseBill_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
                 </Grid>
             </TabItem>
             <!--#endregion-->

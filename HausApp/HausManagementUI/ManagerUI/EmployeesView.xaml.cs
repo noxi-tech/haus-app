@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,39 +22,75 @@ namespace HausManagementUI
     /// <summary>
     /// Interaction logic for EmployeesView.xaml
     /// </summary>
-    public partial class EmployeesView : UserControl
+    public partial class EmployeesView : UserControl, INotifyPropertyChanged
     {
         DataAccessor data = new DataAccessor();
         ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
 
+        #region Loading Data Fields
+        bool isLoading = false;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { isLoading = value; OnPropertyChanged("IsLoading"); OnPropertyChanged("IsNotLoading"); }
+        }
+        public bool IsNotLoading
+        {
+            get { return !isLoading; }
+        }
+        #endregion
+
+        #region PropertyChange Region
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
+
+
         public EmployeesView()
         {
             InitializeComponent();
+            LoadEmployees();
+            grdEmployees.ItemsSource = employees;
             this.DataContext = this;
-            RefreshData();
         }
 
-        private async void UpdateEmployees()
+        private async void LoadEmployees()
         {
-            //spLoading.Visibility = Visibility.Visible;
-            try
+            if (!isLoading)
             {
-                employees = await data.GetEmployees();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            finally
-            {
-                //spLoading.Visibility = Visibility.Collapsed;
+                List<Employee> fetchedEmployees = new List<Employee>();
+                employees.Clear();
+                IsLoading = true;
+                try
+                {
+                    fetchedEmployees = await data.GetEmployees();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                foreach (var employee in fetchedEmployees)
+                {
+                    employees.Add(employee);
+                    await Task.Run(() =>
+                    {
+                        Thread.Sleep(200);
+                    });
+                }
+                IsLoading = false;
             }
         }
-        private void RefreshData()
-        {
-            UpdateEmployees();
-            grdEmployees.ItemsSource = employees;
-        }
+        //private void RefreshData()
+        //{
+        //    LoadEmployees();
+        //    //grdEmployees.ItemsSource = employees;
+        //}
         private async void btnCreateEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -74,7 +112,7 @@ namespace HausManagementUI
         }
         private void btnRefreshEmployees_Click(object sender, RoutedEventArgs e)
         {
-            RefreshData();
+            LoadEmployees();
         }
         //private void btnDeleteEmployees_Click(object sender, RoutedEventArgs e)
         //{

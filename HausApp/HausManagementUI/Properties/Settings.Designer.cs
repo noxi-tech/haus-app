@@ -70,5 +70,41 @@ namespace HausManagementUI.Properties {
                 this["CsvPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int OrderWarrning {
+            get {
+                return ((int)(this["OrderWarrning"]));
+            }
+            set {
+                this["OrderWarrning"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int LastOrderWarrning {
+            get {
+                return ((int)(this["LastOrderWarrning"]));
+            }
+            set {
+                this["LastOrderWarrning"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("admin")]
+        public string PinCode {
+            get {
+                return ((string)(this["PinCode"]));
+            }
+            set {
+                this["PinCode"] = value;
+            }
+        }
     }
 }

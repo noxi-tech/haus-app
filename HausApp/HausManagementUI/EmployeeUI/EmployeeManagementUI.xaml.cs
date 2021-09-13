@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,28 +24,42 @@ namespace HausManagementUI
     public partial class EmployeeManagementUI : Window
     {
         DataAccessor data = new DataAccessor();
+        ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
+        bool isLoading = false;
 
         public EmployeeManagementUI()
         {
             InitializeComponent();
-            InitializeEmployees();
+            LoadEmployees();
+            icEmployeeChoose.ItemsSource = employees;
             this.DataContext = this;
         }
 
-        private async void InitializeEmployees()
+        private async void LoadEmployees()
         {
-            spLoading.Visibility = Visibility.Visible;
-            try
+            if (!isLoading)
             {
-                lbEmployeeChoose.ItemsSource = await data.GetEmployees();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            finally
-            {
-                spLoading.Visibility = Visibility.Collapsed;
+                List<Employee> fetchedEmployees = new List<Employee>();
+                employees.Clear();
+                isLoading = true;
+                try
+                {
+                    fetchedEmployees = await data.GetEmployees();
+                    foreach (var order in fetchedEmployees)
+                    {
+                        employees.Add(order);
+                        await Task.Run(() =>
+                        {
+                            Thread.Sleep(300);
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+               
+                isLoading = false;
             }
         }
         private void btnChooseEmployee(object sender, RoutedEventArgs e)
@@ -52,6 +67,10 @@ namespace HausManagementUI
             Employee emp = (Employee)((Button)sender).DataContext;
             BarcodeDialog barcodeDialog = new BarcodeDialog(emp);
             barcodeDialog.ShowDialog();
+        }
+        private void btnRefreshEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            LoadEmployees();
         }
     }
 }

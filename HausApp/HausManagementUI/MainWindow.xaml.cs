@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,8 +56,6 @@ namespace HausManagementUI
             if (!string.IsNullOrEmpty(Properties.Settings.Default.Uri))
             {
                 ConfigurationManager.AppSettings["Root"] = Properties.Settings.Default.Uri;
-                CurrentSettings.CsvPath = Properties.Settings.Default.CsvPath;
-                CurrentSettings.Root = Properties.Settings.Default.Uri;
                 IsConnected = true;
             }
             else
@@ -69,7 +68,7 @@ namespace HausManagementUI
         {
             var managerWindow = new ManagerLoginUI();
             managerWindow.Show();
-            Properties.Settings.Default.IsManager = true;
+            SetManagerSettings();
             this.Close();
         }
         private void btnEmployee_Click(object sender, RoutedEventArgs e)
@@ -84,13 +83,6 @@ namespace HausManagementUI
             try
             {
                 IsPending = true;
-                //if (txtUri.Text == "1")
-                //{
-                //    MessageBox.Show("Connected Successfully.");
-                //    IsConnected = true;
-                //    btnEmployee.IsEnabled = true;
-                //    btnManager.IsEnabled = true;
-                //}
                 if (await accessor.Ping(txtUri.Text) == "pong")
                 {
                     MessageBox.Show("Connected Successfully.");
@@ -122,6 +114,21 @@ namespace HausManagementUI
         {
             txtReconnectionCode.Visibility = Visibility.Visible;
         }
+        private void SetManagerSettings()
+        {
+            Properties.Settings.Default.IsManager = true;
+            if (string.IsNullOrEmpty(Properties.Settings.Default.CsvPath))
+            {
+                CurrentSettings.CsvPath = Directory.GetCurrentDirectory() + "/ItemsTable.csv";
+            }
+            else
+            {
+                CurrentSettings.CsvPath = Properties.Settings.Default.CsvPath;
+            }
+            CurrentSettings.Root = Properties.Settings.Default.Uri;
+            CurrentSettings.OrderWarrning = Properties.Settings.Default.OrderWarrning;
+            CurrentSettings.LastOrderWarrning = Properties.Settings.Default.LastOrderWarrning;
+        }
         protected override void OnClosed(EventArgs e)
         {
             Properties.Settings.Default.Save();
@@ -135,7 +142,6 @@ namespace HausManagementUI
         {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
-
         #endregion
 
     }

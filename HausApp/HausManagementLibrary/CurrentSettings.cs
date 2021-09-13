@@ -10,7 +10,7 @@ namespace HausManagementLibrary
     {
         public static string Root { get; set; }
         public static string CsvPath { get; set; }
-        public static int OrderWarrning { get; set; } = 5;
-        public static int OrderLastWarrning { get; set; } = 14;
+        public static int OrderWarrning { get; set; }
+        public static int LastOrderWarrning { get; set; }
     }
 }

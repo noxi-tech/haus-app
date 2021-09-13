@@ -4,18 +4,118 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HausManagementUI"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Button x:Name="btnChooseDirectory"
-                    Content="Open Directory"
-                    HorizontalAlignment="Center"
-                    Click="btnChooseDirectory_Click"
-                    Margin="10,0,0,0"/>
-    </Grid>
+             d:DesignHeight="600" d:DesignWidth="1024">
+
+    <materialDesign:DialogHost x:Name="dhDelivery"
+                               DialogTheme="Inherit">
+        <ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Csv Path Directory Settings"
+                          Grid.Row="0"
+                          Margin="10">
+                    <StackPanel>
+                        <TextBox x:Name="txtCsvPath" 
+                                 materialDesign:HintAssist.Hint="The Current Path"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 IsEnabled="False"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Stretch"
+                                 Margin="20,10,20,10"/>
+
+                        <Button x:Name="btnChooseDirectory"
+                                Content="Set File"
+                                HorizontalAlignment="Center"
+                                Click="btnChooseDirectory_Click"
+                                Margin="10,0,0,0"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Due Date Warning Settings" Grid.Row="1"
+                  Margin="10">
+                    <StackPanel>
+                        <TextBox x:Name="txtDueDateDays"
+                         materialDesign:HintAssist.Hint="Days Till Due Date"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         PreviewTextInput="txtDueDateDays_PreviewTextInput"/>
+                        <TextBlock Text="Warrning At:" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
+                        <Slider x:Name="slOrderWarningDays"
+                            Minimum="0"
+                            Maximum="{Binding ElementName=txtDueDateDays,Path=Text}"
+                            Style="{StaticResource MaterialDesignDiscreteSlider}"
+                            TickFrequency="1"
+                            TickPlacement="Both"
+                            Margin="10"/>
+                        <StackPanel Orientation="Horizontal" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                            <Button x:Name="btnResetChanges"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            Content="{materialDesign:PackIcon Kind=UndoVariant}"
+                            Click="btnResetChanges_Click"/>
+                            <Button x:Name="btnSaveChanges"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Content="Save Changes"
+                            Click="btnSaveChanges_Click"
+                            Margin="10"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Pin Code Settings" Grid.Row="2"
+                          Margin="10">
+                    <Button Content="Change Pin Code"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                </GroupBox>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="txtAppInfo"
+                               Grid.Column="0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Foreground="Gray"
+                               Margin="10"/>
+                    <TextBlock x:Name="txtServerInfo"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Foreground="Gray"
+                               Margin="10"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <materialDesign:DialogHost.DialogContent>
+            <StackPanel Margin="16">
+                <TextBlock Text="Old Code"/>
+                <PasswordBox x:Name="txtOldCode"/>
+                <TextBlock Text="New Code:"/>
+                <PasswordBox x:Name="txtNewCode"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnAccept"
+                            Margin="10"
+                            Content="ACCEPT"
+                            Click="btnAccept_Click"/>
+                    <Button x:Name="btnClose"
+                            Margin="10"
+                            Content="CLOSE"
+                            Click="btnClose_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DialogHost.DialogContent>
+    </materialDesign:DialogHost>
 </UserControl>

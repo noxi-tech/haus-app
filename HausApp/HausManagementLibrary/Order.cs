@@ -19,21 +19,21 @@ namespace HausManagementLibrary
         {
             get
             {
-                return DateTime.Parse(CreatedAt).Date.AddDays(0) <= DateTime.Today;
+                return DateTime.Parse(CreatedAt).Date.AddDays(CurrentSettings.OrderWarrning) <= DateTime.Today;
             }
         }
         public bool IsLate
         {
             get
             {
-                return DateTime.Parse(CreatedAt).Date.AddDays(1) <= DateTime.Today;
+                return DateTime.Parse(CreatedAt).Date.AddDays(CurrentSettings.LastOrderWarrning) <= DateTime.Today;
             }
         }
         public int DaysToDueDate
         {
             get
             {
-                return (DateTime.Parse(CreatedAt).Date.AddDays(1) - DateTime.Today).Days;
+                return (DateTime.Parse(CreatedAt).Date.AddDays(CurrentSettings.LastOrderWarrning) - DateTime.Today).Days;
             }
         }
         public Brush StatusBrush
@@ -55,14 +55,37 @@ namespace HausManagementLibrary
                 return null;
             }
         }
+        public bool CanDeliver
+        {
+            get { return IsCompleted && string.IsNullOrEmpty(DeliveredBy); }
+        }
+        public bool CanBill
+        {
+            get { return string.IsNullOrEmpty(BillId); }
+        }
 
-        public Order(int id, string company, string customer,List<Item> items, bool is_completed, string delivered_to, string bill_id, string created_at)
-            :base(company,customer)
+        public Order(int id, string company, string customer, List<Item> items, bool is_completed, string delivered_by, string bill_id, string created_at)
+            : base(company, customer)
         {
             Id = id;
             CreatedAt = created_at;
             Items = items;
             IsCompleted = is_completed;
+            DeliveredBy = delivered_by;
+            BillId = bill_id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Order order = (Order)obj;
+                return order.Id == Id;
+            }
         }
     }
 }

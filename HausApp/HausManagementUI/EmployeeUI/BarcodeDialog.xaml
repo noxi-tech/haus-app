@@ -11,7 +11,7 @@
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        WindowStartupLocation="CenterScreen" 
+        WindowStartupLocation="CenterScreen"
         FocusManager.FocusedElement="{Binding ElementName=txtBarcode}">
 
     <Grid>
@@ -28,7 +28,7 @@
             VerticalAlignment="Center"
             FontSize="15"
             Padding="5"
-            MaxLength="20"
+            MaxLength="50"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
             materialDesign:HintAssist.Hint="Enter Barcode"
             PreviewKeyDown="txtBarcode_PreviewKeyDown">
