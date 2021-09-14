@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:HausManagementUI"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="1024">
+             d:DesignHeight="500" d:DesignWidth="1024"
+             Foreground="WhiteSmoke">
 
     <UserControl.Resources>
         <Style x:Key="NewFieldsTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
@@ -18,6 +19,7 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="MaxLength" Value="50"/>
             <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="2"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style x:Key="NewFieldsComboBoxWithEdit" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -26,13 +28,15 @@
             <Setter Property="MaxWidth" Value="150"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="IsEditable" Value="True"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </UserControl.Resources>
     
     <Grid>
         <TabControl x:Name="tbItems"
-                    SelectionChanged="tbItems_SelectionChanged">
+                    Background="{StaticResource BackgroundBrush}"
+                    BorderThickness="0">
             
             <!--#region New Items Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=ArchiveAdd, Size=24}"
@@ -49,7 +53,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
+                                 HorizontalAlignment="Stretch"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
@@ -243,14 +247,16 @@
                                  FontSize="18"
                                  MaxWidth="50"
                                  MinWidth="50"
-                                 MaxLength="10"/>
+                                 MaxLength="10"
+                                 Foreground="WhiteSmoke"/>
                         <Label Content=" cm * "
                                FontSize="18"/>
                         <TextBox x:Name="txtHAmount"
                                  FontSize="18"
                                  MaxWidth="50"
                                  MinWidth="50"
-                                 MaxLength="10"/>
+                                 MaxLength="10"
+                                 Foreground="WhiteSmoke"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                                 Grid.Column="2"
@@ -299,13 +305,13 @@
                     </Grid.RowDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
+                                 HorizontalAlignment="Stretch"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FilterOutline"
+                                <materialDesign:PackIcon Kind="Filter"
                                                          Width="25"
                                                          Height="25"
                                                          VerticalAlignment="Center"
@@ -382,13 +388,13 @@
                     </Grid.ColumnDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
+                                 HorizontalAlignment="Stretch"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FilterOutline"
+                                <materialDesign:PackIcon Kind="Filter"
                                                          Width="25"
                                                          Height="25"
                                                          VerticalAlignment="Center"
@@ -548,7 +554,8 @@
                     <!--Delivery List-->
                     <materialDesign:DialogHost x:Name="dhDelivery"
                                                DialogTheme="Inherit"
-                                               Grid.Column="0">
+                                               Grid.Column="0"
+                                               Foreground="White">
 
                         <GroupBox Margin="5">
                             <GroupBox.Header>
@@ -630,7 +637,8 @@
                     <!--Bill List-->
                     <materialDesign:DialogHost x:Name="dhBill"
                                                DialogTheme="Inherit"
-                                               Grid.Column="1">
+                                               Grid.Column="1"
+                                               Foreground="White">
                         <GroupBox Margin="5"
                               Grid.Column="1">
                             <GroupBox.Header>

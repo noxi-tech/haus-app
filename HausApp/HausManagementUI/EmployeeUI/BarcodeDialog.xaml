@@ -12,7 +12,9 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
-        FocusManager.FocusedElement="{Binding ElementName=txtBarcode}">
+        FocusManager.FocusedElement="{Binding ElementName=txtBarcode}"
+        Background="{StaticResource BackgroundBrush}"
+        Foreground="{StaticResource ForegroundBrush}">
 
     <Grid>
         <Grid.RowDefinitions>

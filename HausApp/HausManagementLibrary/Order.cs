@@ -42,7 +42,7 @@ namespace HausManagementLibrary
             {
                 if (IsCompleted)
                 {
-                    return Brushes.LawnGreen;
+                    return Brushes.Green;
                 }
                 else if (IsLate)
                 {
@@ -50,7 +50,7 @@ namespace HausManagementLibrary
                 }
                 else if (IsGettingLate)
                 {
-                    return Brushes.Orange;
+                    return Brushes.DarkOrange;
                 }
                 return null;
             }

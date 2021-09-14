@@ -33,7 +33,6 @@ namespace HausManagementUI
             slOrderWarningDays.Value = CurrentSettings.OrderWarrning;
             var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
             txtAppInfo.Text = $"All Rights Reserved To {versionInfo.CompanyName} {versionInfo.LegalCopyright}.\n{versionInfo.ProductName} Version {versionInfo.ProductVersion}";
-            txtServerInfo.Text = "";//Get Server Info
         }
         private void btnChooseDirectory_Click(object sender, RoutedEventArgs e)
         {

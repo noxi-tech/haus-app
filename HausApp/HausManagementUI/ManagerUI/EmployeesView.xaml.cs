@@ -26,6 +26,7 @@ namespace HausManagementUI
     {
         DataAccessor data = new DataAccessor();
         ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
+        List<long> selectedEmployees = new List<long>();
 
         #region Loading Data Fields
         bool isLoading = false;
@@ -51,7 +52,6 @@ namespace HausManagementUI
         }
         #endregion
 
-
         public EmployeesView()
         {
             InitializeComponent();
@@ -64,6 +64,7 @@ namespace HausManagementUI
         {
             if (!isLoading)
             {
+                selectedEmployees.Clear();
                 List<Employee> fetchedEmployees = new List<Employee>();
                 employees.Clear();
                 IsLoading = true;
@@ -86,11 +87,6 @@ namespace HausManagementUI
                 IsLoading = false;
             }
         }
-        //private void RefreshData()
-        //{
-        //    LoadEmployees();
-        //    //grdEmployees.ItemsSource = employees;
-        //}
         private async void btnCreateEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -114,34 +110,24 @@ namespace HausManagementUI
         {
             LoadEmployees();
         }
-        //private void btnDeleteEmployees_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var selectedEmployees = grdEmployees.SelectedItems;
-        //    foreach (Employee employee in selectedEmployees)
-        //    {
-        //        employees.Remove(employee);
-        //        MessageBox.Show($"{employee.Id}");
-        //    }
-        //    grdEmployees.ItemsSource = employees;
-        //}
-        //private void cbEmployeeSelect_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    var chk = (CheckBox)sender;
-        //    var row = VisualTreeHelpers.FindAncestor<DataGridRow>(chk);
-        //    var newValue = !chk.IsChecked.GetValueOrDefault();
-
-        //    row.IsSelected = newValue;
-        //    //chk.IsChecked = newValue;
-
-        //    // Mark event as handled so that the default 
-        //    // DataGridPreviewMouseDown doesn't handle the event
-        //    e.Handled = true;
-        //}
-        //private void grdEmployees_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    var chk = VisualTreeHelpers.FindAncestor<CheckBox>((DependencyObject)e.OriginalSource, "cbEmployeeSelect");
-        //    if (chk == null)
-        //        e.Handled = true;
-        //}
+        private void cbEmployeeSelect_Checked(object sender, RoutedEventArgs e)
+        {
+            selectedEmployees.Add(((Employee)((CheckBox)sender).DataContext).Id);
+        }
+        private void cbEmployeeSelect_Unchecked(object sender, RoutedEventArgs e)
+        {
+            selectedEmployees.Remove(((Employee)((CheckBox)sender).DataContext).Id);
+        }
+        private async void btnDeleteEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedEmployees.Count > 0)
+            {
+                foreach (var employeeId in selectedEmployees)
+                {
+                    await data.DeleteEmployee(employeeId);
+                }
+                LoadEmployees();
+            }
+        }
     }
 }

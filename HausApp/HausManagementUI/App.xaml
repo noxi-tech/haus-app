@@ -9,13 +9,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/NavigationMenuDictionary.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/CardFlipperDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <properties:Settings x:Key="Settings"/>
             <SolidColorBrush x:Key="BackgroundBrush" Color="#FF2F2F2F"/>
+            <SolidColorBrush x:Key="ForegroundBrush" Color="WhiteSmoke"/>
 
             <!-- Primary -->
             <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FFD549"/>
@@ -32,7 +33,7 @@
             <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFFFF"/>-->
             
             <!--Accent-->
-            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#FFB04c"/>
+            <SolidColorBrush x:Key="SecondaryHueLightBrush" Color="#FFFFC400"/>
             <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush" Color="#000000"/>
             <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#F57F17"/>
             <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#000000"/>

@@ -9,7 +9,9 @@
         Title="MainWindow" 
         Height="450" 
         Width="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}"
+        Foreground="{StaticResource ForegroundBrush}">
     
     <Window.Resources>
         <Style x:Key="RaisedButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">

@@ -76,6 +76,22 @@ namespace HausManagementLibrary
                 }
             });
         }
+
+        public async Task<Employee> DeleteEmployee(long id)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.PostAsJsonAsync<int?>(UrlFunctions.DeleteEmployeeURL(id), null);
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<Employee>();
+                    }
+                    return null;
+                }
+            });
+        }
         #endregion
 
         #region Items Region

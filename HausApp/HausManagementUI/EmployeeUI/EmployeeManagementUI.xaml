@@ -13,7 +13,8 @@
         MinWidth="1024"
         WindowState="Normal" 
         WindowStyle="SingleBorderWindow"
-        Background="WhiteSmoke">
+        Background="{StaticResource BackgroundBrush}"
+        Foreground="{StaticResource ForegroundBrush}">
 
     <Window.Resources>
         <Style TargetType="Label">
@@ -91,7 +92,8 @@
                             Style="{StaticResource MaterialDesignCardFlipper}"
                             Margin="10"
                             Height="256"
-                            Width="200">
+                            Width="200"
+                            Foreground="{StaticResource ForegroundBrush}">
                             <!--Front Content-->
                             <materialDesign:Flipper.FrontContent>
                                 <Grid>
@@ -132,7 +134,7 @@
                                     <Button
                                         Grid.Row="0"
                                         Margin="10"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                         Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top">
@@ -184,13 +186,18 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
+                                        <Image Source="/Img/Icon.ico"
+                                               Grid.RowSpan="4"
+                                               Grid.ColumnSpan="2"
+                                               Margin="120,0,0,0"/>
                                         <StackPanel 
                                             Orientation="Horizontal"
                                             Grid.Row="0">
                                             <Label 
                                                 Content="ID:"
                                                 VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"/>
+                                                HorizontalAlignment="Left"
+                                                Foreground="{StaticResource ForegroundBrush}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Id}"
                                                 VerticalAlignment="Center"
@@ -202,7 +209,8 @@
                                             <Label 
                                                 Content="Name:"
                                                 VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"/>
+                                                HorizontalAlignment="Left"
+                                                Foreground="{StaticResource ForegroundBrush}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Name}"
                                                 VerticalAlignment="Center"
@@ -214,7 +222,8 @@
                                             <Label 
                                                 Content="Job:"
                                                 VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"/>
+                                                HorizontalAlignment="Left"
+                                                Foreground="{StaticResource ForegroundBrush}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Job}"
                                                 VerticalAlignment="Center"
@@ -226,7 +235,8 @@
                                             <Label 
                                                 Content="Assigned Item:"
                                                 VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"/>
+                                                HorizontalAlignment="Left"
+                                                Foreground="{StaticResource ForegroundBrush}"/>
                                             <TextBlock
                                                 Text="{Binding Path=AssignedItem}"
                                                 VerticalAlignment="Center"
@@ -241,22 +251,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-
-        <!--Fetching Data Section-->
-        <!--<StackPanel 
-                x:Name="spLoading"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Visibility="Collapsed"
-                Grid.Row="1">
-            <ProgressBar
-                    Style="{StaticResource MaterialDesignCircularProgressBar}"
-                    Value="0"
-                    IsIndeterminate="True"/>
-            <TextBlock 
-                    Text="Fetching Data ..."
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
-        </StackPanel>-->
     </Grid>
 </Window>

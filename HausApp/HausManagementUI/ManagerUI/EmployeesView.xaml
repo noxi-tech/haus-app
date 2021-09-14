@@ -8,7 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TabControl x:Name="tbEmployees">
+        <TabControl x:Name="tbEmployees"
+                    Background="{StaticResource BackgroundBrush}"
+                    BorderThickness="0">
             
             <!--#region Employees Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=Account, Size=24}"
@@ -20,12 +22,9 @@
                     </Grid.RowDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
-                                 HorizontalAlignment="Left">
+                                 HorizontalAlignment="Stretch">
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
                                  ClipToBounds="False">
-                            <TextBox MinWidth="140"/>
-                            <Button Content="{materialDesign:PackIcon Kind=AccountSearch}"/>
-                            <Separator/>
                             <Button x:Name="btnRefreshView" 
                                     Content="{materialDesign:PackIcon Kind=AccountReactivate}"
                                     Click="btnRefreshEmployees_Click"/>
@@ -33,7 +32,8 @@
                                     Content="{materialDesign:PackIcon Kind=AccountAdd}"
                                     Click="btnSwitchToAddEmployee_Click"/>
                             <Button x:Name="btnDeleteEmployees"
-                                    Content="{materialDesign:PackIcon Kind=AccountMinus}"/>
+                                    Content="{materialDesign:PackIcon Kind=AccountMinus}"
+                                    Click="btnDeleteEmployees_Click"/>
                             <Button Content="{materialDesign:PackIcon Kind=AccountQuestion}"/>
                         </ToolBar>
                     </ToolBarTray>
@@ -50,7 +50,9 @@
                             <DataGridTemplateColumn Header="Select">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox x:Name="cbEmployeeSelect"/>
+                                        <CheckBox x:Name="cbEmployeeSelect"
+                                                  Checked="cbEmployeeSelect_Checked"
+                                                  Unchecked="cbEmployeeSelect_Unchecked"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 

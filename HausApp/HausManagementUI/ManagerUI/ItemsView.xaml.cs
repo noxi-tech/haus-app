@@ -199,11 +199,18 @@ namespace HausManagementUI
         }
         private async void GetCompanies()
         {
-            List<string> fetchedCompanies = await data.GetCompanies();
-            companies.Clear();
-            foreach (var company in fetchedCompanies)
+            try
             {
-                companies.Add(company);
+                List<string> fetchedCompanies = await data.GetCompanies();
+                companies.Clear();
+                foreach (var company in fetchedCompanies)
+                {
+                    companies.Add(company);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
         private void ResetOrder()
@@ -244,7 +251,14 @@ namespace HausManagementUI
         }
         private OrderCreate CreateOrder()
         {
-            return new OrderCreate(cbCompanyName.Text, txtCustomerName.Text);
+            if (!string.IsNullOrEmpty(cbCompanyName.Text) && !string.IsNullOrEmpty(txtCustomerName.Text))
+            {
+                return new OrderCreate(cbCompanyName.Text, txtCustomerName.Text);
+            }
+            else
+            {
+                throw new Exception("Company name and customer name must be filled.");
+            }
         }
         private ItemCreate CreateItem()
         {
@@ -366,7 +380,7 @@ namespace HausManagementUI
             {
                 MessageBox.Show("List must have orders.");
             }
-
+            RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
             txtDeliveryPerson.Text = "";
             dhDelivery.IsOpen = false;
         }
@@ -388,6 +402,7 @@ namespace HausManagementUI
             {
                 MessageBox.Show("List must have orders.");
             }
+            RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
             txtBillId.Text = "";
             dhBill.IsOpen = false;
         }
@@ -398,27 +413,27 @@ namespace HausManagementUI
         #endregion
 
         #region RefreshAll
-        private void tbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (((TabControl)sender).SelectedIndex)
-            {
-                case 2:
-                    RefreshItemsInProgress();
-                    break;
-                case 3:
-                    if (cbCompanyOrderSearch.SelectedItem is null)
-                    {
-                        RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
-                    }
-                    else
-                    {
-                        RefreshOrders(cbCompanyOrderSearch.SelectedItem.ToString(), txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        //private void tbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    switch (((TabControl)sender).SelectedIndex)
+        //    {
+        //        case 2:
+        //            RefreshItemsInProgress();
+        //            break;
+        //        case 3:
+        //            if (cbCompanyOrderSearch.SelectedItem is null)
+        //            {
+        //                RefreshOrders(cbCompanyOrderSearch.Text, txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
+        //            }
+        //            else
+        //            {
+        //                RefreshOrders(cbCompanyOrderSearch.SelectedItem.ToString(), txtOrderCustomerSearch.Text, ((ComboBoxItem)cbOrdersStatusFilter.SelectedItem).Tag.ToString());
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
         #endregion
     }
 }

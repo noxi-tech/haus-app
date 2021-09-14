@@ -13,7 +13,8 @@
         MinWidth="1024"
         WindowState="Normal" 
         WindowStyle="SingleBorderWindow"
-        Background="WhiteSmoke">
+        Background="{StaticResource BackgroundBrush}"
+        Foreground="WhiteSmoke">
     <!--Style-->
     <Window.Resources>
         <Style x:Key="NaviationMenuStyle" TargetType="TextBlock">
@@ -26,7 +27,7 @@
         <Style x:Key="IconMenuStyle" TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="{StaticResource SecondaryHueDarkBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryHueMidBrush}"/>
             <Setter Property="Width" Value="20"/>
             <Setter Property="Height" Value="20"/>
         </Style>
@@ -86,11 +87,9 @@
             <!--Navigation Menu-->
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <StackPanel Margin="16">
-                    <TextBlock 
-                        Margin="4"
-                        HorizontalAlignment="Center"
-                        Text="Menu"
-                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"/>
+                    <Image Source="/Img/NameIcon.png"
+                           Width="250"
+                           Height="150"/>
                     <ListView x:Name="lbNavigationMenu" SelectionChanged="lbNavigationMenu_SelectionChanged">
                         <!--Home Page-->
                         <ListViewItem IsSelected="True">
