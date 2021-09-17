@@ -149,24 +149,9 @@ namespace HausManagementUI
                 MessageBox.Show(ex.Message);
             }
         }
-        private async void btnSaveAndExport_Click(object sender, RoutedEventArgs e)
+        private void btnSaveAndExport_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                List<Order> commitedOrders = new List<Order>();
-                foreach (var pendingOrder in selectedPendingOrders)
-                {
-                    commitedOrders.Add(await pendingOrder.Commit());
-                    pendingOrders.Remove(pendingOrder);
-                }
-                GetCompanies();
-                CSVConvertor.SavePendingOrders(commitedOrders);
-                selectedPendingOrders.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            SaveAndExport();
         }
         private void btnRefreshNewOrders_Click(object sender, RoutedEventArgs e)
         {
@@ -195,6 +180,26 @@ namespace HausManagementUI
                     }
                     selectedPendingOrders.Clear();
                 }
+            }
+        }
+        private async void SaveAndExport()
+        {
+            try
+            {
+                CSVConvertor.CreateWriter();
+                List<Order> commitedOrders = new List<Order>();
+                foreach (var pendingOrder in selectedPendingOrders)
+                {
+                    commitedOrders.Add(await pendingOrder.Commit());
+                    pendingOrders.Remove(pendingOrder);
+                }
+                GetCompanies();
+                CSVConvertor.SavePendingOrders(commitedOrders);
+                selectedPendingOrders.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         private async void GetCompanies()
