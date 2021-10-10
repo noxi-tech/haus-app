@@ -137,14 +137,26 @@ namespace HausManagementUI
             try
             {
                 var newOrder = CreateOrder();
-                var newItem = CreateItem();
 
-                currentPendingOrder.Order = newOrder;
-                currentPendingOrder.Items.Add(newItem);
-                pendingOrders.Add(currentPendingOrder);
+                if (string.IsNullOrEmpty(txtHeight.Text) || string.IsNullOrEmpty(txtWidth.Text))
+                {
+                    MessageBoxResult result = MessageBox.Show("Do you want to discard this item?", "Discard", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                        return;
+                }
+                else
+                {
+                    var newItem = CreateItem();
+                    currentPendingOrder.Items.Add(newItem);
+                }
+                if (currentPendingOrder.Items.Count > 0)
+                {
+                    currentPendingOrder.Order = newOrder;
+                    pendingOrders.Add(currentPendingOrder);
+                }
                 tbItems.SelectedIndex = 0;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
