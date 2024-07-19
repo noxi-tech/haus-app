@@ -181,7 +181,7 @@ namespace HausManagementUI
         }
         private void btnDeleteNewOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (!(selectedPendingOrders == null))
+            if (selectedPendingOrders.Count > 0)
             {
                 var result = MessageBox.Show("Are you sure you want to delete the selected orders ?", "Delete Orders", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
@@ -194,6 +194,25 @@ namespace HausManagementUI
                 }
             }
         }
+
+        //private void btnEditNewOrder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if(selectedPendingOrders.Count > 1)
+        //    {
+        //        MessageBox.Show("Can't edit more than one order at a time.");
+        //    }
+        //    else if (selectedPendingOrders.Count == 0)
+        //    {
+        //        MessageBox.Show("Select a order first.");
+        //    }
+        //    else
+        //    {
+        //        tbItems.SelectedIndex = 1;
+
+        //        //open the edit page.
+        //        SetOrder(selectedPendingOrders[0]);
+        //    }
+        //}
         private async void SaveAndExport()
         {
             try
@@ -241,6 +260,11 @@ namespace HausManagementUI
             ResetNewFields();
             currentPendingOrder = new PendingOrder();
         }
+        //private void SetOrder(PendingOrder order)
+        //{
+        //    ResetOrder();
+        //    //set order for editing.
+        //}
         private void ResetNewFields()
         {
             txtHLength.Text = "";
@@ -249,22 +273,14 @@ namespace HausManagementUI
             txtHAmount.Text = "";
             txtSgValue.Text = "";
             cbMt.Text = "";
-            cbMt.SelectedItem = null;
-            cbP.SelectedItem = null;
+            cbP.Text = "";
             cbParts.Text = "";
-            cbParts.SelectedItem = null;
             cbSgType.Text = "";
-            cbSgType.SelectedItem = null;
             cbSh.Text = "";
-            cbSh.SelectedItem = null;
             cbSk.Text = "";
-            cbSk.SelectedItem = null;
             cbSw.Text = "";
-            cbSw.SelectedItem = null;
             cbT.Text = "";
-            cbT.SelectedItem = null;
             cbNotes.Text = "";
-            cbNotes.SelectedItem = null;
         }
         private OrderCreate CreateOrder()
         {

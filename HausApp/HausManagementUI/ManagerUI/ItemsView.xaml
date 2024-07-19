@@ -64,6 +64,9 @@
                             <Button x:Name="btnDeleteNewOrder"
                                     Content="{materialDesign:PackIcon Kind=ArchiveRemove}"
                                     Click="btnDeleteNewOrder_Click"/>
+                            <!--<Button x:Name="btnEditNewOrder"
+                                    Content="{materialDesign:PackIcon Kind=ArchiveEdit}"
+                                    Click="btnEditNewOrder_Click"/>-->
                         </ToolBar>
                     </ToolBarTray>
 
@@ -721,6 +724,127 @@
                 </Grid>
             </TabItem>
             <!--#endregion-->
+
+            <!--<TabItem Visibility="Collapsed">
+                <StackPanel>
+                    <ItemsControl>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBox x:Name="txtEditWidth"
+                                             Grid.Column="0"
+                                             Grid.Row="1"
+                                             materialDesign:HintAssist.Hint="Width"
+                                             Style="{StaticResource NewFieldsTextBox}"
+                                             materialDesign:TextFieldAssist.SuffixText="cm"/>
+                                    <TextBox x:Name="txtEditHeight"
+                                             Grid.Column="1"
+                                             Grid.Row="1"
+                                             materialDesign:HintAssist.Hint="Height"
+                                             Style="{StaticResource NewFieldsTextBox}"
+                                             materialDesign:TextFieldAssist.SuffixText="cm"/>
+
+                                    <ComboBox x:Name="cbEditSw"
+                                              Grid.Column="2"
+                                              Grid.Row="1"
+                                              materialDesign:HintAssist.Hint="SW"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditSk"
+                                              Grid.Column="3"
+                                              Grid.Row="1"
+                                              materialDesign:HintAssist.Hint="Sk"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditT"
+                                              Grid.Column="4"
+                                              Grid.Row="1"
+                                              materialDesign:HintAssist.Hint="T"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditP"
+                                                Grid.Column="0"
+                                              Grid.Row="2"
+                                              materialDesign:HintAssist.Hint="P"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditSh"
+                                              Grid.Column="1"
+                                              Grid.Row="2"
+                                              materialDesign:HintAssist.Hint="SH"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditMt"
+                                              Grid.Column="2"
+                                              Grid.Row="2"
+                                              materialDesign:HintAssist.Hint="MT"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditParts"
+                                              Grid.Column="3"
+                                              Grid.Row="2"
+                                              materialDesign:HintAssist.Hint="Pieces"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <ComboBox x:Name="cbEditNotes"
+                                              Grid.Column="4"
+                                              Grid.Row="2"
+                                              materialDesign:HintAssist.Hint="Notes"
+                                              Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    <StackPanel Grid.Column="0"
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" 
+                                                Orientation="Horizontal">
+                                        <Label Content="HT:"
+                                               FontSize="18"/>
+                                        <TextBox x:Name="txtEditHLength"
+                                                 FontSize="18"
+                                                 MaxWidth="50"
+                                                 MinWidth="50"
+                                                 MaxLength="10"
+                                                 Foreground="WhiteSmoke"/>
+                                        <Label Content=" cm * "
+                                               FontSize="18"/>
+                                        <TextBox x:Name="txtEditHAmount"
+                                                  FontSize="18"
+                                                 MaxWidth="50"
+                                                 MinWidth="50"
+                                                 MaxLength="10"
+                                                 Foreground="WhiteSmoke"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Grid.Column="2"
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <TextBox x:Name="txtEditSgValue"
+                                                 Margin="10,0,10,0"
+                                                 materialDesign:HintAssist.Hint="SG Value"
+                                                 Style="{StaticResource NewFieldsTextBox}"
+                                                 MaxWidth="100"
+                                                 MinWidth="100"
+                                                 Padding="2"/>
+                                        <ComboBox x:Name="cbEditSgType"
+                                                  materialDesign:HintAssist.Hint="SG Type"
+                                                  Style="{StaticResource NewFieldsComboBoxWithEdit}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </UserControl>

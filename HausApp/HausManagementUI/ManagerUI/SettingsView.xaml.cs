@@ -32,7 +32,7 @@ namespace HausManagementUI
             txtDueDateDays.Text = $"{CurrentSettings.LastOrderWarrning}";
             slOrderWarningDays.Value = CurrentSettings.OrderWarrning;
             var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
-            txtAppInfo.Text = $"All Rights Reserved To {versionInfo.CompanyName} {versionInfo.LegalCopyright}.\n{versionInfo.ProductName} Version {versionInfo.ProductVersion}";
+            txtAppInfo.Text = $"All Rights Reserved To {versionInfo.CompanyName} {versionInfo.LegalCopyright} {DateTime.Now.Year}.\n{versionInfo.ProductName} Version {versionInfo.ProductVersion}";
         }
         private void btnChooseDirectory_Click(object sender, RoutedEventArgs e)
         {

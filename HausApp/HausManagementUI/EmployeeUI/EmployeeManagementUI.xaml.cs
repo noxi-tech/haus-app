@@ -45,20 +45,19 @@ namespace HausManagementUI
                 try
                 {
                     fetchedEmployees = await data.GetEmployees();
-                    foreach (var order in fetchedEmployees)
-                    {
-                        employees.Add(order);
-                        await Task.Run(() =>
-                        {
-                            Thread.Sleep(300);
-                        });
-                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-               
+                foreach (var order in fetchedEmployees)
+                {
+                    employees.Add(order);
+                    //await Task.Run(() =>
+                    //{
+                    //    Thread.Sleep(200);
+                    //});
+                }
                 isLoading = false;
             }
         }

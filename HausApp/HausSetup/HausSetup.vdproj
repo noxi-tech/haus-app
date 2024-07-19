@@ -15,19 +15,19 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_05CA712C43DC11DFDDA8D2DB2201C4BA"
-        "OwnerKey" = "8:_3893ADB9F42EA32A3E2C3EC389C1B2A8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_05CA712C43DC11DFDDA8D2DB2201C4BA"
+        "MsmKey" = "8:_3571188663664FF2807B88D63D4A14C5"
         "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3893ADB9F42EA32A3E2C3EC389C1B2A8"
+        "MsmKey" = "8:_3571188663664FF2807B88D63D4A14C5"
+        "OwnerKey" = "8:_D25BC454895AF60A48F64C7F4DD1BDFE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4C7DF88AE2467D9FE5620369A0664109"
         "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,13 +39,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_74EEE26FEB48EB3721E4704461F40A12"
-        "OwnerKey" = "8:_05CA712C43DC11DFDDA8D2DB2201C4BA"
+        "MsmKey" = "8:_76882A55CBB4D6EA97F0423E74605C0C"
+        "OwnerKey" = "8:_4C7DF88AE2467D9FE5620369A0664109"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_74EEE26FEB48EB3721E4704461F40A12"
+        "MsmKey" = "8:_76882A55CBB4D6EA97F0423E74605C0C"
         "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,25 +57,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_821E8B2F4742408741973B93BCE371CC"
-        "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
+        "MsmKey" = "8:_A9A6162809EA9DBF42931B41F7ACE649"
+        "OwnerKey" = "8:_76882A55CBB4D6EA97F0423E74605C0C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_821E8B2F4742408741973B93BCE371CC"
-        "OwnerKey" = "8:_B76F9D3FCC76CE02E8E32FA1BEEB383D"
+        "MsmKey" = "8:_A9A6162809EA9DBF42931B41F7ACE649"
+        "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_B2311F3C4829A7430F702B66BCBB4E0B"
-        "OwnerKey" = "8:_05CA712C43DC11DFDDA8D2DB2201C4BA"
+        "OwnerKey" = "8:_76882A55CBB4D6EA97F0423E74605C0C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B76F9D3FCC76CE02E8E32FA1BEEB383D"
+        "MsmKey" = "8:_D25BC454895AF60A48F64C7F4DD1BDFE"
         "OwnerKey" = "8:_64D581095C314FA48368B7F8A72CD9BF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_E9B64FAD11E5578216E2D70E88ECC384"
-        "OwnerKey" = "8:_3893ADB9F42EA32A3E2C3EC389C1B2A8"
+        "OwnerKey" = "8:_4C7DF88AE2467D9FE5620369A0664109"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,25 +100,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B76F9D3FCC76CE02E8E32FA1BEEB383D"
+        "OwnerKey" = "8:_D25BC454895AF60A48F64C7F4DD1BDFE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_821E8B2F4742408741973B93BCE371CC"
+        "OwnerKey" = "8:_3571188663664FF2807B88D63D4A14C5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3893ADB9F42EA32A3E2C3EC389C1B2A8"
+        "OwnerKey" = "8:_4C7DF88AE2467D9FE5620369A0664109"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_05CA712C43DC11DFDDA8D2DB2201C4BA"
+        "OwnerKey" = "8:_76882A55CBB4D6EA97F0423E74605C0C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,7 +130,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_74EEE26FEB48EB3721E4704461F40A12"
+        "OwnerKey" = "8:_A9A6162809EA9DBF42931B41F7ACE649"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -234,20 +234,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_05CA712C43DC11DFDDA8D2DB2201C4BA"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3571188663664FF2807B88D63D4A14C5"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MaterialDesignColors, Version=2.0.1.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_05CA712C43DC11DFDDA8D2DB2201C4BA"
+                    "_3571188663664FF2807B88D63D4A14C5"
                     {
-                    "Name" = "8:System.Net.Http.Formatting.dll"
+                    "Name" = "8:MaterialDesignColors.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:System.Net.Http.Formatting.dll"
+            "SourcePath" = "8:MaterialDesignColors.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_172AB865B2374B7CB5D0C1C054EBF1FA"
@@ -265,14 +265,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3893ADB9F42EA32A3E2C3EC389C1B2A8"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4C7DF88AE2467D9FE5620369A0664109"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:HausManagementLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3893ADB9F42EA32A3E2C3EC389C1B2A8"
+                    "_4C7DF88AE2467D9FE5620369A0664109"
                     {
                     "Name" = "8:HausManagementLibrary.dll"
                     "Attributes" = "3:512"
@@ -296,20 +296,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_74EEE26FEB48EB3721E4704461F40A12"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_76882A55CBB4D6EA97F0423E74605C0C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_74EEE26FEB48EB3721E4704461F40A12"
+                    "_76882A55CBB4D6EA97F0423E74605C0C"
                     {
-                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Name" = "8:System.Net.Http.Formatting.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "SourcePath" = "8:System.Net.Http.Formatting.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_172AB865B2374B7CB5D0C1C054EBF1FA"
@@ -347,20 +347,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_821E8B2F4742408741973B93BCE371CC"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A9A6162809EA9DBF42931B41F7ACE649"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MaterialDesignColors, Version=2.0.1.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_821E8B2F4742408741973B93BCE371CC"
+                    "_A9A6162809EA9DBF42931B41F7ACE649"
                     {
-                    "Name" = "8:MaterialDesignColors.dll"
+                    "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:MaterialDesignColors.dll"
+            "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_172AB865B2374B7CB5D0C1C054EBF1FA"
@@ -409,14 +409,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B76F9D3FCC76CE02E8E32FA1BEEB383D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D25BC454895AF60A48F64C7F4DD1BDFE"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=4.1.0.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B76F9D3FCC76CE02E8E32FA1BEEB383D"
+                    "_D25BC454895AF60A48F64C7F4DD1BDFE"
                     {
                     "Name" = "8:MaterialDesignThemes.Wpf.dll"
                     "Attributes" = "3:512"
@@ -536,12 +536,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Assad Tech"
+        "Manufacturer" = "8:Noxitech"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Haus App"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Assad Tech"
+        "ARPCONTACT" = "8:Noxitech"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
