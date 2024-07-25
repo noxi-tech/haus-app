@@ -119,7 +119,7 @@ namespace HausManagementUI
             Properties.Settings.Default.IsManager = true;
             if (string.IsNullOrEmpty(Properties.Settings.Default.CsvPath))
             {
-                CurrentSettings.CsvPath = Directory.GetCurrentDirectory() + "/ItemsTable.csv";
+                CurrentSettings.CsvPath = Directory.GetCurrentDirectory() + "\\ItemsTable.csv";
             }
             else
             {
