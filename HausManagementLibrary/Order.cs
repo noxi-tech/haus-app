@@ -87,5 +87,10 @@ namespace HausManagementLibrary
                 return order.Id == Id;
             }
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
