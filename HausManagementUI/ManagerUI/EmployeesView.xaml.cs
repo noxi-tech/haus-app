@@ -79,10 +79,6 @@ namespace HausManagementUI
                 foreach (var employee in fetchedEmployees)
                 {
                     employees.Add(employee);
-                    //await Task.Run(() =>
-                    //{
-                    //    Thread.Sleep(200);
-                    //});
                 }
                 IsLoading = false;
             }
