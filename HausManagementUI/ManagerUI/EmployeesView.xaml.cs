@@ -26,6 +26,7 @@ namespace HausManagementUI
     {
         DataAccessor data = new DataAccessor();
         ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
+        ObservableCollection<ClockRecord> clockRecords = new ObservableCollection<ClockRecord>();
         List<long> selectedEmployees = new List<long>();
 
         #region Loading Data Fields
@@ -55,34 +56,47 @@ namespace HausManagementUI
         public EmployeesView()
         {
             InitializeComponent();
+            InitializeOptions();
+            InitializeSources();
+
             LoadEmployees();
-            grdEmployees.ItemsSource = employees;
             this.DataContext = this;
         }
 
-        private async void LoadEmployees()
+        private void InitializeOptions()
+        {
+            cbEmployeeSearch.ItemsSource = employees;
+            cbMonthSearch.ItemsSource = AvailableOptions.MonthsOptions;
+        }
+        private void InitializeSources()
+        {
+            grdEmployees.ItemsSource = employees;
+            grdClockLog.ItemsSource = clockRecords;
+        }
+
+        private async void btnRefreshClocks_Click(object sender, RoutedEventArgs e)
         {
             if (!isLoading)
             {
-                selectedEmployees.Clear();
-                List<Employee> fetchedEmployees = new List<Employee>();
-                employees.Clear();
+                List<ClockRecord> fetchedClockRecord = new List<ClockRecord>();
+                clockRecords.Clear();
                 IsLoading = true;
                 try
                 {
-                    fetchedEmployees = await data.GetEmployees();
+                    fetchedClockRecord = await data.TimekeeperReport((long)cbEmployeeSearch.SelectedValue, (int)cbMonthSearch.SelectedValue, 2024);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                foreach (var employee in fetchedEmployees)
+                foreach (var clockRecord in fetchedClockRecord)
                 {
-                    employees.Add(employee);
+                    clockRecords.Add(clockRecord);
                 }
                 IsLoading = false;
             }
         }
+
         private async void btnCreateEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -123,6 +137,30 @@ namespace HausManagementUI
                     await data.DeleteEmployee(employeeId);
                 }
                 LoadEmployees();
+            }
+        }
+
+        private async void LoadEmployees()
+        {
+            if (!isLoading)
+            {
+                selectedEmployees.Clear();
+                List<Employee> fetchedEmployees = new List<Employee>();
+                employees.Clear();
+                IsLoading = true;
+                try
+                {
+                    fetchedEmployees = await data.GetEmployees();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                foreach (var employee in fetchedEmployees)
+                {
+                    employees.Add(employee);
+                }
+                IsLoading = false;
             }
         }
     }

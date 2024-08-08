@@ -66,6 +66,63 @@
                 </Grid>
             </TabItem>
             <!--#endregion-->
+            
+            <!--#region Clocks Tab-->
+            <TabItem Header="{materialDesign:PackIcon Kind=Clock, Size=24}"
+                     Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    
+                    
+                    <ToolBarTray VerticalAlignment="Center"
+                                 HorizontalAlignment="Stretch"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                                 ClipToBounds="False">
+                            <materialDesign:PackIcon Kind="Search" 
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"
+                                 Margin="10"/>
+                            <ComboBox x:Name="cbEmployeeSearch"
+                                      materialDesign:HintAssist.Hint="Employee"
+                                      materialDesign:TextFieldAssist.HasClearButton="True"
+                                      DisplayMemberPath="Name"
+                                      SelectedValuePath="Id"
+                                      Margin="10"/>
+                            <ComboBox x:Name="cbMonthSearch"
+                                      materialDesign:HintAssist.Hint="Month"
+                                      materialDesign:TextFieldAssist.HasClearButton="True"
+                                      Margin="10"/>
+                            <ComboBox x:Name="cbYearSearch"
+                                      materialDesign:HintAssist.Hint="Year"
+                                      materialDesign:TextFieldAssist.HasClearButton="True"
+                                      Margin="10"/>
+                            <Button x:Name="btnRefreshOrders"
+                                    Content="{materialDesign:PackIcon Kind=AccountSearch}"
+                                    Click="btnRefreshClocks_Click"/>
+                        </ToolBar>
+                    </ToolBarTray>
+
+                    <DataGrid x:Name="grdClockLog"
+                              Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              IsManipulationEnabled="False"
+                              SelectionMode="Extended">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Path=DateTime, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Clock" Binding="{Binding Path=Clocked, Mode=OneWay}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!--#endregion-->
 
             <!--#region Add Employee Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=AccountAdd, Size=24}"
