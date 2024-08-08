@@ -91,8 +91,6 @@
                         <materialDesign:Flipper
                             Style="{StaticResource MaterialDesignCardFlipper}"
                             Margin="10"
-                            Height="256"
-                            Width="200"
                             Foreground="{StaticResource ForegroundBrush}">
                             <!--Front Content-->
                             <materialDesign:Flipper.FrontContent>
@@ -101,35 +99,92 @@
                                         <RowDefinition
                                             Height="140"/>
                                         <RowDefinition
-                                            Height="*"/>
-                                        <RowDefinition
-                                            Height="Auto"/>
+                                            Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <materialDesign:ColorZone
                                         Mode="PrimaryMid"
                                         VerticalAlignment="Stretch">
                                         <materialDesign:PackIcon
                                              Kind="AccountCircle"
-                                             Height="100"
-                                             Width="100"
+                                             Height="90"
+                                             Width="90"
                                              VerticalAlignment="Center"
                                              HorizontalAlignment="Center"/>
                                     </materialDesign:ColorZone>
                                     <StackPanel
                                             Grid.Row="1"
+                                            Margin="0 20"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
+                                        <!-- Employee Name -->
                                         <TextBlock
                                                 Text="{Binding Path=Name}" 
+                                                FontWeight="Bold"
                                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"/>
-                                        <Button
-                                                FontSize="20"
-                                                Content="Enter"
-                                                Click="btnChooseEmployee"
+                                        
+                                        <!-- Employee Details-->
+                                        <StackPanel
+                                            Margin="0 20">
+                                            <StackPanel 
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                                <Label 
+                                                    Content="Current Item:"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{StaticResource ForegroundBrush}"/>
+                                                <TextBlock
+                                                    Text="{Binding Path=AssignedItem}"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <StackPanel 
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                                <Label 
+                                                    Content="Total Amount Sewed:"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{StaticResource ForegroundBrush}"/>
+                                                <TextBlock
+                                                    Text="1500 cm"
+                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <!-- Check in / Check out buttons-->
+                                        <StackPanel 
+                                                Margin="0 5 0 0"
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"/>
+                                                Orientation="Horizontal">
+                                            <Button
+                                                Margin="10 0"
+                                                Padding="35 0"
+                                                HorizontalAlignment="Center"
+                                                Click="btnCheckInEmployee"
+                                                Background="Green"
+                                                VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Login"/>
+                                            </Button>
+                                            <Button
+                                                Margin="10 0"
+                                                Padding="35 0"
+                                                HorizontalAlignment="Center"
+                                                Click="btnCheckOutEmployee"
+                                                Background="red"
+                                                VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Logout"/>
+                                            </Button>
+                                        </StackPanel>
+
+                                        <!-- Scan item -->
+                                        <Button
+                                                Height="60"
+                                                Margin="10 20 10 0"
+                                                Click="btnChooseEmployee"
+                                                VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="BarcodeScan"/>
+                                        </Button>
                                     </StackPanel>
                                     <Button
                                         Grid.Row="0"
@@ -145,9 +200,7 @@
                             </materialDesign:Flipper.FrontContent>
                             <!--Back Content-->
                             <materialDesign:Flipper.BackContent>
-                                <Grid
-                                    Height="256"
-                                    Width="200">
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition
                                             Height="Auto"/>

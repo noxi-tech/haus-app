@@ -67,6 +67,17 @@ namespace HausManagementUI
             BarcodeDialog barcodeDialog = new BarcodeDialog(emp);
             barcodeDialog.ShowDialog();
         }
+        private void btnCheckInEmployee(object sender, RoutedEventArgs e)
+        {
+            Employee emp = (Employee)((Button)sender).DataContext;
+            Console.WriteLine("Check in " + emp.Name);
+        }
+        private void btnCheckOutEmployee(object sender, RoutedEventArgs e)
+        {
+            Employee emp = (Employee)((Button)sender).DataContext;
+            Console.WriteLine("Check Out " + emp.Name);
+
+        }
         private void btnRefreshEmployees_Click(object sender, RoutedEventArgs e)
         {
             LoadEmployees();
