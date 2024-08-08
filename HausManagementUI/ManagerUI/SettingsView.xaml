@@ -42,6 +42,7 @@
                     <StackPanel>
                         <TextBox x:Name="txtDueDateDays"
                          materialDesign:HintAssist.Hint="Days Till Due Date"
+                         Text="10"
                          Style="{StaticResource MaterialDesignFilledTextBox}"
                          VerticalAlignment="Center"
                          HorizontalAlignment="Center"
