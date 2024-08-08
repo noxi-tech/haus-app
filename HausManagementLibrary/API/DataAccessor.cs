@@ -18,18 +18,16 @@ namespace HausManagementLibrary
         //Get all the employees from the DB.
         public async Task<List<Employee>> GetEmployees()
         {
-            return await Task.Run( async () =>  {
-                using (HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(UrlFunctions.GetEmployeesURL(0,100));
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(UrlFunctions.GetEmployeesURL(0,100));
-                    response.EnsureSuccessStatusCode();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await response.Content.ReadAsAsync<List<Employee>>();
-                    }
-                    return null;
+                    return await response.Content.ReadAsAsync<List<Employee>>();
                 }
-            });
+                return null;
+            }
         }
 
         //Assigns an item to a specified employee taking into consideration if the employee's job is QC (sends twice).
@@ -208,6 +206,50 @@ namespace HausManagementLibrary
                     if (response.IsSuccessStatusCode)
                     {
                         return await response.Content.ReadAsAsync<List<string>>();
+                    }
+                    return null;
+                }
+            });
+        }
+        #endregion
+
+        #region Timekeeper Region
+        public async Task<ClockRecord> TimekeeperCheckin(long employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.PostAsJsonAsync<long?>(UrlFunctions.TimekeeperCheckinURL(employeeId), null);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<ClockRecord>();
+                }
+                return null;
+            }
+        }
+        public async Task<ClockRecord> TimekeeperCheckout(long employeeId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.PostAsJsonAsync<long?>(UrlFunctions.TimekeeperCheckoutURL(employeeId), null);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<ClockRecord>();
+                }
+                return null;
+            }
+        }
+        public async Task<List<ClockRecord>> TimekeeperReport(long employeeId, int month, int year)
+        {
+            return await Task.Run(async () => {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(UrlFunctions.TimekeeperReportURL(employeeId, month, year));
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsAsync<List<ClockRecord>>();
                     }
                     return null;
                 }

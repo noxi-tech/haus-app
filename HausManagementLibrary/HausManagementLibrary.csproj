@@ -54,6 +54,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClockRecord.cs" />
     <Compile Include="Constants\AvailableOptions.cs" />
     <Compile Include="Classes\BillReport.cs" />
     <Compile Include="Utilities\CSVConvertor.cs" />

@@ -77,13 +77,30 @@ namespace HausManagementLibrary
             string extention = $"/{orderId}/bill";
             return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["OrdersApi"] + extention;
         }
-
         #endregion
 
         #region Company Region
         static public string GetCompaniesURL()
         {
-            return ConfigurationManager.AppSettings["Root"] + "/haus/companies";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["CompaniesApi"];
+        }
+        #endregion
+
+        #region Timekeeper region
+        static public string TimekeeperCheckinURL(long employeeId)
+        {
+            string extention = $"/checkin/{employeeId}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["TimekeeperApi"] + extention;
+        }
+        static public string TimekeeperCheckoutURL(long employeeId)
+        {
+            string extention = $"/checkout/{employeeId}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["TimekeeperApi"] + extention;
+        }
+        static public string TimekeeperReportURL(long employeeId, int month, int year)
+        {
+            string extention = $"/report?employee_id={employeeId}&month={month}&year={year}";
+            return ConfigurationManager.AppSettings["Root"] + ConfigurationManager.AppSettings["TimekeeperApi"] + extention;
         }
         #endregion
 
