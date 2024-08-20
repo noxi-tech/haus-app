@@ -12,8 +12,9 @@ namespace HausManagementLibrary
         public long EmployeeId { get; set; }
         public string Clocked { get; set; }
         
-        public ClockRecord(DateTime date_time, long employee_id, string clocked) {
-            DateTime = date_time;
+        public ClockRecord(string date_time, long employee_id, string clocked) {
+            DateTime utcDateTime = DateTime.Parse(date_time, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DateTime = utcDateTime.ToLocalTime();
             EmployeeId = employee_id;
             Clocked = clocked;
         }
