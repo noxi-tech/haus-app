@@ -74,9 +74,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="6*"/>
+                        <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
-                    
-                    
+
+
                     <ToolBarTray VerticalAlignment="Center"
                                  HorizontalAlignment="Stretch"
                                  Grid.Column="0"
@@ -107,19 +108,48 @@
                         </ToolBar>
                     </ToolBarTray>
 
-                    <DataGrid x:Name="grdClockLog"
-                              Grid.Row="1"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              CanUserResizeRows="False"
-                              IsManipulationEnabled="False"
-                              SelectionMode="Extended">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding Path=DateTime, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Clock" Binding="{Binding Path=Clocked, Mode=OneWay}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <ScrollViewer Grid.Row="1"
+                                  Grid.ColumnSpan="2"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                        <ItemsControl x:Name="icTimeKeeper" 
+                                      Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander>
+                                        <Expander.Header>
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                <TextBlock Text="{Binding Path=DateTime, StringFormat={}{0:dd/MM/yyyy}}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Path=TotalWorkingHours, StringFormat={}{0:F1} hours}"
+                                                           Margin="0,0,10,0"
+                                                           FontWeight="Bold"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Expander.Header>
+                                        <DataGrid ItemsSource="{Binding Path=GroupedClockRecords}"
+                                                  AutoGenerateColumns="False">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Clocked In" Binding="{Binding Path=ClockedInDisplay, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Clocked Out" Binding="{Binding Path=ClockedOutDisplay, Mode=OneWay}"/>
+                                                <DataGridTextColumn Header="Total Hours" Binding="{Binding Path=TotalHoursWorked, Mode=OneWay, StringFormat={}{0:F1} hours}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10 0 10 0">
+                        <TextBlock FontSize="17" FontWeight="Bold" Text="Total: "/>
+                        <TextBlock FontSize="17" Text="{Binding Path=TotalHoursWorkedInMonth, StringFormat={}{0:F1} hours}" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <!--#endregion-->

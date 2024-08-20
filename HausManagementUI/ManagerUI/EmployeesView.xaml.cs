@@ -26,10 +26,10 @@ namespace HausManagementUI
     {
         DataAccessor data = new DataAccessor();
         ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
-        ObservableCollection<ClockRecord> clockRecords = new ObservableCollection<ClockRecord>();
+        ObservableCollection<DayClockRecord> clockRecords = new ObservableCollection<DayClockRecord>();
         List<long> selectedEmployees = new List<long>();
 
-        #region Loading Data Fields
+        #region Notify Property Fields
         bool isLoading = false;
         public bool IsLoading
         {
@@ -39,6 +39,14 @@ namespace HausManagementUI
         public bool IsNotLoading
         {
             get { return !isLoading; }
+        }
+
+
+        double totalHoursWorkedInMonth = 0; 
+        public double TotalHoursWorkedInMonth
+        {
+            get { return totalHoursWorkedInMonth; }
+            set { totalHoursWorkedInMonth = value; OnPropertyChanged("TotalHoursWorkedInMonth"); }
         }
         #endregion
 
@@ -71,32 +79,14 @@ namespace HausManagementUI
         private void InitializeSources()
         {
             grdEmployees.ItemsSource = employees;
-            grdClockLog.ItemsSource = clockRecords;
+            icTimeKeeper.ItemsSource = clockRecords;
+            
         }
 
-        private async void btnRefreshClocks_Click(object sender, RoutedEventArgs e)
+        private void btnRefreshClocks_Click(object sender, RoutedEventArgs e)
         {
-            if (!isLoading)
-            {
-                List<ClockRecord> fetchedClockRecord = new List<ClockRecord>();
-                clockRecords.Clear();
-                IsLoading = true;
-                try
-                {
-                    fetchedClockRecord = await data.TimekeeperReport((long)cbEmployeeSearch.SelectedValue, (int)cbMonthSearch.SelectedValue, 2024);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                foreach (var clockRecord in fetchedClockRecord)
-                {
-                    clockRecords.Add(clockRecord);
-                }
-                IsLoading = false;
-            }
+            LoadClockRecords();
         }
-
         private async void btnCreateEmployee_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -114,7 +104,7 @@ namespace HausManagementUI
         }
         private void btnSwitchToAddEmployee_Click(object sender, RoutedEventArgs e)
         {
-            tbEmployees.SelectedIndex = 1;
+            tbEmployees.SelectedIndex = 2;
         }
         private void btnRefreshEmployees_Click(object sender, RoutedEventArgs e)
         {
@@ -162,6 +152,96 @@ namespace HausManagementUI
                 }
                 IsLoading = false;
             }
+        }
+        private async void LoadClockRecords()
+        {
+            if (!isLoading)
+            {
+                List<ClockRecord> fetchedClockRecord = new List<ClockRecord>();
+                clockRecords.Clear();
+                IsLoading = true;
+                try
+                {
+                    long employeeId = 0;
+                    var month = 0;
+                    var year = 0;
+                    if (cbEmployeeSearch.SelectedValue !=  null)
+                    {
+                        employeeId = (long)cbEmployeeSearch.SelectedValue;
+                        if (cbMonthSearch.SelectedValue != null)
+                        {
+                            month = (int)cbMonthSearch.SelectedValue;
+                            //if (cbYearSearch.SelectedValue != null)
+                            //{
+                            //    year = (int)cbYearSearch.SelectedValue;
+                            //}
+                            //else
+                            //{
+                            //    MessageBox.Show("Select a year");
+                            //    return;
+                            //}
+                        }
+                        else
+                        {
+                            MessageBox.Show("Select a month");
+                            IsLoading = false;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Select an employee");
+                        IsLoading = false;
+                        return;
+                    }
+                    
+                    fetchedClockRecord = await data.TimekeeperReport(employeeId, month, 2024);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                var groupedRecords = GroupDailyRecords(fetchedClockRecord);
+                var groupedClockRecords = ConvertRecords(groupedRecords);
+                double total = 0;
+                foreach (var record in groupedClockRecords)
+                {
+                    clockRecords.Add(record);
+                    total += record.TotalWorkingHours;
+                }
+                TotalHoursWorkedInMonth = total;
+
+            }
+            IsLoading = false;
+        } 
+        private Dictionary<DateTime, List<ClockRecord>> GroupDailyRecords(List<ClockRecord> fetchedClockRecord)
+        {
+            Dictionary<DateTime, List<ClockRecord>> result = new Dictionary<DateTime, List<ClockRecord>>();
+            foreach (var record in fetchedClockRecord)
+            {
+                if (result.ContainsKey(record.DateTime.Date))
+                {
+                    result[record.DateTime.Date].Add(record);
+                }
+                else
+                {
+                    List<ClockRecord> newList = new List<ClockRecord>();
+                    newList.Add(record);
+                    result.Add(record.DateTime.Date, newList);
+                }
+            }
+
+            return result;
+        }
+        private List<DayClockRecord> ConvertRecords(Dictionary<DateTime, List<ClockRecord>> groupedRecords)
+        {
+            List<DayClockRecord> records = new List<DayClockRecord>();
+            foreach (var pair in groupedRecords)
+            {
+                records.Add(new DayClockRecord(pair.Key, pair.Value));
+            }
+            return records;
         }
     }
 }
