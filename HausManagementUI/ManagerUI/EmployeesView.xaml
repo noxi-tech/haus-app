@@ -1,40 +1,45 @@
 ﻿<UserControl x:Class="HausManagementUI.EmployeesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HausManagementUI"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <Grid>
         <TabControl x:Name="tbEmployees"
                     Background="{StaticResource BackgroundBrush}"
                     BorderThickness="0">
-            
+
             <!--#region Employees Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=Account, Size=24}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="6*" />
                     </Grid.RowDefinitions>
 
                     <ToolBarTray VerticalAlignment="Center"
                                  HorizontalAlignment="Stretch">
-                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}"
                                  ClipToBounds="False">
-                            <Button x:Name="btnRefreshView" 
+                            <Button x:Name="btnRefreshView"
                                     Content="{materialDesign:PackIcon Kind=AccountReactivate}"
-                                    Click="btnRefreshEmployees_Click"/>
-                            <Button x:Name="btnSwitchToAddEmployee" 
+                                    Click="btnRefreshEmployees_Click" />
+                            <Button x:Name="btnSwitchToAddEmployee"
                                     Content="{materialDesign:PackIcon Kind=AccountAdd}"
-                                    Click="btnSwitchToAddEmployee_Click"/>
+                                    Click="btnSwitchToAddEmployee_Click" />
                             <Button x:Name="btnDeleteEmployees"
                                     Content="{materialDesign:PackIcon Kind=AccountMinus}"
-                                    Click="btnDeleteEmployees_Click"/>
-                            <Button Content="{materialDesign:PackIcon Kind=AccountQuestion}"/>
+                                    Click="btnDeleteEmployees_Click" />
+                            <Button Content="{materialDesign:PackIcon Kind=AccountQuestion}" />
                         </ToolBar>
                     </ToolBarTray>
 
@@ -52,67 +57,73 @@
                                     <DataTemplate>
                                         <CheckBox x:Name="cbEmployeeSelect"
                                                   Checked="cbEmployeeSelect_Checked"
-                                                  Unchecked="cbEmployeeSelect_Unchecked"/>
+                                                  Unchecked="cbEmployeeSelect_Unchecked" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-                                
+
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Job" Binding="{Binding Path=Job, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Assigned Item" Binding="{Binding Path=AssignedItem, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Id"
+                                                Binding="{Binding Path=Id, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Name"
+                                                Binding="{Binding Path=Name, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Job"
+                                                Binding="{Binding Path=Job, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Assigned Item"
+                                                Binding="{Binding Path=AssignedItem, Mode=OneWay}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             <!--#endregion-->
-            
+
             <!--#region Clocks Tab-->
             <TabItem Header="{materialDesign:PackIcon Kind=Clock, Size=24}"
                      Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="6*"/>
-                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="0.5*" />
                     </Grid.RowDefinitions>
 
-
+                    <!--Toolbox-->
                     <ToolBarTray VerticalAlignment="Center"
                                  HorizontalAlignment="Stretch"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
-                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" 
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}"
                                  ClipToBounds="False">
-                            <materialDesign:PackIcon Kind="Search" 
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Center"
-                                 Margin="10"/>
+                            <materialDesign:PackIcon Kind="Search"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="10" />
                             <ComboBox x:Name="cbEmployeeSearch"
                                       materialDesign:HintAssist.Hint="Employee"
                                       materialDesign:TextFieldAssist.HasClearButton="True"
                                       DisplayMemberPath="Name"
                                       SelectedValuePath="Id"
-                                      Margin="10"/>
+                                      Margin="10" />
                             <ComboBox x:Name="cbMonthSearch"
                                       materialDesign:HintAssist.Hint="Month"
                                       materialDesign:TextFieldAssist.HasClearButton="True"
-                                      Margin="10"/>
+                                      Margin="10" />
                             <ComboBox x:Name="cbYearSearch"
                                       materialDesign:HintAssist.Hint="Year"
                                       materialDesign:TextFieldAssist.HasClearButton="True"
-                                      Margin="10"/>
+                                      Margin="10" />
                             <Button x:Name="btnRefreshOrders"
                                     Content="{materialDesign:PackIcon Kind=AccountSearch}"
-                                    Click="btnRefreshClocks_Click"/>
+                                    Click="btnRefreshClocks_Click" />
                         </ToolBar>
                     </ToolBarTray>
+
+                    <!--Clock Records-->
 
                     <ScrollViewer Grid.Row="1"
                                   Grid.ColumnSpan="2"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch">
-                        <ItemsControl x:Name="icTimeKeeper" 
+                        <ItemsControl Name="icClockRecords"
                                       Grid.Row="1"
                                       Grid.ColumnSpan="2"
                                       VerticalAlignment="Stretch"
@@ -121,23 +132,27 @@
                                 <DataTemplate>
                                     <Expander>
                                         <Expander.Header>
-                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal"
+                                                        Grid.Column="1">
                                                 <TextBlock Text="{Binding Path=DateTime, StringFormat={}{0:dd/MM/yyyy}}"
                                                            Margin="0,0,10,0"
                                                            FontWeight="Bold"
-                                                           VerticalAlignment="Center"/>
+                                                           VerticalAlignment="Center" />
                                                 <TextBlock Text="{Binding Path=TotalWorkingHours, StringFormat={}{0:F1} hours}"
                                                            Margin="0,0,10,0"
                                                            FontWeight="Bold"
-                                                           VerticalAlignment="Center"/>
+                                                           VerticalAlignment="Center" />
                                             </StackPanel>
                                         </Expander.Header>
                                         <DataGrid ItemsSource="{Binding Path=GroupedClockRecords}"
                                                   AutoGenerateColumns="False">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Clocked In" Binding="{Binding Path=ClockedInDisplay, Mode=OneWay}"/>
-                                                <DataGridTextColumn Header="Clocked Out" Binding="{Binding Path=ClockedOutDisplay, Mode=OneWay}"/>
-                                                <DataGridTextColumn Header="Total Hours" Binding="{Binding Path=TotalHoursWorked, Mode=OneWay, StringFormat={}{0:F1} hours}"/>
+                                                <DataGridTextColumn Header="Clocked In"
+                                                                    Binding="{Binding Path=ClockedInDisplay, Mode=OneWay}" />
+                                                <DataGridTextColumn Header="Clocked Out"
+                                                                    Binding="{Binding Path=ClockedOutDisplay, Mode=OneWay}" />
+                                                <DataGridTextColumn Header="Total Hours"
+                                                                    Binding="{Binding Path=TotalHoursWorked, Mode=OneWay, StringFormat={}{0:F1} hours}" />
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Expander>
@@ -146,9 +161,15 @@
                         </ItemsControl>
                     </ScrollViewer>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10 0 10 0">
-                        <TextBlock FontSize="17" FontWeight="Bold" Text="Total: "/>
-                        <TextBlock FontSize="17" Text="{Binding Path=TotalHoursWorkedInMonth, StringFormat={}{0:F1} hours}" />
+                    <!--Bottom toolbox-->
+                    <StackPanel Grid.Row="2"
+                                Orientation="Horizontal"
+                                Margin="10 0 10 0">
+                        <TextBlock FontSize="17"
+                                   FontWeight="Bold"
+                                   Text="Total: " />
+                        <TextBlock FontSize="17"
+                                   Text="{Binding Path=TotalHoursWorkedInMonth, StringFormat={}{0:F1} hours}" />
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -160,22 +181,22 @@
                      Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="New Employee" 
+                    <TextBlock Text="New Employee"
                                Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                                Grid.Column="0"
                                Grid.ColumnSpan="2"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Center"/>
-                    
+                               HorizontalAlignment="Center" />
+
                     <TextBox x:Name="txtEmployeeName"
                              Style="{StaticResource MaterialDesignFilledTextBox}"
                              Grid.Row="1"
@@ -183,7 +204,7 @@
                              VerticalAlignment="Center"
                              HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Name"
-                             Width="150"/>
+                             Width="150" />
 
                     <ComboBox x:Name="cbJob"
                               Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -192,9 +213,9 @@
                               materialDesign:HintAssist.Hint="Job"
                               Width="256"
                               Height="50">
-                        <ComboBoxItem Content="sew"/>
-                        <ComboBoxItem Content="iron"/>
-                        <ComboBoxItem Content="qc"/>
+                        <ComboBoxItem Content="sew" />
+                        <ComboBoxItem Content="iron" />
+                        <ComboBoxItem Content="qc" />
                     </ComboBox>
                     <Button x:Name="btnCreateEmployee"
                             Content="Add Employee"
@@ -202,11 +223,10 @@
                             Grid.Column="0"
                             Grid.Row="2"
                             HorizontalAlignment="Center"
-                            Click="btnCreateEmployee_Click"/>
+                            Click="btnCreateEmployee_Click" />
                 </Grid>
             </TabItem>
             <!--#endregion-->
-            
         </TabControl>
     </Grid>
 </UserControl>

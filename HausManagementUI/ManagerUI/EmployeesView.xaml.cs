@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace HausManagementUI
         DataAccessor data = new DataAccessor();
         ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
         ObservableCollection<DayClockRecord> clockRecords = new ObservableCollection<DayClockRecord>();
+        ObservableCollection<int> years = new ObservableCollection<int>();
         List<long> selectedEmployees = new List<long>();
 
         #region Notify Property Fields
@@ -34,30 +36,14 @@ namespace HausManagementUI
         public bool IsLoading
         {
             get { return isLoading; }
-            set { isLoading = value; OnPropertyChanged("IsLoading"); OnPropertyChanged("IsNotLoading"); }
-        }
-        public bool IsNotLoading
-        {
-            get { return !isLoading; }
+            set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
         }
 
-
-        double totalHoursWorkedInMonth = 0; 
+        double totalHoursWorkedInMonth = 0;
         public double TotalHoursWorkedInMonth
         {
             get { return totalHoursWorkedInMonth; }
-            set { totalHoursWorkedInMonth = value; OnPropertyChanged("TotalHoursWorkedInMonth"); }
-        }
-        #endregion
-
-        #region PropertyChange Region
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            set { totalHoursWorkedInMonth = value; OnPropertyChanged(nameof(TotalHoursWorkedInMonth)); }
         }
         #endregion
 
@@ -75,12 +61,13 @@ namespace HausManagementUI
         {
             cbEmployeeSearch.ItemsSource = employees;
             cbMonthSearch.ItemsSource = AvailableOptions.MonthsOptions;
+            cbYearSearch.ItemsSource = years;
+            LoadYears();
         }
         private void InitializeSources()
         {
             grdEmployees.ItemsSource = employees;
-            icTimeKeeper.ItemsSource = clockRecords;
-            
+            icClockRecords.ItemsSource = clockRecords;
         }
 
         private void btnRefreshClocks_Click(object sender, RoutedEventArgs e)
@@ -159,43 +146,41 @@ namespace HausManagementUI
             {
                 List<ClockRecord> fetchedClockRecord = new List<ClockRecord>();
                 clockRecords.Clear();
-                IsLoading = true;
                 try
                 {
                     long employeeId = 0;
                     var month = 0;
                     var year = 0;
-                    if (cbEmployeeSearch.SelectedValue !=  null)
+                    if (cbEmployeeSearch.SelectedValue != null)
                     {
                         employeeId = (long)cbEmployeeSearch.SelectedValue;
                         if (cbMonthSearch.SelectedValue != null)
                         {
                             month = (int)cbMonthSearch.SelectedValue;
-                            //if (cbYearSearch.SelectedValue != null)
-                            //{
-                            //    year = (int)cbYearSearch.SelectedValue;
-                            //}
-                            //else
-                            //{
-                            //    MessageBox.Show("Select a year");
-                            //    return;
-                            //}
+                            if (cbYearSearch.SelectedValue != null)
+                            {
+                                year = (int)cbYearSearch.SelectedValue;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Select a year");
+                                return;
+                            }
                         }
                         else
                         {
                             MessageBox.Show("Select a month");
-                            IsLoading = false;
                             return;
                         }
                     }
                     else
                     {
                         MessageBox.Show("Select an employee");
-                        IsLoading = false;
                         return;
                     }
-                    
-                    fetchedClockRecord = await data.TimekeeperReport(employeeId, month, 2024);
+
+                    IsLoading = true;
+                    fetchedClockRecord = await data.TimekeeperReport(employeeId, month, year);
                 }
                 catch (Exception ex)
                 {
@@ -211,10 +196,22 @@ namespace HausManagementUI
                     total += record.TotalWorkingHours;
                 }
                 TotalHoursWorkedInMonth = total;
-
             }
             IsLoading = false;
-        } 
+        }
+        private async void LoadYears()
+        {
+            ServerInfo serverInfo = await data.Server();
+
+            int startYear = serverInfo.DatabaseCreationTime.Year;
+            int currentYear = DateTime.Now.Year;
+
+
+            for (int year = currentYear; year >= startYear; year--)
+            {
+                years.Add(year);
+            }
+        }
         private Dictionary<DateTime, List<ClockRecord>> GroupDailyRecords(List<ClockRecord> fetchedClockRecord)
         {
             Dictionary<DateTime, List<ClockRecord>> result = new Dictionary<DateTime, List<ClockRecord>>();
@@ -226,8 +223,10 @@ namespace HausManagementUI
                 }
                 else
                 {
-                    List<ClockRecord> newList = new List<ClockRecord>();
-                    newList.Add(record);
+                    List<ClockRecord> newList = new List<ClockRecord>
+                    {
+                        record
+                    };
                     result.Add(record.DateTime.Date, newList);
                 }
             }
@@ -243,5 +242,17 @@ namespace HausManagementUI
             }
             return records;
         }
+
+        #region PropertyChange Region
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
     }
 }
+
