@@ -109,6 +109,10 @@ namespace HausManagementLibrary
         {
             return url + "/ping";
         }
+        static public string Server()
+        {
+            return ConfigurationManager.AppSettings["Root"] + "/server";
+        }
         #endregion
     }
 }

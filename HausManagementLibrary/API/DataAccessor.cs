@@ -271,6 +271,19 @@ namespace HausManagementLibrary
                 return null;
             }
         }
+        public async Task<ServerInfo> Server()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(UrlFunctions.Server());
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<ServerInfo>();
+                }
+                return null;
+            }
+        }
         #endregion
     }
 }

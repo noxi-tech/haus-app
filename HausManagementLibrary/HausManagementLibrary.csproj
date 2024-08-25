@@ -57,6 +57,7 @@
     <Compile Include="Classes\ClockRecord.cs" />
     <Compile Include="Classes\DayClockRecord.cs" />
     <Compile Include="Classes\GroupedClockRecord.cs" />
+    <Compile Include="Classes\ServerInfo.cs" />
     <Compile Include="Constants\AvailableOptions.cs" />
     <Compile Include="Classes\BillReport.cs" />
     <Compile Include="Utilities\CSVConvertor.cs" />
