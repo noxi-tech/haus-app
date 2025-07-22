@@ -14,7 +14,7 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen" 
         FocusManager.FocusedElement="{Binding ElementName=txtCode}"
-        Background="{StaticResource BackgroundBrush}"
+        Background="{StaticResource MaterialDesign.Brush.Surface}"
         Foreground="WhiteSmoke">
     <Grid>
         <Grid.RowDefinitions>

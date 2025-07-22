@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl x:Name="tbEmployees"
-                    Background="{StaticResource BackgroundBrush}"
+                    Background="{StaticResource MaterialDesign.Brush.Surface}"
                     BorderThickness="0">
             
             <!--#region Employees Tab-->

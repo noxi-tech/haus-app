@@ -35,7 +35,8 @@
     
     <Grid>
         <TabControl x:Name="tbItems"
-                    Background="{StaticResource BackgroundBrush}"
+                    Background="{StaticResource MaterialDesign.Brush.Surface}"
+                    HorizontalContentAlignment="Left"
                     BorderThickness="0">
             
             <!--#region New Items Tab-->

@@ -13,8 +13,8 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         FocusManager.FocusedElement="{Binding ElementName=txtBarcode}"
-        Background="{StaticResource BackgroundBrush}"
-        Foreground="{StaticResource ForegroundBrush}">
+        Background="{StaticResource MaterialDesign.Brush.Surface}"
+        Foreground="{StaticResource MaterialDesign.Brush.OnSurface}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -47,7 +47,7 @@
             x:Name="cardLoading"
             UniformCornerRadius="14"
             Padding="4"
-            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+            materialDesign:ElevationAssist.Elevation="Dp0"
             Visibility="Collapsed">
             <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon x:Name="icoScanSatus" Kind="Upload" Width="50" Height="50"/>

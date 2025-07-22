@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29503.13
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementUI", "HausManagementUI\HausManagementUI.csproj", "{A36B573D-D680-4200-AB6E-6D8CC1CB9B9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausManagementLibrary", "HausManagementLibrary\HausManagementLibrary.csproj", "{3BD20753-E09F-4AC4-8B9E-E347B29927E8}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HausSetup", "HausSetup\HausSetup.vdproj", "{71505759-4937-4A9A-9EBE-C79BC711E612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,8 +21,6 @@ Global
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD20753-E09F-4AC4-8B9E-E347B29927E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71505759-4937-4A9A-9EBE-C79BC711E612}.Debug|Any CPU.ActiveCfg = Debug
-		{71505759-4937-4A9A-9EBE-C79BC711E612}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

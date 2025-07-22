@@ -13,8 +13,8 @@
         MinWidth="1024"
         WindowState="Normal" 
         WindowStyle="SingleBorderWindow"
-        Background="{StaticResource BackgroundBrush}"
-        Foreground="{StaticResource ForegroundBrush}">
+        Background="{StaticResource MaterialDesign.Brush.Surface}"
+        Foreground="{StaticResource MaterialDesign.Brush.OnSurface}">
 
     <Window.Resources>
         <Style TargetType="Label">
@@ -29,13 +29,13 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="4,0,0,0"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryHueMidBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesign.Brush.Primary}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="IconMenuStyle" TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="{StaticResource SecondaryHueDarkBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesign.Brush.Secondary.Dim}"/>
             <Setter Property="Width" Value="20"/>
             <Setter Property="Height" Value="20"/>
         </Style>
@@ -58,11 +58,11 @@
             <materialDesign:ColorZone
                         Mode="PrimaryMid"
                         VerticalAlignment="Top"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                        materialDesign:ElevationAssist.Elevation="Dp8"
                         Grid.Row="0">
                 <Grid Margin="5">
                     <TextBlock Text="Employees" 
-                               Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                               Style="{StaticResource MaterialDesignTitleLargeTextBlock}"
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center"/>
                     <Button x:Name="btnRefreshEmployees"
@@ -70,7 +70,7 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right"
                             Style="{StaticResource MaterialDesignIconButton}"
-                            Foreground="{StaticResource PrimaryHueMidForegroundBrush}"
+                            Foreground="{StaticResource MaterialDesign.Brush.Text.Primary}"
                             Click="btnRefreshEmployees_Click"/>
                 </Grid>
             </materialDesign:ColorZone>
@@ -93,7 +93,8 @@
                             Margin="10"
                             Height="256"
                             Width="200"
-                            Foreground="{StaticResource ForegroundBrush}">
+                            Background="{StaticResource MaterialDesign.Brush.Background}"
+                            Foreground="{StaticResource MaterialDesign.Brush.OnSurface}">
                             <!--Front Content-->
                             <materialDesign:Flipper.FrontContent>
                                 <Grid>
@@ -134,7 +135,8 @@
                                     <Button
                                         Grid.Row="0"
                                         Margin="10"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        materialDesign:ElevationAssist.Elevation="Dp3"
                                         Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top">
@@ -197,7 +199,7 @@
                                                 Content="ID:"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
-                                                Foreground="{StaticResource ForegroundBrush}"/>
+                                                Foreground="{StaticResource MaterialDesign.Brush.OnSurface}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Id}"
                                                 VerticalAlignment="Center"
@@ -210,7 +212,7 @@
                                                 Content="Name:"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
-                                                Foreground="{StaticResource ForegroundBrush}"/>
+                                                Foreground="{StaticResource MaterialDesign.Brush.OnSurface}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Name}"
                                                 VerticalAlignment="Center"
@@ -223,7 +225,7 @@
                                                 Content="Job:"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
-                                                Foreground="{StaticResource ForegroundBrush}"/>
+                                                Foreground="{StaticResource MaterialDesign.Brush.OnSurface}"/>
                                             <TextBlock
                                                 Text="{Binding Path=Job}"
                                                 VerticalAlignment="Center"
@@ -236,7 +238,7 @@
                                                 Content="Assigned Item:"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
-                                                Foreground="{StaticResource ForegroundBrush}"/>
+                                                Foreground="{StaticResource MaterialDesign.Brush.OnSurface}"/>
                                             <TextBlock
                                                 Text="{Binding Path=AssignedItem}"
                                                 VerticalAlignment="Center"

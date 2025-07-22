@@ -10,8 +10,8 @@
         Height="450" 
         Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource BackgroundBrush}"
-        Foreground="{StaticResource ForegroundBrush}">
+        Background="{StaticResource MaterialDesign.Brush.Surface}"
+        Foreground="{StaticResource MaterialDesign.Brush.OnSurface}">
     
     <Window.Resources>
         <Style x:Key="RaisedButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -44,7 +44,7 @@
             Mode="PrimaryMid"
             Padding="20"
             Grid.Row="0"
-            materialDesign:ShadowAssist.ShadowDepth="Depth3">
+            materialDesign:ElevationAssist.Elevation="Dp8">
             <TextBlock
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
@@ -67,7 +67,7 @@
                 Content="Manager" 
                 FontWeight="Bold"
                 Style="{StaticResource RaisedButtonStyle}"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                materialDesign:ElevationAssist.Elevation="Dp8"
                 IsEnabled="{Binding Source={StaticResource Settings}, Path=IsManager}"/>
             <Button 
                 x:Name="btnEmployee"
@@ -78,7 +78,7 @@
                 Content="Employee"
                 FontWeight="Bold"
                 Style="{StaticResource RaisedButtonStyle}"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                materialDesign:ElevationAssist.Elevation="Dp8"
                 IsEnabled="{Binding Source={StaticResource Settings}, Path=IsEmployee}"/>
 
         </Grid>

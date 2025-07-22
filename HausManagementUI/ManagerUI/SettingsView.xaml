@@ -53,8 +53,8 @@
                         <Slider x:Name="slOrderWarningDays"
                             Minimum="0"
                             Maximum="{Binding ElementName=txtDueDateDays,Path=Text}"
-                            Style="{StaticResource MaterialDesignDiscreteSlider}"
                             TickFrequency="1"
+                            IsSnapToTickEnabled="True"
                             TickPlacement="Both"
                             Margin="10"/>
                         <StackPanel Orientation="Horizontal" 
