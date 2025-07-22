@@ -27,7 +27,7 @@ The project is split into two main components:
 
 ## How to Run
 
-> ⚠️ **Important:** Before running the app you need to have the [server](https://github.com/noxi-tech/haus-backend) available and working.
+> ⚠️ **Important:** The app will not work properly without having the [server](https://github.com/noxi-tech/haus-backend) available and working.
 
 ### Development environment:
 
